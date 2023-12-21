@@ -16,15 +16,15 @@ namespace Hosptil.AppDataContext
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Reservation>().HasKey(r => r.ReservationId);
 
-            //modelBuilder.Entity<Reservation>()
-            //    .HasOne(c => c.Clinic)
-            //    .WithMany(r => r.Reservations)
-            //    .HasForeignKey(r => r.ClinicId);
+            modelBuilder.Entity<Reservation>()
+                .HasOne(c => c.Clinic)
+                .WithMany(r => r.Reservations)
+                .HasForeignKey(r => r.ClinicId);
 
-            //modelBuilder.Entity<Reservation>()
-            //  .HasOne(c => c.Patient)
-            //  .WithMany(r => r.Reservations)
-            //  .HasForeignKey(r => r.PatientId);
+            modelBuilder.Entity<Reservation>()
+              .HasOne(c => c.Patient)
+              .WithMany(r => r.Reservations)
+              .HasForeignKey(r => r.PatientId);
 
             modelBuilder.Entity<Substitute>().HasKey(s => s.SubstituteId);
             modelBuilder.Entity<Substitute>()

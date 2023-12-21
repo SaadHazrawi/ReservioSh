@@ -7,7 +7,8 @@
         public int ClinicId { get; set; }
         public DateTime DateTime { get; set; }
         public bool IsDeleted { get; set; } = false;
-      
 
+        public Clinic Clinic { get; set; } = null!;
+        public Patient Patient { get; set; }=null!;
     }
 }

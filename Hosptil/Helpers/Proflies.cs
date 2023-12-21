@@ -13,6 +13,7 @@ namespace Hosptil.Helpers
             CreateMap<Clinic,ClinicCreationDTO>();
             CreateMap<ClinicCreationDTO, Clinic>();
             CreateMap<Clinic,ClinicWithiutAnyThinkAsync>();
+            CreateMap<Clinic,ClinicForUpdateDTO>().ReverseMap();
             CreateMap<DoctorCreataionDTO, Doctor>();
             CreateMap<Doctor, DoctorCreataionDTO>();
             CreateMap<Doctor, DoctorWithoutSubstitueDTO>();

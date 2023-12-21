@@ -19,25 +19,21 @@ namespace Hosptil.Services
             return patient;
         }
 
-        public async Task<Patient?> GetPatientByIdASync(int patientId,bool includeReservation)
+        public async Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation)
         {
-            if(includeReservation)
+            if (includeReservation)
             {
-                return await GetPatientAndReverstionAsync(patientId);
+                return await _context.Patients
+                .Include(r => r.Reservations)
+                  .FirstOrDefaultAsync(p => p.PatientId == patientId
+                  && !p.IsDeleted);
             }
-            
+
             else
-            return await _context.Patients
-                .FirstOrDefaultAsync(p=>p.PatientId==patientId
-                    && !p.IsDeleted);
+                return await _context.Patients
+                    .FirstOrDefaultAsync(p => p.PatientId == patientId
+                        && !p.IsDeleted);
         }
 
-     private async Task<Patient?> GetPatientAndReverstionAsync(int patientId)
-        {
-            return await _context.Patients
-                .Include(r=>r.Reservations)
-                .FirstOrDefaultAsync(p => p.PatientId == patientId
-                    && !p.IsDeleted);
-        }
     }
 }

@@ -10,7 +10,6 @@ namespace Hosptil.Models
         public WeekDay WeekDay { get; set; }
         public bool IsDeleted { get; set; } = false;
         public Clinic Clinic { get; set; }
-        public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
     }
 }
