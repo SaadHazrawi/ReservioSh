@@ -19,6 +19,7 @@ namespace Hosptil.Helpers
             CreateMap<Doctor, DoctorWithoutSubstitueDTO>();
             CreateMap<PatientCreationDTO, Patient>();   
             CreateMap<Patient, PatientWithoutReversoinDTO>();
+           
         }
     }
 }

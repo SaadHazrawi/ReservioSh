@@ -4,6 +4,7 @@ using Hosptil.DTOS.Doctor;
 using Hosptil.Models;
 using Hosptil.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hosptil.Controllers
@@ -20,6 +21,15 @@ namespace Hosptil.Controllers
         {
             this._doctor = doctor;
             this._mapper = mapper;
+        }
+        [HttpGet("GetAllDoctors")]
+        public async Task<IActionResult>GetAllDoctors()
+        {
+            List<Doctor> doctors=await _doctor.GetAllDoctorsAsync();
+            if(doctors is null)
+                return NotFound();
+            return Ok(_mapper.Map<List<DoctorWithoutSubstitueDTO>>(doctors));
+
         }
         [HttpPost("CreateDoctor")]
         public async Task<IActionResult> CreateDoctor(DoctorCreataionDTO doctor)
@@ -40,6 +50,28 @@ namespace Hosptil.Controllers
                 return Ok(doctor);
             else
             return Ok(_mapper.Map<List<DoctorWithoutSubstitueDTO>>(doctor));
+        }
+        [HttpDelete("{doctorId}")]
+        public async Task<IActionResult> DeleteDoctor(int doctorId)
+        {
+            Doctor ? doctor=await _doctor.GetDoctorByIdAsync(doctorId,false);
+            if(doctor is null)
+                return NotFound();
+            await _doctor.DeleteDoctorAsync(doctor);
+            return NoContent();
+
+        }
+        [HttpPut("{doctorId}")]
+        public async Task<IActionResult> UpdateDoctor(int doctorId, DoctorCreataionDTO updateDTO)
+        {
+            Doctor ?doctor = await _doctor.GetDoctorByIdAsync(doctorId, false);
+            if(doctor is null)
+            {
+                return NotFound();
+            }
+           
+            await _doctor.UpdateDoctorAsync(_doctor.MapperDoctorForUpdate(doctor,updateDTO));
+            return NoContent();
         }
     }
 }

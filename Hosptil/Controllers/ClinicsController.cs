@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
-using Hosptil.AppDataContext;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Hosptil.DTOS.Clinic;
 using Hosptil.Models;
 using Hosptil.Services;
-using Microsoft.AspNetCore.Http;
+using Hosptil.Validation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hosptil.Controllers
 {
@@ -15,11 +16,13 @@ namespace Hosptil.Controllers
     {
         private readonly IClinicRepository _clinic;
         private readonly IMapper _mapper;
+        private readonly IValidator<ClinicCreationDTO> _validator;
 
-        public ClinicsController(IClinicRepository clinic, IMapper mapper)
+        public ClinicsController(IClinicRepository clinic, IMapper mapper, IValidator<ClinicCreationDTO> validator)
         {
             this._clinic = clinic;
             this._mapper = mapper;
+            this._validator = validator;
         }
         [HttpGet(template: "GetAllClinics")]
         public async Task<IActionResult> GetAllClinics()
@@ -32,6 +35,12 @@ namespace Hosptil.Controllers
         [HttpPost]
         public async Task<IActionResult> CreationClicnic(ClinicCreationDTO clinicWith)
         {
+            var validationResult = await _validator.ValidateAsync(clinicWith);
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return BadRequest(ModelState);
+            }
             if (clinicWith is null)
                 return BadRequest();
             var result = await _clinic.AddClinicAsync(_mapper.Map<Clinic>(clinicWith));
@@ -48,7 +57,7 @@ namespace Hosptil.Controllers
 
         }
         [HttpPut("{clinicId}")]
-        public async Task<IActionResult> UpdateClinic(int clinicId,ClinicCreationDTO clinic)
+        public async Task<IActionResult> UpdateClinic(int clinicId,ClinicForUpdateDTO clinic)
         {
             Clinic clinic1 = await _clinic.GetClinicByIdAsync(clinicId);
             if (clinic1 is null)

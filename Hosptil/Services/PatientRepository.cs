@@ -1,4 +1,5 @@
 ﻿using Hosptil.AppDataContext;
+using Hosptil.DTOS.Patient;
 using Hosptil.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,21 @@ namespace Hosptil.Services
             return patient;
         }
 
+        public async Task DeletePatienyAsync(Patient patient)
+        {
+            patient.IsDeleted=true;
+            _context.Patients.Update(patient);
+            await _context.SaveChangesAsync();
+           
+        }
+
+        public async Task<List<Patient>> GetAllPatientAsync()
+        {
+            return await _context.Patients
+                        .Where(p=>!p.IsDeleted)
+                          .ToListAsync();
+        }
+
         public async Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation)
         {
             if (includeReservation)
@@ -34,6 +50,20 @@ namespace Hosptil.Services
                     .FirstOrDefaultAsync(p => p.PatientId == patientId
                         && !p.IsDeleted);
         }
-
+        public Patient MapperPatient(Patient patient,PatientCreationDTO patientCreation)
+        {
+           
+            patient.FirstName = patientCreation.FirstName;
+            patient.LastName = patientCreation.LastName;
+            patient.Gender = patientCreation.Gender;
+            patient.Resgoin = patientCreation.Resgoin;
+            return patient;
+        }
+        public async Task<Patient> UpdatePatientAsync(Patient patient)
+        {
+          _context.Patients.Update(patient);
+            await _context.SaveChangesAsync();
+            return patient;
+        }
     }
 }
