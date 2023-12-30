@@ -1,8 +1,8 @@
-﻿using Hosptil.Enums;
-using Hosptil.Models;
+﻿using Reservio.Enums;
+using Reservio.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.DTOS.Patient
+namespace Reservio.DTOS.Patient
 {
     public class PatientCreationDTO
     {

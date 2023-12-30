@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Hosptil.Migrations
+namespace Reservio.Migrations
 {
     /// <inheritdoc />
     public partial class init : Migration

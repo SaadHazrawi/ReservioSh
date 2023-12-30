@@ -1,13 +1,13 @@
-﻿using Hosptil.AppDataContext;
-using Hosptil.Models;
+﻿using Reservio.AppDataContext;
+using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
-using Hosptil.DTOS.Reservation;
-using Hosptil.Core;
-using Hosptil.AppDataContext;
-using Hosptil.Models;
-using Hosptil.Services;
+using Reservio.DTOS.Reservation;
+using Reservio.Core;
+using Reservio.AppDataContext;
+using Reservio.Models;
+using Reservio.Services;
 
-namespace Hosptil.Services.ReservationRepo;
+namespace Reservio.Services.ReservationRepo;
 public class ReservationRepository : IReservationRepository
 {
     private readonly DataContext _context;

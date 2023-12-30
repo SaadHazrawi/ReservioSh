@@ -1,4 +1,4 @@
-﻿namespace Hosptil.Enums
+﻿namespace Reservio.Enums
 {
     public enum WeekDay
     {

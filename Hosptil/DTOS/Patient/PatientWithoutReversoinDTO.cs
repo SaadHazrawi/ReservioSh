@@ -1,7 +1,7 @@
-﻿using Hosptil.Enums;
+﻿using Reservio.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.DTOS.Patient
+namespace Reservio.DTOS.Patient
 {
     public class PatientWithoutReversoinDTO
     {

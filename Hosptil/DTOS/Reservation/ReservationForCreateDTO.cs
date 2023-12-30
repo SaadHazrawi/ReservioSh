@@ -1,4 +1,4 @@
-﻿namespace Hosptil.DTOS.Reservation
+﻿namespace Reservio.DTOS.Reservation
 {
     public class ReservationForCreateDTO
     {

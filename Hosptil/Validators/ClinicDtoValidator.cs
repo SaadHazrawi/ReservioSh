@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Hosptil.DTOS.Clinic;
+using Reservio.DTOS.Clinic;
 
-namespace Hosptil.Validation
+namespace Reservio.Validation
 {
     public class ClinicDtoValidator : AbstractValidator<ClinicCreationDTO>
     {

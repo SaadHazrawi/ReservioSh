@@ -1,7 +1,7 @@
-﻿using Hosptil.Enums;
+﻿using Reservio.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.Models
+namespace Reservio.Models
 {
     public class Patient
     {

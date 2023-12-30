@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Hosptil.DTOS.Clinic;
-using Hosptil.Models;
-using Hosptil.Services;
+using Reservio.DTOS.Clinic;
+using Reservio.Models;
+using Reservio.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hosptil.Controllers
+namespace Reservio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

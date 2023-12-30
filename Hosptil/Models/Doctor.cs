@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace Hosptil.Models
+namespace Reservio.Models
 {
     public class Doctor
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.Models;
+namespace Reservio.Models;
 public class Reservation
 {
     public int ReservationId { get; set; }

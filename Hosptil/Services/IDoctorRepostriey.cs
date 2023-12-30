@@ -1,7 +1,7 @@
-﻿using Hosptil.DTOS.Doctor;
-using Hosptil.Models;
+﻿using Reservio.DTOS.Doctor;
+using Reservio.Models;
 
-namespace Hosptil.Services
+namespace Reservio.Services
 {
     public interface IDoctorRepostriey
     {

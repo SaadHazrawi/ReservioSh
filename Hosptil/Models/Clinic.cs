@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.Models
+namespace Reservio.Models
 {
     public class Clinic
     {

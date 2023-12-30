@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Hosptil.DTOS.Clinic;
-using Hosptil.DTOS.Doctor;
-using Hosptil.DTOS.Patient;
-using Hosptil.DTOS.Reservation;
-using Hosptil.Models;
+using Reservio.DTOS.Clinic;
+using Reservio.DTOS.Doctor;
+using Reservio.DTOS.Patient;
+using Reservio.DTOS.Reservation;
+using Reservio.Models;
 
-namespace Hosptil.Helpers
+namespace Reservio.Helpers
 {
     public class Proflies:Profile
     {

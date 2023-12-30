@@ -1,7 +1,7 @@
-﻿using Hosptil.Models;
+﻿using Reservio.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.DTOS.Doctor
+namespace Reservio.DTOS.Doctor
 {
     public class DoctorWithoutSubstitueDTO
     {

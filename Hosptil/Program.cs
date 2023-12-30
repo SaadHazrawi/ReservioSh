@@ -1,7 +1,7 @@
 using FluentValidation.AspNetCore;
-using Hosptil.AppDataContext;
-using Hosptil.Services;
-using Hosptil.Services.ReservationRepo;
+using Reservio.AppDataContext;
+using Reservio.Services;
+using Reservio.Services.ReservationRepo;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 

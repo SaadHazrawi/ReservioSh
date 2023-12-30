@@ -1,7 +1,7 @@
-﻿using Hosptil.Models;
+﻿using Reservio.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.DTOS.Clinic
+namespace Reservio.DTOS.Clinic
 {
     public class ClinicCreationDTO
     {

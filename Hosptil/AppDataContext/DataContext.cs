@@ -1,7 +1,7 @@
-﻿using Hosptil.Models;
+﻿using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hosptil.AppDataContext
+namespace Reservio.AppDataContext
 {
     public class DataContext : DbContext
     {

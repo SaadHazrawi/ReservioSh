@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Hosptil.Services.ReservationRepo;
+using Reservio.Services.ReservationRepo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hosptil.Controllers
+namespace Reservio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

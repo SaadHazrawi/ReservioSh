@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Hosptil.ExtensionsClasses
+namespace Reservio.ExtensionsClasses
 {
     public static class ExtensionsValditors
     {

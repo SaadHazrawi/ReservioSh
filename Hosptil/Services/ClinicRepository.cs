@@ -1,9 +1,9 @@
-﻿using Hosptil.AppDataContext;
-using Hosptil.DTOS.Clinic;
-using Hosptil.Models;
+﻿using Reservio.AppDataContext;
+using Reservio.DTOS.Clinic;
+using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hosptil.Services
+namespace Reservio.Services
 {
     public class ClinicRepository : IClinicRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace Hosptil.DTOS.Reservation;
+﻿namespace Reservio.DTOS.Reservation;
 public class ReservationStatus
 {
     public string Status { get; set; } = string.Empty;

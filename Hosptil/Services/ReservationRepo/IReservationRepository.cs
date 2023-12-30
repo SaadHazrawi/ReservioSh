@@ -1,8 +1,8 @@
-﻿using Hosptil.Enums;
-using Hosptil.Models;
-using Hosptil.DTOS.Reservation;
+﻿using Reservio.Enums;
+using Reservio.Models;
+using Reservio.DTOS.Reservation;
 
-namespace Hosptil.Services.ReservationRepo;
+namespace Reservio.Services.ReservationRepo;
 
 public interface IReservationRepository
 {

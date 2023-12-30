@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Hosptil.Migrations
+namespace Reservio.Migrations
 {
     /// <inheritdoc />
     public partial class fixNvegationProp : Migration

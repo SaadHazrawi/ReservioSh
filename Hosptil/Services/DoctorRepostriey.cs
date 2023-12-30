@@ -1,9 +1,9 @@
-﻿using Hosptil.AppDataContext;
-using Hosptil.DTOS.Doctor;
-using Hosptil.Models;
+﻿using Reservio.AppDataContext;
+using Reservio.DTOS.Doctor;
+using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hosptil.Services
+namespace Reservio.Services
 {
     public class DoctorRepostriey : IDoctorRepostriey
     {

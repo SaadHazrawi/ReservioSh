@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Hosptil.DTOS.Doctor
+namespace Reservio.DTOS.Doctor
 {
     public class DoctorCreataionDTO
     {

@@ -1,6 +1,6 @@
-﻿using Hosptil.Enums;
+﻿using Reservio.Enums;
 
-namespace Hosptil.Models
+namespace Reservio.Models
 {
     public class Substitute
     {

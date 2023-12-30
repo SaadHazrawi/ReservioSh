@@ -1,4 +1,4 @@
-﻿namespace Hosptil.DTOS.Clinic
+﻿namespace Reservio.DTOS.Clinic
 {
     public class ClinicForUpdateDTO
     {
