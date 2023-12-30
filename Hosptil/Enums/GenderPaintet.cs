@@ -1,4 +1,4 @@
-﻿namespace Hosptil.Helpers.Enums
+﻿namespace Hosptil.Enums
 {
     public enum GenderPaintet
     {

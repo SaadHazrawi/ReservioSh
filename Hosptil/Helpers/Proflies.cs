@@ -2,6 +2,7 @@
 using Hosptil.DTOS.Clinic;
 using Hosptil.DTOS.Doctor;
 using Hosptil.DTOS.Patient;
+using Hosptil.DTOS.Reservation;
 using Hosptil.Models;
 
 namespace Hosptil.Helpers
@@ -19,7 +20,9 @@ namespace Hosptil.Helpers
             CreateMap<Doctor, DoctorWithoutSubstitueDTO>();
             CreateMap<PatientCreationDTO, Patient>();   
             CreateMap<Patient, PatientWithoutReversoinDTO>();
-           
+            /////-----Reservation
+            CreateMap<Reservation, ReservationForCreateDTO>();
+
         }
     }
 }

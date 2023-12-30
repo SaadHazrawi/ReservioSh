@@ -10,6 +10,7 @@ namespace Hosptil.Models
         public string Name { get; set; }
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();
         public List<Substitute> Substitutes { get; set; } = new List<Substitute>();
+        public int CountPaitentAccepte { get; set; }
         public bool IsDeleted { get; set; } = false;
 
     }

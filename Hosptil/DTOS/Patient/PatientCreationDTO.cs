@@ -1,4 +1,4 @@
-﻿using Hosptil.Helpers.Enums;
+﻿using Hosptil.Enums;
 using Hosptil.Models;
 using System.ComponentModel.DataAnnotations;
 

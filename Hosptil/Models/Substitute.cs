@@ -1,4 +1,4 @@
-﻿using Hosptil.Helpers.Enums;
+﻿using Hosptil.Enums;
 
 namespace Hosptil.Models
 {

@@ -2,10 +2,17 @@ using FluentValidation.AspNetCore;
 using Hosptil.AppDataContext;
 using Hosptil.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("S://LoggerHosptail/logger", rollingInterval: RollingInterval.Day)
+    .CreateBootstrapLogger();
+builder.Host.UseSerilog();
 builder.Services.AddControllers()
     .AddFluentValidation(fv => {
         fv.RegisterValidatorsFromAssemblyContaining<Program>();
@@ -22,6 +29,7 @@ builder.Services.AddDbContext<DataContext>(
 builder.Services.AddScoped<IClinicRepository, ClinicRepository>();
 builder.Services.AddScoped<IDoctorRepostriey, DoctorRepostriey>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
