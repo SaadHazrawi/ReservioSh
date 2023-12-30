@@ -1,4 +1,4 @@
-﻿namespace Reservio.Core
+﻿namespace Hosptil.Core
 {
     public static class DateTimeLocal
     {

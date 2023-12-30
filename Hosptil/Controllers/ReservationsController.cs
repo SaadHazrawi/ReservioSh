@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Hosptil.Services;
+using Hosptil.Services.ReservationRepo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

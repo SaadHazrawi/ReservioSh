@@ -23,5 +23,7 @@ namespace Hosptil.Models
 
         public string IPAddress { get; set; } = null!;
         public bool IsDeleted { get; set; } = false;
+
+        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }
