@@ -43,7 +43,7 @@ namespace Hosptil.Migrations
 
                     b.HasKey("ClinicId");
 
-                    b.ToTable("Clinics");
+                    b.ToTable("Clinics", (string)null);
                 });
 
             modelBuilder.Entity("Hosptil.Models.Doctor", b =>
@@ -69,7 +69,7 @@ namespace Hosptil.Migrations
 
                     b.HasKey("DoctorId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("Hosptil.Models.Patient", b =>
@@ -103,7 +103,7 @@ namespace Hosptil.Migrations
 
                     b.HasKey("PatientId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("Hosptil.Models.Reservation", b =>
@@ -132,7 +132,7 @@ namespace Hosptil.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Hosptil.Models.Substitute", b =>
@@ -161,7 +161,7 @@ namespace Hosptil.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("Substitutes");
+                    b.ToTable("Substitutes", (string)null);
                 });
 
             modelBuilder.Entity("Hosptil.Models.Reservation", b =>
