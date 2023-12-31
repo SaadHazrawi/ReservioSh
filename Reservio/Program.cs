@@ -7,7 +7,7 @@ using Serilog;
 using Reservio.Services.PatientRepo;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//test for sync with abdulaah to gitHub
 // Add services to the container.
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
