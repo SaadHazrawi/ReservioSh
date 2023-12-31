@@ -17,12 +17,19 @@ public class ReservationRepository : IReservationRepository
         _context = context;
         _logger = logger;
     }
-    public async Task<Reservation> AddReservationAsync(Reservation reservation)
+
+
+    public async Task<ReservationStatus> AddReservationAsync(Reservation reservation)
     {
-        _context.Add(reservation);
-        await _context.SaveChangesAsync();
-        return reservation;
+        var reservationStatus = await CheckReservationStatus(reservation.IPAddress);
+        if (!reservationStatus.stopping)
+        {
+            _context.Add(reservation);
+            await _context.SaveChangesAsync();
+        }
+        return reservationStatus;
     }
+
 
     public async Task DeleteReservationAsync(Reservation reservation)
     {
@@ -32,7 +39,7 @@ public class ReservationRepository : IReservationRepository
 
     }
 
-    public async Task<ReservationStatus> checkReservationStatus(string iPAddress)
+    public async Task<ReservationStatus> CheckReservationStatus(string iPAddress)
     {
         int countBookings = await _context.Reservations.CountAsync(b => b.IPAddress == iPAddress
                                          && b.Date.Date == DateTimeLocal.GetDate().Date);
