@@ -10,7 +10,7 @@ public interface IReservationRepository
     Task<Reservation> GetReservationByIdAsync(int reservationId); //TODO Why
 
     Task<ReservationStatus> CheckReservationStatus(string iPAddress);
-    Task<ReservationStatus> AddReservationAsync(Reservation reservation);
+    Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto);
     Task<Reservation> UpdateReservationAsync(Reservation reservation);
     Task DeleteReservationAsync(Reservation reservation);
 }

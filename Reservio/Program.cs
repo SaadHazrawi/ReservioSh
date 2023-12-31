@@ -4,6 +4,7 @@ using Reservio.Services;
 using Reservio.Services.ReservationRepo;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Reservio.Services.PatientRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 

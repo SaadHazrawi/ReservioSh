@@ -6,26 +6,30 @@ using Reservio.Core;
 using Reservio.AppDataContext;
 using Reservio.Models;
 using Reservio.Services;
+using AutoMapper;
 
 namespace Reservio.Services.ReservationRepo;
 public class ReservationRepository : IReservationRepository
 {
     private readonly DataContext _context;
     private readonly ILogger<ReservationRepository> _logger;
-    public ReservationRepository(DataContext context, ILogger<ReservationRepository> logger)
+    private readonly IMapper _mapper;
+    public ReservationRepository(DataContext context, ILogger<ReservationRepository> logger , IMapper mapper)
     {
         _context = context;
         _logger = logger;
+        _mapper = mapper;
     }
 
 
-    public async Task<ReservationStatus> AddReservationAsync(Reservation reservation)
+    public async Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto)
     {
-        var reservationStatus = await CheckReservationStatus(reservation.IPAddress);
+        var reservationStatus = await CheckReservationStatus(dto.IPAddress);
         if (!reservationStatus.stopping)
         {
-            _context.Add(reservation);
-            await _context.SaveChangesAsync();
+            var reservation = _mapper.Map<Reservation>(dto);
+            await _context.Reservations.AddAsync(reservation);
+           
         }
         return reservationStatus;
     }
@@ -47,17 +51,16 @@ public class ReservationRepository : IReservationRepository
         var reservationStatus = new ReservationStatus();
         if (countBookings >= 3)
         {
-            reservationStatus.Status = "قم بالحجز اليوم  \n يمكن الحجز مرة اخرة بعد";
+            reservationStatus.Status = "Make a reservation today. \n You can make another reservation after";
             reservationStatus.stoppingTo = DateTimeLocal.GetDate()
                 .Date.AddDays(1)
                 .AddHours(8)
                 .ToString("yyyy/MM/dd hh:mm");
             reservationStatus.stopping = true;
         }
-
         else
         {
-            reservationStatus.Status = "يمكن الحجز";
+            reservationStatus.Status = "Reservation is possible";
         }
 
         return reservationStatus;
