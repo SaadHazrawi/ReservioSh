@@ -1,21 +1,25 @@
 ﻿using Reservio.Enums;
-using Reservio.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
-namespace Reservio.DTOS.Patient
+namespace Reservio.DTOS.Reservation
 {
-    public class PatientCreationDTO
+    public class ReservationForAddDto
     {
-
+        public int ClinicId { get; set; }
         [StringLength(50, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 15 characters.")]
         public string FirstName { get; set; } = null!;
 
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 15 characters.")]
         public string LastName { get; set; } = null!;
-
-        [MaxLength(50, ErrorMessage = "Resgoin must not exceed 50 characters.")]
-        public string Resgoin { get; set; } = string.Empty;
+        public DateTime DateOfBirth { get; set; }
         public GenderPaintet Gender { get; set; }
-      
+
+        [StringLength(100, MinimumLength = 2)]
+        public string PhoneNumber { get; set; } = null!;
+
+        [RegularExpression(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b")]
+        public string IPAddress { get; set; } = null!;
+        public string Resgoin { get; set; } = string.Empty;
     }
 }

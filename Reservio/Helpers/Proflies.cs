@@ -11,17 +11,27 @@ namespace Reservio.Helpers
     {
         public Proflies()
         {
+            #region Clinic
             CreateMap<Clinic,ClinicCreationDTO>();
             CreateMap<ClinicCreationDTO, Clinic>();
             CreateMap<Clinic,ClinicWithiutAnyThinkAsync>();
             CreateMap<Clinic,ClinicForUpdateDTO>().ReverseMap();
+            #endregion
+
+            #region Doctor
             CreateMap<DoctorCreataionDTO, Doctor>();
             CreateMap<Doctor, DoctorCreataionDTO>();
             CreateMap<Doctor, DoctorWithoutSubstitueDTO>();
+            #endregion
+
+            #region Patient
             CreateMap<PatientCreationDTO, Patient>();   
             CreateMap<Patient, PatientWithoutReversoinDTO>();
-            /////-----Reservation
-            CreateMap<Reservation, ReservationForCreateDTO>();
+            #endregion
+
+            #region Reservation
+            CreateMap<Reservation, ReservationForAddDto>();
+            #endregion
 
         }
     }

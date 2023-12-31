@@ -6,23 +6,34 @@ using Reservio.Core;
 using Reservio.AppDataContext;
 using Reservio.Models;
 using Reservio.Services;
+using AutoMapper;
 
 namespace Reservio.Services.ReservationRepo;
 public class ReservationRepository : IReservationRepository
 {
     private readonly DataContext _context;
     private readonly ILogger<ReservationRepository> _logger;
-    public ReservationRepository(DataContext context, ILogger<ReservationRepository> logger)
+    private readonly IMapper _mapper;
+    public ReservationRepository(DataContext context, ILogger<ReservationRepository> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;
+        _mapper = mapper;
     }
-    public async Task<Reservation> AddReservationAsync(Reservation reservation)
+
+
+    public async Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto)
     {
-        _context.Add(reservation);
-        await _context.SaveChangesAsync();
-        return reservation;
+        var reservationStatus = await CheckReservationStatus(dto.IPAddress);
+        if (!reservationStatus.Stopping)
+        {
+            var reservation = _mapper.Map<Reservation>(dto);
+            await _context.Reservations.AddAsync(reservation);
+
+        }
+        return reservationStatus;
     }
+
 
     public async Task DeleteReservationAsync(Reservation reservation)
     {
@@ -32,7 +43,7 @@ public class ReservationRepository : IReservationRepository
 
     }
 
-    public async Task<ReservationStatus> checkReservationStatus(string iPAddress)
+    public async Task<ReservationStatus> CheckReservationStatus(string iPAddress)
     {
         int countBookings = await _context.Reservations.CountAsync(b => b.IPAddress == iPAddress
                                          && b.Date.Date == DateTimeLocal.GetDate().Date);
@@ -40,17 +51,16 @@ public class ReservationRepository : IReservationRepository
         var reservationStatus = new ReservationStatus();
         if (countBookings >= 3)
         {
-            reservationStatus.Status = "قم بالحجز اليوم  \n يمكن الحجز مرة اخرة بعد";
-            reservationStatus.stoppingTo = DateTimeLocal.GetDate()
+            reservationStatus.Status = "Make a reservation today. \n You can make another reservation after";
+            reservationStatus.StoppingTo = DateTimeLocal.GetDate()
                 .Date.AddDays(1)
                 .AddHours(8)
                 .ToString("yyyy/MM/dd hh:mm");
-            reservationStatus.stopping = true;
+            reservationStatus.Stopping = true;
         }
-
         else
         {
-            reservationStatus.Status = "يمكن الحجز";
+            reservationStatus.Status = "Reservation is possible";
         }
 
         return reservationStatus;
@@ -63,11 +73,25 @@ public class ReservationRepository : IReservationRepository
 
     public Task<Reservation> GetReservationByIdAsync(int reservationId)
     {
+        //TODO To Saad
         throw new NotImplementedException();
     }
 
     public Task<Reservation> UpdateReservationAsync(Reservation reservation)
     {
+        //TODO To Saad
         throw new NotImplementedException();
+    }
+
+
+
+    public async Task<List<Reservation>> GetPatientsInClinic(int clinicId)
+    {
+        //TODO To Abdullah
+        return await _context.Reservations
+            .Where(c => c.ClinicId == clinicId
+            && c.BookFor.Date == DateTimeLocal.GetDate())
+           .ToListAsync();
+
     }
 }
