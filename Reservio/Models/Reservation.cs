@@ -3,9 +3,9 @@
 namespace Reservio.Models;
 public class Reservation
 {
-    public int ReservationId { get; set; }
-    public int PatientId { get; set; }
-    public int ClinicId { get; set; }
+    public Guid ReservationId { get; set; }
+    public Guid PatientId { get; set; }
+    public Guid ClinicId { get; set; }
     public string IPAddress { get; set; } = null!;
     public DateTime Date { get; set; }
     public DateTime BookFor { get; set; }

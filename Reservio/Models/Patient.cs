@@ -5,7 +5,7 @@ namespace Reservio.Models
 {
     public class Patient
     {
-        public int PatientId { get; set; }
+        public Guid PatientId { get; set; }
 
         [StringLength(50, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 15 characters.")]
         public string FirstName { get; set; } = null!;

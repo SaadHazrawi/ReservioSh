@@ -32,7 +32,7 @@ namespace Reservio.Services
                 .Where(d => !d.IsDeleted)
                 .ToListAsync();
 
-        public Task<Doctor?> GetDoctorByIdAsync(int doctorId, bool includeSubstite)
+        public Task<Doctor?> GetDoctorByIdAsync(Guid doctorId, bool includeSubstite)
         {
             if (!includeSubstite)
             {

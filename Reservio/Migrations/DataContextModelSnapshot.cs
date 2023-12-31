@@ -24,11 +24,9 @@ namespace Reservio.Migrations
 
             modelBuilder.Entity("Reservio.Models.Clinic", b =>
                 {
-                    b.Property<int>("ClinicId")
+                    b.Property<Guid>("ClinicId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClinicId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CountPaitentAccepte")
                         .HasColumnType("int");
@@ -48,11 +46,9 @@ namespace Reservio.Migrations
 
             modelBuilder.Entity("Reservio.Models.Doctor", b =>
                 {
-                    b.Property<int>("DoctorId")
+                    b.Property<Guid>("DoctorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -74,16 +70,17 @@ namespace Reservio.Migrations
 
             modelBuilder.Entity("Reservio.Models.Patient", b =>
                 {
-                    b.Property<int>("PatientId")
+                    b.Property<Guid>("PatientId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PatientId"));
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
@@ -97,16 +94,13 @@ namespace Reservio.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Resgoin")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("dateOfBirth")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("PatientId");
 
@@ -115,17 +109,15 @@ namespace Reservio.Migrations
 
             modelBuilder.Entity("Reservio.Models.Reservation", b =>
                 {
-                    b.Property<int>("ReservationId")
+                    b.Property<Guid>("ReservationId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BookFor")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ClinicId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -137,8 +129,8 @@ namespace Reservio.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ReservationId");
 
@@ -151,17 +143,15 @@ namespace Reservio.Migrations
 
             modelBuilder.Entity("Reservio.Models.Substitute", b =>
                 {
-                    b.Property<int>("SubstituteId")
+                    b.Property<Guid>("SubstituteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubstituteId"));
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ClinicId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

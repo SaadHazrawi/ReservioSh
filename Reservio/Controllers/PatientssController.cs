@@ -38,7 +38,7 @@ namespace Reservio.Controllers
 
         }
         [HttpGet("{patientId}/{includeRev}", Name = "GetPatient")]
-        public async Task<IActionResult> GetPatient(int patientId, bool includeRev)
+        public async Task<IActionResult> GetPatient(Guid patientId, bool includeRev)
         {
 
             Patient patient = await _patient.GetPatientByIdASync(patientId, includeRev);
@@ -50,7 +50,7 @@ namespace Reservio.Controllers
             return Ok(patient);
         }
         [HttpPut("{patientId}")]
-        public async Task<IActionResult> UpdatePatient(int patientId, PatientCreationDTO patientCreation)
+        public async Task<IActionResult> UpdatePatient(Guid patientId, PatientCreationDTO patientCreation)
         {
             if (patientCreation == null)
             {
@@ -67,7 +67,7 @@ namespace Reservio.Controllers
             return NoContent();
         }
         [HttpDelete("{patientId}")]
-        public async Task<IActionResult> DeletePatient(int patientId)
+        public async Task<IActionResult> DeletePatient(Guid patientId)
         {
             Patient patient = await _patient.GetPatientByIdASync(patientId, false);
             if (patient is null)

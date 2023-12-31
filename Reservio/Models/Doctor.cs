@@ -6,8 +6,7 @@ namespace Reservio.Models
 {
     public class Doctor
     {
-        [Key]
-        public int DoctorId { get; set; }
+        public Guid DoctorId { get; set; }
         [StringLength(maximumLength: 50, MinimumLength = 2)]
         public string FullName { get; set; }
         [StringLength(maximumLength: 50, MinimumLength = 2)]

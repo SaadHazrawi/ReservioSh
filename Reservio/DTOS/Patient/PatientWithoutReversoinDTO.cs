@@ -5,7 +5,7 @@ namespace Reservio.DTOS.Patient
 {
     public class PatientWithoutReversoinDTO
     {
-        public int PatientId { get; set; }
+        public Guid PatientId { get; set; }
         public string FirstName { get; set; }
         public string? LastName { get; set; }
         public string Resgoin { get; set; }

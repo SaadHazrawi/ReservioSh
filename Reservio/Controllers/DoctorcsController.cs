@@ -41,7 +41,7 @@ namespace Reservio.Controllers
              
         }
         [HttpGet("GetDoctor/{doctorId}/{includeSubstie}", Name = "GetDoctor")]
-        public async Task<IActionResult> GetDoctor(int doctorId,bool includeSubstie)
+        public async Task<IActionResult> GetDoctor(Guid doctorId,bool includeSubstie)
         {
             var doctor=await _doctor.GetDoctorByIdAsync(doctorId, includeSubstie);
             if(doctor is null)
@@ -52,7 +52,7 @@ namespace Reservio.Controllers
             return Ok(_mapper.Map<List<DoctorWithoutSubstitueDTO>>(doctor));
         }
         [HttpDelete("{doctorId}")]
-        public async Task<IActionResult> DeleteDoctor(int doctorId)
+        public async Task<IActionResult> DeleteDoctor(Guid doctorId)
         {
             Doctor ? doctor=await _doctor.GetDoctorByIdAsync(doctorId,false);
             if(doctor is null)
@@ -62,7 +62,7 @@ namespace Reservio.Controllers
 
         }
         [HttpPut("{doctorId}")]
-        public async Task<IActionResult> UpdateDoctor(int doctorId, DoctorCreataionDTO updateDTO)
+        public async Task<IActionResult> UpdateDoctor(Guid doctorId, DoctorCreataionDTO updateDTO)
         {
             Doctor ?doctor = await _doctor.GetDoctorByIdAsync(doctorId, false);
             if(doctor is null)

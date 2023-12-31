@@ -4,9 +4,9 @@ namespace Reservio.Models
 {
     public class Substitute
     {
-        public int SubstituteId { get; set; }
-        public int DoctorId { get; set; }
-        public int ClinicId { get;  set; }
+        public Guid SubstituteId { get; set; }
+        public Guid DoctorId { get; set; }
+        public Guid ClinicId { get;  set; }
         public WeekDay WeekDay { get; set; }
         public bool IsDeleted { get; set; } = false;
         public Clinic Clinic { get; set; }

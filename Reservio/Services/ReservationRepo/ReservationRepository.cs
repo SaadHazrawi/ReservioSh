@@ -71,7 +71,7 @@ public class ReservationRepository : IReservationRepository
         return _context.Reservations.ToListAsync();
     }
 
-    public Task<Reservation> GetReservationByIdAsync(int reservationId)
+    public Task<Reservation> GetReservationByIdAsync(Guid reservationId)
     {
         //TODO To Saad
         throw new NotImplementedException();
@@ -85,7 +85,7 @@ public class ReservationRepository : IReservationRepository
 
 
 
-    public async Task<List<Reservation>> GetPatientsInClinic(int clinicId)
+    public async Task<List<Reservation>> GetPatientsInClinic(Guid clinicId)
     {
         //TODO To Abdullah
         return await _context.Reservations

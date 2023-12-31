@@ -69,7 +69,7 @@ namespace Reservio.Controllers
         /// <returns>The list of patients in the clinic.</returns>
 
         [HttpGet("Clinics/{clinicsId}")]
-        public async Task<ActionResult> GetClinics(int clinicsId)
+        public async Task<ActionResult> GetClinics(Guid clinicsId)
         {
 
             var Clinics = await _reservation.GetPatientsInClinic(clinicsId);

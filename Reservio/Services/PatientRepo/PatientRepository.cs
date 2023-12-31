@@ -50,7 +50,7 @@ namespace Reservio.Services.PatientRepo
                           .ToListAsync();
         }
 
-        public async Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation)
+        public async Task<Patient?> GetPatientByIdASync(Guid patientId, bool includeReservation)
         {
             if (includeReservation)
             {

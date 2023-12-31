@@ -7,9 +7,11 @@ namespace Reservio.Services
     {
         Task<List<Doctor?>> GetAllDoctorsAsync();
         Task<Doctor> AddDoctorAsync(Doctor doctor);
-        Task<Doctor?> GetDoctorByIdAsync(int doctorId, bool includeSubstite);
+        Task<Doctor?> GetDoctorByIdAsync(Guid doctorId, bool includeSubstite);
         Task<Doctor> UpdateDoctorAsync(Doctor doctor);
         Task DeleteDoctorAsync(Doctor doctor);
-      Doctor  MapperDoctorForUpdate(Doctor doctor, DoctorCreataionDTO updateDto);
+
+        //TODO For Saad , Why MapperDoctorForUpdate
+        Doctor MapperDoctorForUpdate(Doctor doctor, DoctorCreataionDTO updateDto);
     }
 }
