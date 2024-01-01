@@ -6,32 +6,75 @@ using Reservio.Core;
 using AutoMapper;
 using Reservio.Services.BaseRepo;
 using System.ComponentModel;
+using System.Net;
 
 namespace Reservio.Services.ReservationRepo;
 public class ReservationRepository : BaseRepository<Reservation>, IReservationRepository
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
-    public ReservationRepository(DataContext context , IMapper mapper) : base(context)
+    public ReservationRepository(DataContext context, IMapper mapper) : base(context)
     {
         _context = context;
         _mapper = mapper;
+    }
+    private DateTime BookFor(DateTime dateTime)
+    {
+        DateTime now = dateTime;
+        DateTime yesterdayAt8PM = DateTimeLocal.GetDate().AddDays(-1).AddHours(8);
+        DateTime todayAt8AM = DateTimeLocal.GetDate().AddHours(8);
+        if (now > yesterdayAt8PM && now < todayAt8AM)
+        {
+            return DateTimeLocal.GetDate().Date;
+        }
+        else
+        {
+            return DateTimeLocal.GetDate().AddDays(1).Date;
+        }
+    }
+
+    private static DayOfWeek GetDayForBooking()
+    {
+        if (DateTimeLocal.GetDateTime().Hour >= 8)
+        {
+            return DateTimeLocal.GetDateTime().AddDays(1).DayOfWeek;
+
+        }
+        else
+        {
+            return DateTimeLocal.GetDateTime().DayOfWeek;
+        }
     }
 
 
     public async Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto)
     {
-        var reservationStatus = await CheckReservationStatus(dto.IPAddress);
-   
-        int countPaitentAccepte = await _context.Clinics
-         .Where(c => c.ClinicId == dto.ClinicId)
-         .Select(c => c.CountPaitentAccepte)
-         .FirstOrDefaultAsync();
 
-        // TODO: Abdullah  Complete the conditions for counting reservations based on your requirements.
+
+        bool clinicExists = await _context.Clinics.AnyAsync(c => c.ClinicId == dto.ClinicId);
+        if (!clinicExists)
+        {
+            throw new APIException(HttpStatusCode.BadRequest, "Adding failed. The clinic does not exist..");
+        }
+
+
+        var reservationStatus = await CheckReservationStatus(dto.IPAddress);
+        if (reservationStatus.Stopping)
+        {
+            return reservationStatus;
+        }
+
+
+        int countPaitentAccepte = await _context.Clinics
+            .Where(c => c.ClinicId == dto.ClinicId)
+            .Select(c => c.CountPaitentAccepte)
+            .FirstOrDefaultAsync();
+
+
+        // TODO 003: Test => Complete the conditions for counting reservations based on your requirements.
         var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == dto.ClinicId
-        /* &&  TODO: Write task to complete the conditions*/);
-       
+        && r.Date.Day == (int)GetDayForBooking());
+
         if (CountReservations >= countPaitentAccepte)
         {
             reservationStatus.Stopping = true;
@@ -40,12 +83,12 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
             return reservationStatus;
         }
 
-        if (!reservationStatus.Stopping)
-        {
-            var reservation = _mapper.Map<Reservation>(dto);
-            await _context.Reservations.AddAsync(reservation);
-            await _context.SaveChangesAsync();
-        }
+
+        var reservation = _mapper.Map<Reservation>(dto);
+        reservation.BookFor = BookFor(DateTimeLocal.GetDateTime());
+        await _context.Reservations.AddAsync(reservation);
+        await _context.SaveChangesAsync();
+
 
         return reservationStatus;
     }
@@ -61,15 +104,16 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
     public async Task<ReservationStatus> CheckReservationStatus(string iPAddress)
     {
+        var DayForBooking = GetDayForBooking();
 
-        int countBookings = 0; //TODO To Abdullah
+        // TODO 003: Test =>  Complete the conditions for counting reservations based on your requirements.
+        var CountReservations = await _context.Reservations.CountAsync(r => r.IPAddress == iPAddress
+            && r.BookFor.Day == (int)GetDayForBooking());
 
-     
-        //TODO TO Abdullah
         //_logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
 
         var reservationStatus = new ReservationStatus();
-        if (countBookings > 0)
+        if (CountReservations > 0)
         {
             reservationStatus.Status = "Make a reservation today. \n You can make another reservation after";
             reservationStatus.StoppingTo = DateTimeLocal.GetDate()
@@ -101,17 +145,5 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
     {
         //TODO To Saad
         throw new NotImplementedException();
-    }
-
-
-
-    public async Task<List<Reservation>> GetPatientsInClinic(int clinicId)
-    {
-        //TODO To Abdullah
-        return await _context.Reservations
-            .Where(c => c.ClinicId == clinicId
-            && c.BookFor.Date == DateTimeLocal.GetDate())
-           .ToListAsync();
-
     }
 }

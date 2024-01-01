@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Reservio.DTOS.Reservation;
 using AutoMapper;
 using Reservio.Services.BaseRepo;
+using Reservio.Core;
 
 namespace Reservio.Services.PatientRepo
 {
@@ -59,7 +60,18 @@ namespace Reservio.Services.PatientRepo
                     .FirstOrDefaultAsync(p => p.PatientId == patientId && !p.IsDeleted);
         }
 
-        //TODO Not good Code
+
+
+        public async Task<List<Reservation>> GetPatientsInClinic(int clinicId)
+        {
+            return await _context.Reservations
+                .Where(c => c.ClinicId == clinicId
+                && c.BookFor.Date == DateTimeLocal.GetDate())
+               .ToListAsync();
+
+        }
+
+        //TODO 0001 : Abdullah => Delete MapperDoctorForUpdate
         public Patient MapperPatient(Patient patient, PatientCreationDTO patientCreation)
         {
 

@@ -2,16 +2,19 @@
 using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 using Reservio.Services.BaseRepo;
+using AutoMapper;
 
 namespace Reservio.Services.ClinicRepo
 {
     public class ClinicRepository :BaseRepository<Clinic>, IClinicRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public ClinicRepository(DataContext context) : base(context)
+        public ClinicRepository(DataContext context ,IMapper mapper) : base(context)
         {
             _context = context;
+            _mapper = mapper;
         }
         public async Task<List<Clinic?>> GetAllCinicsAsync()
         {

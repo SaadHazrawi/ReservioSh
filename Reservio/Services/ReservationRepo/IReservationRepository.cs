@@ -8,7 +8,7 @@ namespace Reservio.Services.ReservationRepo;
 public interface IReservationRepository :IBaseRepository<Reservation>
 {
     Task<List<Reservation>> GetAllReservationAsync();
-    Task<Reservation> GetReservationByIdAsync(int reservationId); //TODO Why
+    Task<Reservation> GetReservationByIdAsync(int reservationId); //TODO To Saad: Why
 
     Task<ReservationStatus> CheckReservationStatus(string iPAddress);
     Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto);
@@ -17,6 +17,8 @@ public interface IReservationRepository :IBaseRepository<Reservation>
     //TODO What is Logic , Issues 1
     Task DeleteReservationAsync(Reservation reservation);
 
-    Task<List<Reservation>> GetPatientsInClinic(int clinicId);
+
+
+
 }
 

@@ -12,7 +12,7 @@ namespace Reservio.Services.DotorRepo
         Task<Doctor> UpdateDoctorAsync(Doctor doctor);
         Task DeleteDoctorAsync(Doctor doctor);
 
-        //TODO For Saad , Why MapperDoctorForUpdate
-        Doctor MapperDoctorForUpdate(Doctor doctor, DoctorCreataionDTO updateDto);
+        //TODO 0001: Abdullah => Delete MapperDoctorForUpdate
+        Doctor MapperDoctorForUpdate(Doctor doctor, DoctorForAddDto updateDto);
     }
 }

@@ -8,9 +8,12 @@ namespace Reservio.Services.PatientRepo
     public interface IPatientRepository : IBaseRepository<Patient>
     {
         Task<List<Patient>> GetAllPatientAsync();
+
+        Task<List<Reservation>> GetPatientsInClinic(int clinicId);
+
         Task<Patient> AddPatientAsync(Patient patient);
 
-        //TODO For Delete
+        //TODO :GetPatientIdForReservationAsync ?
         Task GetPatientIdForReservationAsync(ReservationForAddDto dto);
         Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation);
         Task<Patient> UpdatePatientAsync(Patient patient);
