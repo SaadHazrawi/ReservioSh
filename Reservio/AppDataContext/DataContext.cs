@@ -36,6 +36,7 @@ namespace Reservio.AppDataContext
 
             #region DataSeeding
             modelBuilder.Entity<Clinic>().HasData(GetClinics());
+            modelBuilder.Entity<Doctor>().HasData(GetDoctors());
             #endregion
         }
 
@@ -53,6 +54,25 @@ namespace Reservio.AppDataContext
             clinics.Add(new Clinic { ClinicId = 5, Name = "Dermatology Clinic", CountPaitentAccepte = 15 });
 
             return clinics;
+        }
+
+        private List<Doctor> GetDoctors()
+        {
+            List<Doctor> doctors = new List<Doctor>();
+
+            // Add doctors to the list
+            doctors.Add(new Doctor { DoctorId = 1, FullName = "Dr. Smith", Specialist = "Cardiology" });
+            doctors.Add(new Doctor { DoctorId = 2, FullName = "Dr. Johnson", Specialist = "Cardiology" });
+            doctors.Add(new Doctor { DoctorId = 3, FullName = "Dr. Williams", Specialist = "Pediatrics" });
+            doctors.Add(new Doctor { DoctorId = 4, FullName = "Dr. Brown", Specialist = "Pediatrics" });
+            doctors.Add(new Doctor { DoctorId = 5, FullName = "Dr. Jones", Specialist = "Ophthalmology" });
+            doctors.Add(new Doctor { DoctorId = 6, FullName = "Dr. Davis", Specialist = "Ophthalmology" });
+            doctors.Add(new Doctor { DoctorId = 7, FullName = "Dr. Miller", Specialist = "ENT" });
+            doctors.Add(new Doctor { DoctorId = 8, FullName = "Dr. Wilson", Specialist = "ENT" });
+            doctors.Add(new Doctor { DoctorId = 9, FullName = "Dr. Moore", Specialist = "Dermatology" });
+            doctors.Add(new Doctor { DoctorId = 10, FullName = "Dr. Taylor", Specialist = "Dermatology" });
+
+            return doctors;
         }
     }
 }

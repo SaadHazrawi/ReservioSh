@@ -21,8 +21,8 @@ namespace Reservio.Services.BaseRepo
         {
             _context = context;
             Reservation = new ReservationRepository(context , mapper); 
-            Clinics = new ClinicRepository(context);
-            Doctors = new DotorRepository(context); 
+            Clinics = new ClinicRepository(context , mapper);
+            Doctors = new DotorRepository(context, mapper); 
             Patients = new PatientRepository(context, mapper); 
         }
 

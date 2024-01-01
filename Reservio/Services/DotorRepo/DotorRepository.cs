@@ -3,16 +3,21 @@ using Reservio.DTOS.Doctor;
 using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 using Reservio.Services.BaseRepo;
+using AutoMapper;
+using Reservio.Core;
+using System.Net;
 
 namespace Reservio.Services.DotorRepo
 {
     public class DotorRepository : BaseRepository<Doctor>, IDotorRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public DotorRepository(DataContext context):base(context)
+        public DotorRepository(DataContext context , IMapper mapper) :base(context)
         {
             _context = context;
+            _mapper = mapper;
         }
         public async Task<Doctor> AddDoctorAsync(Doctor doctor)
         {
@@ -50,15 +55,22 @@ namespace Reservio.Services.DotorRepo
             }
         }
 
-        public Doctor MapperDoctorForUpdate(Doctor doctor, DoctorCreataionDTO updateDto)
+        public Doctor MapperDoctorForUpdate(Doctor doctor, DoctorForAddDto updateDto)
         {
             doctor.FullName = updateDto.FullName;
             doctor.Specialist = updateDto.Specialist;
             return doctor;
         }
 
-        public async Task<Doctor> UpdateDoctorAsync(Doctor doctor)
+        public async Task<Doctor> UpdateDoctorAsync(int doctorId , DoctorForAddDto dto)
         {
+            var doctor = await GetDoctorByIdAsync(doctorId , false);
+            if (doctor is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Adding failed. The Doctor does not exist..");
+
+            }
+            _mapper.Map(dto, doctor);
             _context.Doctors.Update(doctor);
             await _context.SaveChangesAsync();
             return doctor;

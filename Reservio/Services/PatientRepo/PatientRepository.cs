@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Reservio.DTOS.Reservation;
 using AutoMapper;
 using Reservio.Services.BaseRepo;
+using Reservio.Core;
+using System.Net;
+using System.Numerics;
 
 namespace Reservio.Services.PatientRepo
 {
@@ -59,21 +62,39 @@ namespace Reservio.Services.PatientRepo
                     .FirstOrDefaultAsync(p => p.PatientId == patientId && !p.IsDeleted);
         }
 
-        //TODO Not good Code
-        public Patient MapperPatient(Patient patient, PatientCreationDTO patientCreation)
+
+
+        public async Task<List<Reservation>> GetPatientsInClinic(int clinicId)
+        {
+            return await _context.Reservations
+                .Where(c => c.ClinicId == clinicId
+                && c.BookFor.Date == DateTimeLocal.GetDate())
+               .ToListAsync();
+
+        }
+
+        public async Task<Patient> UpdatePatientAsync(int patientId ,  PatientCreationDTO dto)
         {
 
-            patient.FirstName = patientCreation.FirstName;
-            patient.LastName = patientCreation.LastName;
-            patient.Gender = patientCreation.Gender;
-            patient.Resgoin = patientCreation.Resgoin;
-            return patient;
-        }
-        public async Task<Patient> UpdatePatientAsync(Patient patient)
-        {
+            if (dto is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Adding failed.");
+            }
+
+            var patient = await GetPatientByIdASync(patientId, false);
+            if (patient is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Adding failed. The Doctor does not exist..");
+            }
+            _mapper.Map(dto, patient);
             _context.Patients.Update(patient);
             await _context.SaveChangesAsync();
             return patient;
+        }
+        //TODO For Abdullah
+        public Task<Patient> UpdatePatientAsync(PatientCreationDTO patient)
+        {
+            throw new NotImplementedException();
         }
     }
 }

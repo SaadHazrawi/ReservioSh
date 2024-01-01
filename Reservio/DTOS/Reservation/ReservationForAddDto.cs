@@ -1,4 +1,5 @@
-﻿using Reservio.Enums;
+﻿using Reservio.Core;
+using Reservio.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
@@ -13,6 +14,8 @@ namespace Reservio.DTOS.Reservation
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 15 characters.")]
         public string LastName { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
+
+        public DateTime Date { get; set; } = DateTimeLocal.GetDate();
         public GenderPaintet Gender { get; set; }
 
         [StringLength(100, MinimumLength = 2)]

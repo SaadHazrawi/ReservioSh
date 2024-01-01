@@ -17,9 +17,12 @@ namespace Reservio.Controllers
 
         public ClinicsController(  IMapper mapper,IUnitOfWork unitOfWork)
         {
+
             _mapper = mapper;
             this._unitOfWork = unitOfWork;
+
         }
+
         [HttpGet(template: "GetAllClinics")]
         public async Task<IActionResult> GetAllClinics()
         {

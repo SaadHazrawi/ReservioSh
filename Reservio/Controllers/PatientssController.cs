@@ -50,20 +50,9 @@ namespace Reservio.Controllers
             return Ok(patient);
         }
         [HttpPut("{patientId}")]
-        public async Task<IActionResult> UpdatePatient(int patientId, PatientCreationDTO patientCreation)
+        public async Task<IActionResult> UpdatePatient(int patientId, PatientCreationDTO dto)
         {
-            if (patientCreation == null)
-            {
-                return BadRequest();
-            }
-
-            Patient patient = await _patient.GetPatientByIdASync(patientId, false);
-            if (patient == null)
-            {
-                return NotFound();
-            }
-            await _patient.UpdatePatientAsync(_patient.MapperPatient(patient, patientCreation));
-
+            await _patient.UpdatePatientAsync(dto);
             return NoContent();
         }
         [HttpDelete("{patientId}")]
