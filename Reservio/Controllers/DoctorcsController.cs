@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Reservio.Services.DotorRepo;
+using Reservio.Services.BaseRepo;
 
 namespace Reservio.Controllers
 {
@@ -13,37 +14,39 @@ namespace Reservio.Controllers
     [ApiController]
     public class DoctorcsController : ControllerBase
     {
-        private readonly IDotorRepository _doctor;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public DataContext Context { get; set; }
-        public DoctorcsController(IDotorRepository doctor, IMapper mapper)
+        public DoctorcsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._doctor = doctor;
-            this._mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
+
+
         [HttpGet("GetAllDoctors")]
         public async Task<IActionResult>GetAllDoctors()
         {
-            List<Doctor> doctors=await _doctor.GetAllDoctorsAsync();
+            List<Doctor> doctors=await _unitOfWork.Doctors.GetAllDoctorsAsync();
             if(doctors is null)
                 return NotFound();
             return Ok(_mapper.Map<List<DoctorWithoutSubstitueDTO>>(doctors));
 
         }
         [HttpPost("CreateDoctor")]
-        public async Task<IActionResult> CreateDoctor(DoctorCreataionDTO doctor)
+        public async Task<IActionResult> CreateDoctor(DoctorForAddDto doctor)
         {
             if(doctor is null)
                 return BadRequest();
-            var result=await _doctor.AddDoctorAsync(_mapper.Map<Doctor>(doctor));
+            var result=await _unitOfWork.Doctors.AddDoctorAsync(_mapper.Map<Doctor>(doctor));
             return CreatedAtRoute("GetDoctor", new { doctorId=result.DoctorId, includeSubstie=false }, _mapper.Map<DoctorWithoutSubstitueDTO>(result));
              
         }
         [HttpGet("GetDoctor/{doctorId}/{includeSubstie}", Name = "GetDoctor")]
         public async Task<IActionResult> GetDoctor(int doctorId,bool includeSubstie)
         {
-            var doctor=await _doctor.GetDoctorByIdAsync(doctorId, includeSubstie);
+            var doctor=await _unitOfWork.Doctors.GetDoctorByIdAsync(doctorId, includeSubstie);
             if(doctor is null)
                 return NotFound();
             if(includeSubstie)
@@ -54,23 +57,17 @@ namespace Reservio.Controllers
         [HttpDelete("{doctorId}")]
         public async Task<IActionResult> DeleteDoctor(int doctorId)
         {
-            Doctor ? doctor=await _doctor.GetDoctorByIdAsync(doctorId,false);
+            Doctor ? doctor=await _unitOfWork.Doctors.GetDoctorByIdAsync(doctorId,false);
             if(doctor is null)
                 return NotFound();
-            await _doctor.DeleteDoctorAsync(doctor);
+            await _unitOfWork.Doctors.DeleteDoctorAsync(doctor);
             return NoContent();
 
         }
         [HttpPut("{doctorId}")]
-        public async Task<IActionResult> UpdateDoctor(int doctorId, DoctorCreataionDTO updateDTO)
+        public async Task<IActionResult> UpdateDoctor(int doctorId, DoctorForAddDto dto)
         {
-            Doctor ?doctor = await _doctor.GetDoctorByIdAsync(doctorId, false);
-            if(doctor is null)
-            {
-                return NotFound();
-            }
-           
-            await _doctor.UpdateDoctorAsync(_doctor.MapperDoctorForUpdate(doctor,updateDTO));
+            await _unitOfWork.Doctors.UpdateDoctorAsync(doctorId , dto);          
             return NoContent();
         }
     }
