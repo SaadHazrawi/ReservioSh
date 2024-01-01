@@ -8,7 +8,7 @@ namespace Reservio.Models
         [StringLength(maximumLength:50,MinimumLength =2)]
         public string Name { get; set; } = string.Empty;
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();
-        public List<Substitute> Substitutes { get; set; } = new List<Substitute>();
+        public List<Schedule> Schedules { get; set; } = new List<Schedule>();
         public int CountPaitentAccepte { get; set; }
         public bool IsDeleted { get; set; } = false;
 

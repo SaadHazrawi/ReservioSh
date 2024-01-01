@@ -3,6 +3,7 @@ using Reservio.DTOS.Clinic;
 using Reservio.DTOS.Doctor;
 using Reservio.DTOS.Patient;
 using Reservio.DTOS.Reservation;
+using Reservio.DTOS.Schedule;
 using Reservio.Models;
 
 namespace Reservio.Helpers
@@ -32,6 +33,10 @@ namespace Reservio.Helpers
 
             #region Reservation
             CreateMap<ReservationForAddDto, Reservation>();
+            #endregion
+
+            #region Schedule
+            CreateMap< ScheduleForAddDto , Schedule>();
             #endregion
 
         }

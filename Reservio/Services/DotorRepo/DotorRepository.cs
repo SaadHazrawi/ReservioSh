@@ -49,7 +49,7 @@ namespace Reservio.Services.DotorRepo
             else
             {
                 return _context.Doctors
-                    .Include(d => d.Substitutes)
+                    .Include(d => d.Schedules)
                       .FirstOrDefaultAsync(d => d.DoctorId == doctorId
                       && d.IsDeleted == false);
             }

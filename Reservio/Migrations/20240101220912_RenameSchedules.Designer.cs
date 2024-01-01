@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservio.AppDataContext;
 
@@ -11,9 +12,11 @@ using Reservio.AppDataContext;
 namespace Reservio.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240101220912_RenameSchedules")]
+    partial class RenameSchedules
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,64 +288,6 @@ namespace Reservio.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("Schedules");
-
-                    b.HasData(
-                        new
-                        {
-                            ScheduleId = 1,
-                            ClinicId = 1,
-                            DayOfWeek = 1,
-                            DoctorId = 1,
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            ScheduleId = 2,
-                            ClinicId = 1,
-                            DayOfWeek = 2,
-                            DoctorId = 2,
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            ScheduleId = 3,
-                            ClinicId = 2,
-                            DayOfWeek = 3,
-                            DoctorId = 3,
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            ScheduleId = 4,
-                            ClinicId = 3,
-                            DayOfWeek = 4,
-                            DoctorId = 4,
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            ScheduleId = 5,
-                            ClinicId = 3,
-                            DayOfWeek = 5,
-                            DoctorId = 5,
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            ScheduleId = 6,
-                            ClinicId = 4,
-                            DayOfWeek = 6,
-                            DoctorId = 6,
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            ScheduleId = 7,
-                            ClinicId = 4,
-                            DayOfWeek = 0,
-                            DoctorId = 7,
-                            IsDeleted = false
-                        });
                 });
 
             modelBuilder.Entity("Reservio.Models.Reservation", b =>

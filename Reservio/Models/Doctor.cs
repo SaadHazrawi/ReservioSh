@@ -8,10 +8,11 @@ namespace Reservio.Models
     {
         public int DoctorId { get; set; }
         [StringLength(maximumLength: 50, MinimumLength = 2)]
-        public string FullName { get; set; }
+        public string FullName { get; set; } = null!;
+
         [StringLength(maximumLength: 50, MinimumLength = 2)]
-        public string Specialist { get; set; }
-        public List<Substitute> Substitutes { get; set; } = new List<Substitute>();
+        public string Specialist { get; set; } = string.Empty;
+        public List<Schedule> Schedules { get; set; } = new List<Schedule>();
         public bool IsDeleted { get; set; } = false;
 
 
