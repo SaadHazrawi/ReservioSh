@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
 using Reservio.Core;
 using Reservio.DTOS.Schedule;
@@ -42,6 +43,22 @@ namespace Reservio.Services.ScheduleRepo
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<ScheduleDto>> Get()
+        {
+            var schedules = await _context.Schedules
+                .Include(s => s.Clinic)
+                .Include(s => s.Doctor)
+                .ToListAsync();
+
+            var scheduleDtos = _mapper.Map<List<ScheduleDto>>(schedules);
+
+            if (scheduleDtos.Count == 0)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "No schedules found.");
+            }
+
+            return scheduleDtos;
+        }
 
         //public void Delete(Schedule schedule)
         //{

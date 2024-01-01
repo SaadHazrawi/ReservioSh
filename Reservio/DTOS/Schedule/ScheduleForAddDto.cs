@@ -6,4 +6,6 @@
         public int ClinicId { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
     }
+
+    
 }

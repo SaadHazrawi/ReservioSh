@@ -22,14 +22,8 @@ namespace Reservio.Controllers
         public async Task<ActionResult> GetSchedules()
         {
 
-            //TODO : Abdullah => GetSchedules
-            //var Schedules = await _unitOfWork.S.GetSchedules();
-            //if (Schedules == null)
-            //{
-            //    return NotFound();
-            //}
-            //return Ok(_mapper.Map<List<ScheduleDto>>(Schedules));
-            return NotFound();
+            var Schedule = await _unitOfWork.Schedules.Get();
+            return Ok(Schedule);
         }
         [HttpPost()]
         public async Task<ActionResult> AddSchedules(ScheduleForAddDto dto)
