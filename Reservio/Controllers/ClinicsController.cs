@@ -15,9 +15,10 @@ namespace Reservio.Controllers
 
         public ClinicsController(IClinicRepository clinic, IMapper mapper)
         {
-            this._clinic = clinic;
-            this._mapper = mapper;
+            _clinic = clinic;
+            _mapper = mapper;
         }
+
         [HttpGet(template: "GetAllClinics")]
         public async Task<IActionResult> GetAllClinics()
         {
