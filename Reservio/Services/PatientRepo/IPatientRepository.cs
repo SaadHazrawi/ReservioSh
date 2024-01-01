@@ -16,8 +16,8 @@ namespace Reservio.Services.PatientRepo
         //TODO :GetPatientIdForReservationAsync ?
         Task GetPatientIdForReservationAsync(ReservationForAddDto dto);
         Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation);
-        Task<Patient> UpdatePatientAsync(Patient patient);
+        Task<Patient> UpdatePatientAsync(PatientCreationDTO patient);
         Task DeletePatienyAsync(Patient patient);
-        Patient MapperPatient(Patient patient, PatientCreationDTO patientCreation);
+      
     }
 }

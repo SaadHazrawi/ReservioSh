@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservio.AppDataContext;
 
@@ -11,9 +12,11 @@ using Reservio.AppDataContext;
 namespace Reservio.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240101083451_Use_DayOfWeek")]
+    partial class Use_DayOfWeek
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,78 +110,6 @@ namespace Reservio.Migrations
                     b.HasKey("DoctorId");
 
                     b.ToTable("Doctors");
-
-                    b.HasData(
-                        new
-                        {
-                            DoctorId = 1,
-                            FullName = "Dr. Smith",
-                            IsDeleted = false,
-                            Specialist = "Cardiology"
-                        },
-                        new
-                        {
-                            DoctorId = 2,
-                            FullName = "Dr. Johnson",
-                            IsDeleted = false,
-                            Specialist = "Cardiology"
-                        },
-                        new
-                        {
-                            DoctorId = 3,
-                            FullName = "Dr. Williams",
-                            IsDeleted = false,
-                            Specialist = "Pediatrics"
-                        },
-                        new
-                        {
-                            DoctorId = 4,
-                            FullName = "Dr. Brown",
-                            IsDeleted = false,
-                            Specialist = "Pediatrics"
-                        },
-                        new
-                        {
-                            DoctorId = 5,
-                            FullName = "Dr. Jones",
-                            IsDeleted = false,
-                            Specialist = "Ophthalmology"
-                        },
-                        new
-                        {
-                            DoctorId = 6,
-                            FullName = "Dr. Davis",
-                            IsDeleted = false,
-                            Specialist = "Ophthalmology"
-                        },
-                        new
-                        {
-                            DoctorId = 7,
-                            FullName = "Dr. Miller",
-                            IsDeleted = false,
-                            Specialist = "ENT"
-                        },
-                        new
-                        {
-                            DoctorId = 8,
-                            FullName = "Dr. Wilson",
-                            IsDeleted = false,
-                            Specialist = "ENT"
-                        },
-                        new
-                        {
-                            DoctorId = 9,
-                            FullName = "Dr. Moore",
-                            IsDeleted = false,
-                            Specialist = "Dermatology"
-                        },
-                        new
-                        {
-                            DoctorId = 10,
-                            FullName = "Dr. Taylor",
-                            IsDeleted = false,
-                            Specialist = "Dermatology"
-                        });
                 });
 
             modelBuilder.Entity("Reservio.Models.Patient", b =>

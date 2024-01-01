@@ -6,6 +6,8 @@ using Reservio.DTOS.Reservation;
 using AutoMapper;
 using Reservio.Services.BaseRepo;
 using Reservio.Core;
+using System.Net;
+using System.Numerics;
 
 namespace Reservio.Services.PatientRepo
 {
@@ -71,21 +73,28 @@ namespace Reservio.Services.PatientRepo
 
         }
 
-        //TODO 0001 : Abdullah => Delete MapperDoctorForUpdate
-        public Patient MapperPatient(Patient patient, PatientCreationDTO patientCreation)
+        public async Task<Patient> UpdatePatientAsync(int patientId ,  PatientCreationDTO dto)
         {
 
-            patient.FirstName = patientCreation.FirstName;
-            patient.LastName = patientCreation.LastName;
-            patient.Gender = patientCreation.Gender;
-            patient.Resgoin = patientCreation.Resgoin;
-            return patient;
-        }
-        public async Task<Patient> UpdatePatientAsync(Patient patient)
-        {
+            if (dto is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Adding failed.");
+            }
+
+            var patient = await GetPatientByIdASync(patientId, false);
+            if (patient is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Adding failed. The Doctor does not exist..");
+            }
+            _mapper.Map(dto, patient);
             _context.Patients.Update(patient);
             await _context.SaveChangesAsync();
             return patient;
+        }
+        //TODO For Abdullah
+        public Task<Patient> UpdatePatientAsync(PatientCreationDTO patient)
+        {
+            throw new NotImplementedException();
         }
     }
 }
