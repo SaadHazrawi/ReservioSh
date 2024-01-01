@@ -21,17 +21,38 @@ namespace Reservio.AppDataContext
                 .WithMany(r => r.Reservations)
                 .HasForeignKey(r => r.ClinicId);
 
-       
+
 
             modelBuilder.Entity<Substitute>().HasKey(s => s.SubstituteId);
             modelBuilder.Entity<Substitute>()
                 .HasOne(d => d.Doctor)
                 .WithMany(s => s.Substitutes)
                 .HasForeignKey(sid => sid.DoctorId);
+
             modelBuilder.Entity<Substitute>()
               .HasOne(d => d.Clinic)
               .WithMany(s => s.Substitutes)
               .HasForeignKey(sid => sid.ClinicId);
+
+            #region DataSeeding
+            modelBuilder.Entity<Clinic>().HasData(GetClinics());
+            #endregion
+        }
+
+        private List<Clinic> GetClinics()
+        {
+            //Assumes that you have a data source or database access to retrieve clinics
+            List<Clinic> clinics = new List<Clinic>();
+
+            //Clinic data
+            clinics.Add(new Clinic { ClinicId = 1, Name = "Heart Clinic", CountPaitentAccepte = 10 });
+            clinics.Add(new Clinic { ClinicId = 2, Name = "Children's Clinic", CountPaitentAccepte = 5});
+            clinics.Add(new Clinic { ClinicId = 3, Name = "Eye Clinic", CountPaitentAccepte = 8 });
+
+            clinics.Add(new Clinic { ClinicId = 4, Name = "Ear, Nose and Throat Clinic", CountPaitentAccepte = 12 });
+            clinics.Add(new Clinic { ClinicId = 5, Name = "Dermatology Clinic", CountPaitentAccepte = 15 });
+
+            return clinics;
         }
     }
 }
