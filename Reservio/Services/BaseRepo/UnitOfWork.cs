@@ -14,12 +14,16 @@ namespace Reservio.Services.BaseRepo
         public IReservationRepository Reservation { get; private set; }
         public IClinicRepository Clinics { get; private set; }
 
-        public IDoctorRepostriey Doctors { get; private set; }
+        public IDotorRepository Doctors { get; private set; }
 
         public IPatientRepository Patients { get; private set; }
         public UnitOfWork(DataContext context, IMapper mapper)
         {
             _context = context;
+            Reservation = new ReservationRepository(context , mapper); 
+            Clinics = new ClinicRepository(context);
+            Doctors = new DotorRepository(context); 
+            Patients = new PatientRepository(context, mapper); 
         }
 
         public void Dispose()

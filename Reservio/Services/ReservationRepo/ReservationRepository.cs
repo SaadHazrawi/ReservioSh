@@ -5,6 +5,7 @@ using Reservio.DTOS.Reservation;
 using Reservio.Core;
 using AutoMapper;
 using Reservio.Services.BaseRepo;
+using System.ComponentModel;
 
 namespace Reservio.Services.ReservationRepo;
 public class ReservationRepository : BaseRepository<Reservation>, IReservationRepository
@@ -21,6 +22,24 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
     public async Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto)
     {
         var reservationStatus = await CheckReservationStatus(dto.IPAddress);
+   
+        int countPaitentAccepte = await _context.Clinics
+         .Where(c => c.ClinicId == dto.ClinicId)
+         .Select(c => c.CountPaitentAccepte)
+         .FirstOrDefaultAsync();
+
+        // TODO: Abdullah  Complete the conditions for counting reservations based on your requirements.
+        var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == dto.ClinicId
+        /* &&  TODO: Write task to complete the conditions*/);
+       
+        if (CountReservations >= countPaitentAccepte)
+        {
+            reservationStatus.Stopping = true;
+            reservationStatus.StoppingTo = DateTimeLocal.GetDateTime().ToShortDateString();
+            reservationStatus.Status = "The clinic is full.";
+            return reservationStatus;
+        }
+
         if (!reservationStatus.Stopping)
         {
             var reservation = _mapper.Map<Reservation>(dto);
@@ -42,8 +61,10 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
     public async Task<ReservationStatus> CheckReservationStatus(string iPAddress)
     {
+
         int countBookings = 0; //TODO To Abdullah
 
+     
         //TODO TO Abdullah
         //_logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
 

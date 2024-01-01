@@ -4,7 +4,7 @@ using Reservio.Services.BaseRepo;
 
 namespace Reservio.Services.DotorRepo
 {
-    public interface IDoctorRepostriey : IBaseRepository<Doctor>
+    public interface IDotorRepository : IBaseRepository<Doctor>
     {
         Task<List<Doctor?>> GetAllDoctorsAsync();
         Task<Doctor> AddDoctorAsync(Doctor doctor);

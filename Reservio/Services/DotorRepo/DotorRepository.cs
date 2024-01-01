@@ -6,11 +6,11 @@ using Reservio.Services.BaseRepo;
 
 namespace Reservio.Services.DotorRepo
 {
-    public class DoctorRepostriey : BaseRepository<Doctor>, IDoctorRepostriey
+    public class DotorRepository : BaseRepository<Doctor>, IDotorRepository
     {
         private readonly DataContext _context;
 
-        public DoctorRepostriey(DataContext context):base(context)
+        public DotorRepository(DataContext context):base(context)
         {
             _context = context;
         }

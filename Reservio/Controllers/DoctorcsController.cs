@@ -13,11 +13,11 @@ namespace Reservio.Controllers
     [ApiController]
     public class DoctorcsController : ControllerBase
     {
-        private readonly IDoctorRepostriey _doctor;
+        private readonly IDotorRepository _doctor;
         private readonly IMapper _mapper;
 
         public DataContext Context { get; set; }
-        public DoctorcsController(IDoctorRepostriey doctor, IMapper mapper)
+        public DoctorcsController(IDotorRepository doctor, IMapper mapper)
         {
             this._doctor = doctor;
             this._mapper = mapper;
