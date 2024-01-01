@@ -7,6 +7,7 @@ using Reservio.Services.PatientRepo;
 using Microsoft.Extensions.Configuration;
 using Reservio.Services.ClinicRepo;
 using Reservio.Services.DotorRepo;
+using Reservio.Services.BaseRepo;
 
 var builder = WebApplication.CreateBuilder(args);
  
@@ -34,10 +35,9 @@ builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<IClinicRepository, ClinicRepository>();
-builder.Services.AddScoped<IDoctorRepostriey, DoctorRepostriey>();
-builder.Services.AddScoped<IPatientRepository, PatientRepository>();
-builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+// UnitOfWork
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
