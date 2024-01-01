@@ -16,6 +16,7 @@ public interface IReservationRepository :IBaseRepository<Reservation>
 
     //TODO What is Logic , Issues 1
     Task DeleteReservationAsync(Reservation reservation);
+     
 
 
 
