@@ -27,10 +27,11 @@ namespace Reservio.Helpers
             #region Patient
             CreateMap<PatientCreationDTO, Patient>();   
             CreateMap<Patient, PatientWithoutReversoinDTO>();
+            CreateMap<ReservationForAddDto, Patient>();
             #endregion
 
             #region Reservation
-            CreateMap<Reservation, ReservationForAddDto>();
+            CreateMap<ReservationForAddDto, Reservation>();
             #endregion
 
         }

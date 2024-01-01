@@ -29,8 +29,9 @@ public class ReservationRepository : IReservationRepository
         {
             var reservation = _mapper.Map<Reservation>(dto);
             await _context.Reservations.AddAsync(reservation);
-
+            await _context.SaveChangesAsync();
         }
+
         return reservationStatus;
     }
 
@@ -45,11 +46,11 @@ public class ReservationRepository : IReservationRepository
 
     public async Task<ReservationStatus> CheckReservationStatus(string iPAddress)
     {
-        int countBookings = await _context.Reservations.CountAsync(b => b.IPAddress == iPAddress
-                                         && b.Date.Date == DateTimeLocal.GetDate().Date);
+        int countBookings = 0; //TODO To Abdullah
+
         _logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
         var reservationStatus = new ReservationStatus();
-        if (countBookings >= 3)
+        if (countBookings > 0)
         {
             reservationStatus.Status = "Make a reservation today. \n You can make another reservation after";
             reservationStatus.StoppingTo = DateTimeLocal.GetDate()
@@ -71,7 +72,7 @@ public class ReservationRepository : IReservationRepository
         return _context.Reservations.ToListAsync();
     }
 
-    public Task<Reservation> GetReservationByIdAsync(Guid reservationId)
+    public Task<Reservation> GetReservationByIdAsync(int reservationId)
     {
         //TODO To Saad
         throw new NotImplementedException();
@@ -85,7 +86,7 @@ public class ReservationRepository : IReservationRepository
 
 
 
-    public async Task<List<Reservation>> GetPatientsInClinic(Guid clinicId)
+    public async Task<List<Reservation>> GetPatientsInClinic(int clinicId)
     {
         //TODO To Abdullah
         return await _context.Reservations

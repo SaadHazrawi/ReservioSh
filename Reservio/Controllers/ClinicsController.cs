@@ -37,7 +37,7 @@ namespace Reservio.Controllers
         }
 
         [HttpGet("{clinicId}", Name = "GetClinic")]
-        public async Task<ActionResult> GetClinic(Guid clinicId)
+        public async Task<ActionResult> GetClinic(int clinicId)
         {
             var clinic = await _clinic.GetClinicByIdAsync(clinicId);
             if (clinic == null)
@@ -45,7 +45,7 @@ namespace Reservio.Controllers
             return Ok(_mapper.Map<ClinicWithiutAnyThinkAsync>(clinic));
         }
         [HttpPut("{clinicId}")]
-        public async Task<IActionResult> UpdateClinic(Guid clinicId, ClinicForUpdateDTO clinic)
+        public async Task<IActionResult> UpdateClinic(int clinicId, ClinicForUpdateDTO clinic)
         {
             Clinic clinic1 = await _clinic.GetClinicByIdAsync(clinicId);
             if (clinic1 is null)
@@ -58,7 +58,7 @@ namespace Reservio.Controllers
             return NoContent();
         }
         [HttpDelete("{clinicId}")]
-        public async Task<IActionResult> DeleteClinic(Guid clinicId)
+        public async Task<IActionResult> DeleteClinic(int clinicId)
         {
             Clinic clinic = await _clinic.GetClinicByIdAsync(clinicId);
             if (clinic is null)

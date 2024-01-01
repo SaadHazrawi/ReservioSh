@@ -7,7 +7,7 @@ namespace Reservio.Services
     {
         Task<List<Clinic?>> GetAllCinicsAsync();
         Task<Clinic> AddClinicAsync(Clinic clinic);
-        Task<Clinic?> GetClinicByIdAsync(Guid clinicId);
+        Task<Clinic?> GetClinicByIdAsync(int clinicId);
         Task<Clinic> UpdateClinicAsync(Clinic clinic);
         Task DeleteClinicAsync(Clinic clinic);
     }
