@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservio.DTOS.Reservation;
 using Reservio.Services.PatientRepo;
+using Reservio.Services.BaseRepo;
 
 namespace Reservio.Controllers
 {
@@ -11,30 +12,39 @@ namespace Reservio.Controllers
     [ApiController]
     public class ReservationsController : ControllerBase
     {
-        private readonly IReservationRepository _reservation;
-        private readonly IPatientRepository _patientRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ReservationsController(IReservationRepository reservation, IMapper mapper)
+        public ReservationsController(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            this._reservation = reservation;
-            this._mapper = mapper;
+
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
         [HttpGet]
         public async Task<ActionResult> CheckReservationStatus([FromQuery] string iPAddress)
         {
-            var reservationStatus = await _reservation.CheckReservationStatus(iPAddress);
+            var reservationStatus = await _unitOfWork.Reservation.CheckReservationStatus(iPAddress);
             return Ok(reservationStatus);
 
         }
 
-
+        /// <summary>
+        /// Add a new reservation.
+        /// </summary>
+        /// <param name="dto">Added reservation data.</param>
+        /// <returns>The result of the operation.</returns>
         [HttpPost]
         public async Task<ActionResult> Add(ReservationForAddDto dto)
         {
-            //TODO Abdullah ClinicId is Found
-            var reservationStatus = await _reservation.AddReservationAsync(dto);
-            return Ok(reservationStatus);
+            // Check if the clinic ID exists
+            bool clinicExists = await _unitOfWork.Clinics.ExistsAsync(c => c.ClinicId == dto.ClinicId);
+            if (clinicExists)
+            {
+                var reservationStatus = await _unitOfWork.Reservation.AddReservationAsync(dto);
+                return Ok(reservationStatus);
+            }
+            return BadRequest("Adding failed. The clinic does not exist.");
         }
 
 
@@ -75,7 +85,7 @@ namespace Reservio.Controllers
         public async Task<ActionResult> GetClinics(int clinicsId)
         {
 
-            var Clinics = await _reservation.GetPatientsInClinic(clinicsId);
+            var Clinics = await _unitOfWork.Reservation.GetPatientsInClinic(clinicsId);
             if (Clinics == null)
             {
                 return NotFound();
