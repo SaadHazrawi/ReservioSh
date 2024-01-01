@@ -68,7 +68,6 @@ namespace Reservio.Services.DotorRepo
             if (doctor is null)
             {
                 throw new APIException(HttpStatusCode.BadRequest, "Adding failed. The Doctor does not exist..");
-
             }
             _mapper.Map(dto, doctor);
             _context.Doctors.Update(doctor);

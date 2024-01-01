@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Reservio.Services.ReservationRepo;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Reservio.Core;
+using Reservio.DTOS.Clinic;
 using Reservio.DTOS.Reservation;
-using Reservio.Services.PatientRepo;
 using Reservio.Services.BaseRepo;
 
 namespace Reservio.Controllers
@@ -81,16 +80,17 @@ namespace Reservio.Controllers
         /// <param name="clinicsId">The ID of the clinic.</param>
         /// <returns>The list of patients in the clinic.</returns>
 
-        [HttpGet("Clinics/{clinicsId}")]
-        public async Task<ActionResult> GetClinics(int clinicsId)
-        {
+        //[HttpGet(Name = "GetReservationsByDate")]
+        //public async Task<IActionResult> GetReservationsByDate(XXXXClinic xXXClinic)
+        //{
+        //    var patien = _unitOfWork.Reservation.FindAllAsync(x => x.ClinicId == xXXClinic.clinicId
+        //          && x.BookFor >= xXXClinic.startDate && x.BookFor <= xXXClinic.endDate, null, od => od.Date, OrderBy.Descending);
+        //    if (patien is null)
+        //    {
+        //        return NotFound("Not Found patien In Clinic Id");
+        //    }
 
-            //var Clinics = await _unitOfWork.Reservation.GetPatientsInClinic(clinicsId);
-            //if (Clinics == null)
-            //{
-            //    return NotFound();
-            //}
-            return Ok( );
-        }
+        //    return Ok();
+        //}
     }
 }
