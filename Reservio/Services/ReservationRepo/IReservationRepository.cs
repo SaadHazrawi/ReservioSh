@@ -1,10 +1,11 @@
 ﻿using Reservio.Enums;
 using Reservio.Models;
 using Reservio.DTOS.Reservation;
+using Reservio.Services.BaseRepo;
 
 namespace Reservio.Services.ReservationRepo;
 
-public interface IReservationRepository
+public interface IReservationRepository :IBaseRepository<Reservation>
 {
     Task<List<Reservation>> GetAllReservationAsync();
     Task<Reservation> GetReservationByIdAsync(int reservationId); //TODO Why

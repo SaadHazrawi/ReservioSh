@@ -1,9 +1,10 @@
 ﻿using Reservio.DTOS.Clinic;
 using Reservio.Models;
+using Reservio.Services.BaseRepo;
 
-namespace Reservio.Services
+namespace Reservio.Services.ClinicRepo
 {
-    public interface IClinicRepository
+    public interface IClinicRepository :IBaseRepository<Clinic>
     {
         Task<List<Clinic?>> GetAllCinicsAsync();
         Task<Clinic> AddClinicAsync(Clinic clinic);

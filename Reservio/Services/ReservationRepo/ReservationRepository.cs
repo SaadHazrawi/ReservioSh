@@ -3,21 +3,17 @@ using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 using Reservio.DTOS.Reservation;
 using Reservio.Core;
-using Reservio.AppDataContext;
-using Reservio.Models;
-using Reservio.Services;
 using AutoMapper;
+using Reservio.Services.BaseRepo;
 
 namespace Reservio.Services.ReservationRepo;
-public class ReservationRepository : IReservationRepository
+public class ReservationRepository : BaseRepository<Reservation>, IReservationRepository
 {
     private readonly DataContext _context;
-    private readonly ILogger<ReservationRepository> _logger;
     private readonly IMapper _mapper;
-    public ReservationRepository(DataContext context, ILogger<ReservationRepository> logger, IMapper mapper)
+    public ReservationRepository(DataContext context , IMapper mapper) : base(context)
     {
         _context = context;
-        _logger = logger;
         _mapper = mapper;
     }
 
@@ -48,7 +44,9 @@ public class ReservationRepository : IReservationRepository
     {
         int countBookings = 0; //TODO To Abdullah
 
-        _logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
+        //TODO TO Abdullah
+        //_logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
+
         var reservationStatus = new ReservationStatus();
         if (countBookings > 0)
         {

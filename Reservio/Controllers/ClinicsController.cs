@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Reservio.DTOS.Clinic;
 using Reservio.Models;
-using Reservio.Services;
 using Microsoft.AspNetCore.Mvc;
+using Reservio.Services.ClinicRepo;
 
 namespace Reservio.Controllers
 {

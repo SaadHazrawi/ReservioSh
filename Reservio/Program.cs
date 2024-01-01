@@ -1,11 +1,12 @@
 using FluentValidation.AspNetCore;
 using Reservio.AppDataContext;
-using Reservio.Services;
 using Reservio.Services.ReservationRepo;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Reservio.Services.PatientRepo;
 using Microsoft.Extensions.Configuration;
+using Reservio.Services.ClinicRepo;
+using Reservio.Services.DotorRepo;
 
 var builder = WebApplication.CreateBuilder(args);
  

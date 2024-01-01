@@ -1,5 +1,7 @@
 ﻿using Reservio.Core;
+using Reservio.Models;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace Reservio.Services.BaseRepo
 {
@@ -90,4 +92,3 @@ namespace Reservio.Services.BaseRepo
         Task<int> CountAsync(Expression<Func<T, bool>> criteria);
     }
 }
-

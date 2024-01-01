@@ -2,16 +2,17 @@
 using Reservio.DTOS.Doctor;
 using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
+using Reservio.Services.BaseRepo;
 
-namespace Reservio.Services
+namespace Reservio.Services.DotorRepo
 {
-    public class DoctorRepostriey : IDoctorRepostriey
+    public class DoctorRepostriey : BaseRepository<Doctor>, IDoctorRepostriey
     {
         private readonly DataContext _context;
 
-        public DoctorRepostriey(DataContext context)
+        public DoctorRepostriey(DataContext context):base(context)
         {
-            this._context = context;
+            _context = context;
         }
         public async Task<Doctor> AddDoctorAsync(Doctor doctor)
         {

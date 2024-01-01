@@ -4,14 +4,15 @@ using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 using Reservio.DTOS.Reservation;
 using AutoMapper;
+using Reservio.Services.BaseRepo;
 
 namespace Reservio.Services.PatientRepo
 {
-    public class PatientRepository : IPatientRepository
+    public class PatientRepository : BaseRepository<Patient>, IPatientRepository 
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public PatientRepository(DataContext context, IMapper mapper)
+        public PatientRepository(DataContext context, IMapper mapper) : base(context)
         {
             _context = context;
             _mapper = mapper;

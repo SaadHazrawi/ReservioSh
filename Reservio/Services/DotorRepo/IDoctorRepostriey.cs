@@ -1,9 +1,10 @@
 ﻿using Reservio.DTOS.Doctor;
 using Reservio.Models;
+using Reservio.Services.BaseRepo;
 
-namespace Reservio.Services
+namespace Reservio.Services.DotorRepo
 {
-    public interface IDoctorRepostriey
+    public interface IDoctorRepostriey : IBaseRepository<Doctor>
     {
         Task<List<Doctor?>> GetAllDoctorsAsync();
         Task<Doctor> AddDoctorAsync(Doctor doctor);

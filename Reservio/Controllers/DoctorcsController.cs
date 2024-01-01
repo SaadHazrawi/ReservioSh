@@ -2,10 +2,10 @@
 using Reservio.AppDataContext;
 using Reservio.DTOS.Doctor;
 using Reservio.Models;
-using Reservio.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Reservio.Services.DotorRepo;
 
 namespace Reservio.Controllers
 {
