@@ -85,12 +85,12 @@ namespace Reservio.Controllers
         public async Task<ActionResult> GetClinics(int clinicsId)
         {
 
-            var Clinics = await _unitOfWork.Reservation.GetPatientsInClinic(clinicsId);
-            if (Clinics == null)
-            {
-                return NotFound();
-            }
-            return Ok(Clinics);
+            //var Clinics = await _unitOfWork.Reservation.GetPatientsInClinic(clinicsId);
+            //if (Clinics == null)
+            //{
+            //    return NotFound();
+            //}
+            return Ok( );
         }
     }
 }
