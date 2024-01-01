@@ -23,16 +23,9 @@ namespace Reservio.Services.PatientRepo
             return patient;
         }
 
-        public async Task AddPatientAsync(ReservationForAddDto dto)
+        public async Task GetPatientIdForReservationAsync(ReservationForAddDto dto)
         {
-            var exist = await _context.Patients.AnyAsync(p => p.IPAddress == dto.IPAddress);
-            if (!exist)
-            {
-
-                var patient = _mapper.Map<Patient>(dto);
-                await _context.Patients.AddAsync(patient);
-            }
-            await _context.SaveChangesAsync();
+           throw new NotImplementedException();
         }
 
         public async Task DeletePatienyAsync(Patient patient)
@@ -50,7 +43,7 @@ namespace Reservio.Services.PatientRepo
                           .ToListAsync();
         }
 
-        public async Task<Patient?> GetPatientByIdASync(Guid patientId, bool includeReservation)
+        public async Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation)
         {
             if (includeReservation)
             {
@@ -62,8 +55,7 @@ namespace Reservio.Services.PatientRepo
 
             else
                 return await _context.Patients
-                    .FirstOrDefaultAsync(p => p.PatientId == patientId
-                        && !p.IsDeleted);
+                    .FirstOrDefaultAsync(p => p.PatientId == patientId && !p.IsDeleted);
         }
 
         //TODO Not good Code

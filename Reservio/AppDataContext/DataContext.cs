@@ -21,10 +21,7 @@ namespace Reservio.AppDataContext
                 .WithMany(r => r.Reservations)
                 .HasForeignKey(r => r.ClinicId);
 
-            modelBuilder.Entity<Reservation>()
-              .HasOne(c => c.Patient)
-              .WithMany(r => r.Reservations)
-              .HasForeignKey(r => r.PatientId);
+       
 
             modelBuilder.Entity<Substitute>().HasKey(s => s.SubstituteId);
             modelBuilder.Entity<Substitute>()

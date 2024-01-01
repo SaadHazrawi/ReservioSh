@@ -25,7 +25,7 @@ namespace Reservio.Services
         }
 
 
-        public async Task<Clinic?> GetClinicByIdAsync(Guid clinicId)
+        public async Task<Clinic?> GetClinicByIdAsync(int clinicId)
         {
              
             return await _context.Clinics

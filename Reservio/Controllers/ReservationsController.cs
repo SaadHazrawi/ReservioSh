@@ -3,6 +3,7 @@ using Reservio.Services.ReservationRepo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservio.DTOS.Reservation;
+using Reservio.Services.PatientRepo;
 
 namespace Reservio.Controllers
 {
@@ -11,6 +12,7 @@ namespace Reservio.Controllers
     public class ReservationsController : ControllerBase
     {
         private readonly IReservationRepository _reservation;
+        private readonly IPatientRepository _patientRepository;
         private readonly IMapper _mapper;
 
         public ReservationsController(IReservationRepository reservation, IMapper mapper)
@@ -30,8 +32,9 @@ namespace Reservio.Controllers
         [HttpPost]
         public async Task<ActionResult> Add(ReservationForAddDto dto)
         {
-            await _reservation.AddReservationAsync(dto);
-            return Ok();
+            //TODO Abdullah ClinicId is Found
+            var reservationStatus = await _reservation.AddReservationAsync(dto);
+            return Ok(reservationStatus);
         }
 
 
@@ -69,7 +72,7 @@ namespace Reservio.Controllers
         /// <returns>The list of patients in the clinic.</returns>
 
         [HttpGet("Clinics/{clinicsId}")]
-        public async Task<ActionResult> GetClinics(Guid clinicsId)
+        public async Task<ActionResult> GetClinics(int clinicsId)
         {
 
             var Clinics = await _reservation.GetPatientsInClinic(clinicsId);

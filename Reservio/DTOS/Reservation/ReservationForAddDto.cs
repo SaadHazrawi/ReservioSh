@@ -6,7 +6,7 @@ namespace Reservio.DTOS.Reservation
 {
     public class ReservationForAddDto
     {
-        public Guid ClinicId { get; set; }
+        public int ClinicId { get; set; }
         [StringLength(50, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 15 characters.")]
         public string FirstName { get; set; } = null!;
 

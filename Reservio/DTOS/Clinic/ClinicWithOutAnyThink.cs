@@ -5,8 +5,8 @@ namespace Reservio.DTOS.Clinic
 {
     public class ClinicCreationDTO
     {
-        public string Name { get; set; }
-        public Guid CountPaitentAccepte { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int CountPaitentAccepte { get; set; }
 
     }
 }
