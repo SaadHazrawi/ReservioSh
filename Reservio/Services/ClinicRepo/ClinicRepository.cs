@@ -16,11 +16,13 @@ namespace Reservio.Services.ClinicRepo
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<UnitOfWork> _logger;
 
-        public ClinicRepository(DataContext context, IMapper mapper) : base(context)
+        public ClinicRepository(DataContext context, IMapper mapper, ILogger<UnitOfWork> logger) : base(context)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<List<Clinic>> GetAllCinicsAsync()
         {
@@ -92,6 +94,7 @@ namespace Reservio.Services.ClinicRepo
             // TODO: I am Abdullah, what is better 😕😵 ??
             //An additional requirement to check whether the number of patients admitted to the clinic is greater than the number of current bookings.
             //Is the condition required to ensure that the clinic has spaces available for new bookings?
+            //TODO:Saad=>Yes i Think it's better choice
             var clinics = await _context.Schedules
             .Where(s => s.DayOfWeek == dayOfWeek && s.Clinic.CountPaitentAccepte > s.Clinic.Reservations.Count)
             .Select(s => s.Clinic)
