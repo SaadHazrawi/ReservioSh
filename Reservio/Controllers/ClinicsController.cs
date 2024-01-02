@@ -31,14 +31,6 @@ namespace Reservio.Controllers
             return Ok(_mapper.Map<List<ClinicWithiutAnyThinkAsync>>(clinics));
         }
 
-        [HttpGet("ForReservations")]
-        public async Task<IActionResult> GetClinicsForReservations()
-        {
-            var clinics = await _unitOfWork.Clinics.GetClinicsForReservations();
-            return Ok(clinics);
-        }
-
-
 
         [HttpPost]
         public async Task<IActionResult> CreationClicnic(ClinicCreationDTO clinicWith)
@@ -80,6 +72,8 @@ namespace Reservio.Controllers
             await _unitOfWork.Clinics.DeleteClinicAsync(clinic);
             return NoContent();
         }
+
+        //TODO: I am Abdullah => This idea is not good ^_^ , Why
         [HttpPost("{clinicId}")]
         public async Task<IActionResult> ActiviteClinic( int clinicId)
         {

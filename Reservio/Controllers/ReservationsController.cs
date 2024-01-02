@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Reservio.Core;
-using Reservio.DTOS.Clinic;
 using Reservio.DTOS.Reservation;
 using Reservio.Services.BaseRepo;
 
@@ -59,38 +58,36 @@ namespace Reservio.Controllers
 
 
         [HttpGet("Clinics")]
-        public async Task<ActionResult> GetClinics()
+        public async Task<IActionResult> GetClinicsForReservations()
         {
-            //TODO 
-            //var Clinics = await _reservation.GetClinicsForReservationAsync();
-            //if (Clinics == null)
-            //{
-            //    return NotFound();
-            //}
-            //return Ok(Clinics);
-
-            throw new NotImplementedException();
+            var clinics = await _unitOfWork.Clinics.GetClinicsForReservations();
+            return Ok(clinics);
         }
-
 
 
         /// <summary>
-        /// Retrieves the patients present in the clinic on a day.
+        /// Retrieves the reservations in a clinic within a specified date range.
         /// </summary>
-        /// <param name="clinicsId">The ID of the clinic.</param>
-        /// <returns>The list of patients in the clinic.</returns>
-
+        /// <param name="input">The input data specifying the clinic ID and date range.</param>
+        /// <returns>The list of reservations in the clinic.</returns>
         [HttpGet("GetReservationsByDate")]
-        public async Task<IActionResult> GetReservationsByDate(XXXXClinic xXXClinic)
+        public async Task<IActionResult> GetReservationsByDate([FromQuery] GetReservationsByDateInput input)
         {
-            var patien = _unitOfWork.Reservation.FindAllAsync(x => x.ClinicId == xXXClinic.clinicId
-                  && x.BookFor >= xXXClinic.startDate && x.BookFor <= xXXClinic.endDate, null, od => od.Date, OrderBy.Descending);
-            if (patien is null)
+            var reservations = await _unitOfWork.Reservation.FindAllAsync(
+                x => x.ClinicId == input.ClinicId && x.BookFor >= input.StartDate && x.BookFor <= input.EndDate,
+                new string[] { },
+                od => od.Date,
+                OrderBy.Descending
+            );
+
+            if (reservations == null)
             {
-                return NotFound("Not Found patien In Clinic Id");
+                return NotFound("No reservations found in the specified clinic.");
             }
 
-            return Ok();
+            return Ok(reservations);
         }
+
+
     }
 }

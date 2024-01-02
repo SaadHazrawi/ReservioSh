@@ -89,7 +89,7 @@ namespace Reservio.Services.ClinicRepo
         public async Task<List<ClinicDto>> GetClinicsForReservations()
         {
             var dayOfWeek = ReservationHelper.DetermineBookingDayOfWeek();
-            //TODO
+            // TODO: I am Abdullah, what is better 😕😵 ??
             //An additional requirement to check whether the number of patients admitted to the clinic is greater than the number of current bookings.
             //Is the condition required to ensure that the clinic has spaces available for new bookings?
             var clinics = await _context.Schedules
