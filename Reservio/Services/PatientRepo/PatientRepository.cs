@@ -15,10 +15,12 @@ namespace Reservio.Services.PatientRepo
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public PatientRepository(DataContext context, IMapper mapper) : base(context)
+        private readonly ILogger<UnitOfWork> _logger;
+        public PatientRepository(DataContext context, IMapper mapper, ILogger<UnitOfWork> logger) : base(context)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<Patient> AddPatientAsync(Patient patient)
         {

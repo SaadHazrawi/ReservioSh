@@ -17,14 +17,14 @@ namespace Reservio.Services.BaseRepo
         public IDotorRepository Doctors { get; private set; }
         public IPatientRepository Patients { get; private set; }
         public ISchedulesRepository Schedules { get; private set; }
-        public UnitOfWork(DataContext context, IMapper mapper)
+        public UnitOfWork(DataContext context, IMapper mapper, ILogger<UnitOfWork> logger)
         {
             _context = context;
-            Reservation = new ReservationRepository(context , mapper); 
-            Clinics = new ClinicRepository(context , mapper);
-            Doctors = new DotorRepository(context, mapper); 
-            Patients = new PatientRepository(context, mapper);
-            Schedules = new SchedulesRepository(context , mapper);
+            Reservation = new ReservationRepository(context, mapper, logger);
+            Clinics = new ClinicRepository(context, mapper, logger);
+            Doctors = new DotorRepository(context, mapper, logger);
+            Patients = new PatientRepository(context, mapper, logger);
+            Schedules = new SchedulesRepository(context, mapper, logger);
         }
 
         public void Dispose()

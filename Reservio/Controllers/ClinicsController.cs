@@ -74,6 +74,7 @@ namespace Reservio.Controllers
         }
 
         //TODO: I am Abdullah => This idea is not good ^_^ , Why
+        //TODO: Saad=> Because it is like creating a new clinic and not Updating it
         [HttpPost("{clinicId}")]
         public async Task<IActionResult> ActiviteClinic( int clinicId)
         {

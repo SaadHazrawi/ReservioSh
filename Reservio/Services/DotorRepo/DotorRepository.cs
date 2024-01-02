@@ -13,11 +13,12 @@ namespace Reservio.Services.DotorRepo
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-
-        public DotorRepository(DataContext context , IMapper mapper) :base(context)
+        private readonly ILogger<UnitOfWork> _logger;
+        public DotorRepository(DataContext context , IMapper mapper, ILogger<UnitOfWork> logger) :base(context)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<Doctor> AddDoctorAsync(Doctor doctor)
         {

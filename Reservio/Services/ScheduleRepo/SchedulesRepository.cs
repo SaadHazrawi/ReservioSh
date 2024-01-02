@@ -13,11 +13,12 @@ namespace Reservio.Services.ScheduleRepo
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-
-        public SchedulesRepository(DataContext context, IMapper mapper) : base(context)
+        private readonly ILogger<UnitOfWork> _logger;
+        public SchedulesRepository(DataContext context, IMapper mapper, ILogger<UnitOfWork> logger) : base(context)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
