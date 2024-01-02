@@ -11,5 +11,6 @@ namespace Reservio.Services.ClinicRepo
         Task<Clinic?> GetClinicByIdAsync(int clinicId);
         Task<Clinic> UpdateClinicAsync(Clinic clinic);
         Task DeleteClinicAsync(Clinic clinic);
+        Task<List<ClinicDto>> GetClinicsForReservations();
     }
 }

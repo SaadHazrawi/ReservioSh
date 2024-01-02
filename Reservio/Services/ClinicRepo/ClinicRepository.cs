@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Reservio.Services.BaseRepo;
 using AutoMapper;
 using Reservio.Core;
+using System.Net;
+using Reservio.DTOS.Clinic;
 
 namespace Reservio.Services.ClinicRepo
 {
@@ -53,14 +55,26 @@ namespace Reservio.Services.ClinicRepo
 
 
 
-        public async Task<List<Clinic>> GetClinicsForReservations()
+        public async Task<List<ClinicDto>> GetClinicsForReservations()
         {
+            var dayOfWeek = ReservationHelper.DetermineBookingDayOfWeek();
+            //TODO
+            //An additional requirement to check whether the number of patients admitted to the clinic is greater than the number of current bookings.
+            //Is the condition required to ensure that the clinic has spaces available for new bookings?
+            var clinics = await _context.Schedules
+            .Where(s => s.DayOfWeek == dayOfWeek && s.Clinic.CountPaitentAccepte > s.Clinic.Reservations.Count)
+            .Select(s => s.Clinic)
+            .ToListAsync();
 
-            return await _context.Schedules
-                 .Where(p => p.DayOfWeek == ReservationHelper.DetermineBookingDayOfWeek()
-                  && p.Clinic.CountPaitentAccepte > p.Clinic.Reservations.Count)
-                 .Select(p => p.Clinic)
-                 .ToListAsync();
+            if (clinics.Count == 0)
+            {
+                throw new APIException(HttpStatusCode.NotFound, "No available clinics for reservations");
+            }
+
+            var clinicDtos = _mapper.Map<List<ClinicDto>>(clinics);
+            return clinicDtos;
         }
+
+
     }
 }

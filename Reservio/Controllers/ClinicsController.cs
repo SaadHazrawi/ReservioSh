@@ -31,6 +31,16 @@ namespace Reservio.Controllers
                 return NotFound("The Clinic Is Empty");
             return Ok(_mapper.Map<List<ClinicWithiutAnyThinkAsync>>(clinics));
         }
+
+        [HttpGet("ForReservations")]
+        public async Task<IActionResult> GetClinicsForReservations()
+        {
+            var clinics = await _unitOfWork.Clinics.GetClinicsForReservations();
+            return Ok(clinics);
+        }
+
+
+
         [HttpPost]
         public async Task<IActionResult> CreationClicnic(ClinicCreationDTO clinicWith)
         {

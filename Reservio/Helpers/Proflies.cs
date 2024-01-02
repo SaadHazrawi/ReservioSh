@@ -17,6 +17,7 @@ namespace Reservio.Helpers
             CreateMap<ClinicCreationDTO, Clinic>();
             CreateMap<Clinic, ClinicWithiutAnyThinkAsync>();
             CreateMap<Clinic, ClinicForUpdateDTO>().ReverseMap();
+            CreateMap<Clinic, ClinicDto>();
             #endregion
 
             #region Doctor

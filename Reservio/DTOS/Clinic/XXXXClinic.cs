@@ -1,4 +1,6 @@
-﻿namespace Reservio.DTOS.Clinic
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Reservio.DTOS.Clinic
 {
     public class XXXXClinic
     {
