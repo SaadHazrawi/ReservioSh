@@ -2,6 +2,7 @@
 using Reservio.AppDataContext;
 using Reservio.Core;
 using System.Linq.Expressions;
+using System.Net;
 
 namespace Reservio.Services.BaseRepo
 {
@@ -168,6 +169,18 @@ namespace Reservio.Services.BaseRepo
 
         public async Task DeleteAsync(T entity)
         {
+            _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task DeleteAsync(Expression<Func<T, bool>> criteria)
+        {
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(criteria);
+            if (entity is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Failed to delete");
+            }
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
         }

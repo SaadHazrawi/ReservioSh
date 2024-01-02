@@ -19,16 +19,31 @@ namespace Reservio.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult> GetSchedules()
+        public async Task<ActionResult> GetAll()
         {
 
             var Schedule = await _unitOfWork.Schedules.Get();
             return Ok(Schedule);
         }
         [HttpPost()]
-        public async Task<ActionResult> AddSchedules(ScheduleForAddDto dto)
+        public async Task<ActionResult> Add(ScheduleForAddDto dto)
         {
             await _unitOfWork.Schedules.Add(dto);
+            return Ok();
+        }
+
+        [HttpDelete()]
+        public async Task<ActionResult> Delete(int scheduleId)
+        {
+            await _unitOfWork.Schedules.DeleteAsync(s=>s.ScheduleId == scheduleId);
+            return Ok();
+        }
+
+        [HttpPut()]
+        public async Task<ActionResult> Update(int scheduleId  , ScheduleForUpdateDto dto)
+        {
+
+            await _unitOfWork.Schedules.UpdateAsync(scheduleId, dto);
             return Ok();
         }
     }

@@ -85,6 +85,7 @@ namespace Reservio.Services.BaseRepo
         Task AddRangeAsync(IEnumerable<T> entities);
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(T entities);
+        Task DeleteAsync(Expression<Func<T, bool>> criteria);
         Task DeleteRangeAsync(IEnumerable<T> entities);
         Task DeleteRangeAsync(Expression<Func<T, bool>> criteria);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> criteria);

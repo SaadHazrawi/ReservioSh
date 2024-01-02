@@ -6,7 +6,9 @@ namespace Reservio.Services.ScheduleRepo
 {
     public interface ISchedulesRepository :IBaseRepository<Schedule>
     {
-        Task Add(ScheduleForAddDto dto);
-        Task<List<ScheduleDto>> Get();
+        Task<List<ScheduleDto>> GetAll();
+        Task<Schedule> AddAsync(ScheduleForAddDto dto);
+        Task<Schedule> UpdateAsync(int scheduleId, ScheduleForUpdateDto dto);
+     
     }
 }

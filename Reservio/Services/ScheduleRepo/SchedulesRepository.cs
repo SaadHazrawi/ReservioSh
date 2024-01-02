@@ -27,7 +27,7 @@ namespace Reservio.Services.ScheduleRepo
         /// <param name="dto">The DTO containing the schedule data to add.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <exception cref="APIException">Thrown when the schedule already exists.</exception>
-        public async Task Add(ScheduleForAddDto dto)
+        public async Task<Schedule> AddAsync(ScheduleForAddDto dto)
         {
             var existingSchedule = _context.Schedules.FirstOrDefault(s =>
                 s.DoctorId == dto.DoctorId && s.ClinicId == dto.ClinicId && s.DayOfWeek == dto.DayOfWeek);
@@ -41,9 +41,11 @@ namespace Reservio.Services.ScheduleRepo
 
             await _context.Schedules.AddAsync(schedule);
             await _context.SaveChangesAsync();
+
+            return schedule;
         }
 
-        public async Task<List<ScheduleDto>> Get()
+        public async Task<List<ScheduleDto>> GetAll()
         {
             var schedules = await _context.Schedules
                 .Include(s => s.Clinic)
@@ -60,15 +62,21 @@ namespace Reservio.Services.ScheduleRepo
             return scheduleDtos;
         }
 
-        //public void Delete(Schedule schedule)
-        //{
-        //    _context.Schedules.Remove(schedule);
-        //    _context.SaveChanges();
-        //}
-        //public void Update(Schedule schedule)
-        //{
-        //    _context.Schedules.Update(schedule);
-        //    _context.SaveChanges();
-        //}
+        public async Task<Schedule> UpdateAsync(int scheduleId, ScheduleForUpdateDto dto)
+        {
+            var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.ScheduleId == scheduleId);
+            if (schedule == null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Schedule not found");
+            }
+
+
+            _mapper.Map(dto, schedule);
+            _context.Schedules.Update(schedule);
+            await _context.SaveChangesAsync();
+
+            return schedule;
+        }
+
     }
 }

@@ -33,6 +33,8 @@ namespace Reservio.Services.DotorRepo
             await _context.SaveChangesAsync();
         }
 
+
+        //TODO Saad => Not Good Code
         public async Task<List<Doctor?>> GetAllDoctorsAsync() =>
                  await _context.Doctors
                 .Where(d => !d.IsDeleted)
