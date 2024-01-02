@@ -3,6 +3,7 @@ using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
 using Reservio.Services.BaseRepo;
 using AutoMapper;
+using Reservio.Core;
 
 namespace Reservio.Services.ClinicRepo
 {
@@ -48,6 +49,18 @@ namespace Reservio.Services.ClinicRepo
             clinic.IsDeleted = true;
             _context.Clinics.Update(clinic);
             await _context.SaveChangesAsync();
+        }
+
+
+
+        public async Task<List<Clinic>> GetClinicsForReservations()
+        {
+
+            return await _context.Schedules
+                 .Where(p => p.DayOfWeek == ReservationHelper.DetermineBookingDayOfWeek()
+                  && p.Clinic.CountPaitentAccepte > p.Clinic.Reservations.Count)
+                 .Select(p => p.Clinic)
+                 .ToListAsync();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace Reservio.Core
 {
-    public class BookingHelper
+    public class ReservationHelper
     {
 
-        public static DateTime BookFor(DateTime dateTime)
+        public static DateTime DetermineBookingDate(DateTime dateTime)
         {
             DateTime now = dateTime;
             DateTime yesterdayAt8PM = DateTimeLocal.GetDate().AddDays(-1).AddHours(8);
@@ -18,7 +18,7 @@
             }
         }
 
-        public static DayOfWeek GetDayForBooking()
+        public static DayOfWeek DetermineBookingDayOfWeek()
         {
             if (DateTimeLocal.GetDateTime().Hour >= 8)
             {

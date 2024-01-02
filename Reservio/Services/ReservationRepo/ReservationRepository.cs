@@ -18,33 +18,6 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         _context = context;
         _mapper = mapper;
     }
-    private DateTime BookFor(DateTime dateTime)
-    {
-        DateTime now = dateTime;
-        DateTime yesterdayAt8PM = DateTimeLocal.GetDate().AddDays(-1).AddHours(8);
-        DateTime todayAt8AM = DateTimeLocal.GetDate().AddHours(8);
-        if (now > yesterdayAt8PM && now < todayAt8AM)
-        {
-            return DateTimeLocal.GetDate().Date;
-        }
-        else
-        {
-            return DateTimeLocal.GetDate().AddDays(1).Date;
-        }
-    }
-
-    private static DayOfWeek GetDayForBooking()
-    {
-        if (DateTimeLocal.GetDateTime().Hour >= 8)
-        {
-            return DateTimeLocal.GetDateTime().AddDays(1).DayOfWeek;
-
-        }
-        else
-        {
-            return DateTimeLocal.GetDateTime().DayOfWeek;
-        }
-    }
 
 
     public async Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto)
@@ -73,7 +46,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
         // TODO 003: Test => Complete the conditions for counting reservations based on your requirements.
         var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == dto.ClinicId
-        && r.Date.Day == (int)GetDayForBooking());
+        && r.Date.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
 
         if (CountReservations >= countPaitentAccepte)
         {
@@ -85,7 +58,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
 
         var reservation = _mapper.Map<Reservation>(dto);
-        reservation.BookFor = BookFor(DateTimeLocal.GetDateTime());
+        reservation.BookFor = ReservationHelper.DetermineBookingDate(DateTimeLocal.GetDateTime());
         await _context.Reservations.AddAsync(reservation);
         await _context.SaveChangesAsync();
 
@@ -104,11 +77,11 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
     public async Task<ReservationStatus> CheckReservationStatus(string iPAddress)
     {
-        var DayForBooking = GetDayForBooking();
+        var DayForBooking = ReservationHelper.DetermineBookingDayOfWeek();
 
         // TODO 003: Test =>  Complete the conditions for counting reservations based on your requirements.
         var CountReservations = await _context.Reservations.CountAsync(r => r.IPAddress == iPAddress
-            && r.BookFor.Day == (int)GetDayForBooking());
+            && r.BookFor.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
 
         //_logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
 
@@ -135,11 +108,13 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         return _context.Reservations.ToListAsync();
     }
 
+
     public Task<Reservation> GetReservationByIdAsync(int reservationId)
     {
         //TODO To Saad
         throw new NotImplementedException();
     }
+
 
     public Task<Reservation> UpdateReservationAsync(Reservation reservation)
     {
