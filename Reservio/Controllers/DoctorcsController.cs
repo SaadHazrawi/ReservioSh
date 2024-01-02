@@ -28,10 +28,8 @@ namespace Reservio.Controllers
         [HttpGet]
         public async Task<IActionResult>GetAllDoctors()
         {
-            List<Doctor> doctors=await _unitOfWork.Doctors.GetAllDoctorsAsync();
-            if(doctors is null)
-                return NotFound();
-            return Ok(_mapper.Map<List<DoctorWithoutSubstitueDTO>>(doctors));
+            var doctors=await _unitOfWork.Doctors.GetAllDoctorsAsync();
+            return Ok(doctors);
 
         }
 
@@ -39,9 +37,9 @@ namespace Reservio.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDoctor(DoctorForAddDto doctor)
         {
-            if(doctor is null)
-                return BadRequest();
-            var result=await _unitOfWork.Doctors.AddDoctorAsync(_mapper.Map<Doctor>(doctor));
+            //if(doctor is null)
+            //    return BadRequest();
+            var result=await _unitOfWork.Doctors.AddDoctorAsync(doctor);
             return CreatedAtRoute(nameof(GetDoctor), new { doctorId=result.DoctorId, includeSubstie=false }, _mapper.Map<DoctorWithoutSubstitueDTO>(result));
              
         }
@@ -51,11 +49,11 @@ namespace Reservio.Controllers
         public async Task<IActionResult> GetDoctor(int doctorId,bool includeSubstie)
         {
             var doctor=await _unitOfWork.Doctors.GetDoctorByIdAsync(doctorId, includeSubstie);
-            if(doctor is null)
-                return NotFound();
-            if(includeSubstie)
-                return Ok(doctor);
-            else
+            //if(doctor is null)
+            //    return NotFound();
+            //if(includeSubstie)
+            //    return Ok(doctor);
+            //else
             return Ok(_mapper.Map<List<DoctorWithoutSubstitueDTO>>(doctor));
         }
 
@@ -63,10 +61,10 @@ namespace Reservio.Controllers
         [HttpDelete("{doctorId}")]
         public async Task<IActionResult> DeleteDoctor(int doctorId)
         {
-            Doctor ? doctor=await _unitOfWork.Doctors.GetDoctorByIdAsync(doctorId,false);
-            if(doctor is null)
-                return NotFound();
-            await _unitOfWork.Doctors.DeleteDoctorAsync(doctor);
+            //Doctor ? doctor=await _unitOfWork.Doctors.GetDoctorByIdAsync(doctorId,false);
+            //if(doctor is null)
+            //    return NotFound();
+            await _unitOfWork.Doctors.DeleteDoctorAsync(doctorId);
             return NoContent();
 
         }
