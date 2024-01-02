@@ -22,13 +22,13 @@ namespace Reservio.Controllers
         public async Task<ActionResult> GetAll()
         {
 
-            var Schedule = await _unitOfWork.Schedules.Get();
+            var Schedule = await _unitOfWork.Schedules.GetAll();
             return Ok(Schedule);
         }
         [HttpPost()]
         public async Task<ActionResult> Add(ScheduleForAddDto dto)
         {
-            await _unitOfWork.Schedules.Add(dto);
+            await _unitOfWork.Schedules.AddAsync(dto);
             return Ok();
         }
 
