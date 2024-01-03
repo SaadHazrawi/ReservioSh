@@ -23,7 +23,7 @@ namespace Reservio.Helpers
             #region Doctor
             CreateMap<DoctorForAddDto, Doctor>();
             CreateMap<Doctor, DoctorForAddDto>();
-            CreateMap<Doctor, DoctorWithoutSubstitueDTO>();
+            CreateMap<Doctor, DoctorDTO>();
             #endregion
 
             #region Patient

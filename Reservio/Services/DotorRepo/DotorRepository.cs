@@ -20,13 +20,6 @@ namespace Reservio.Services.DotorRepo
             _mapper = mapper;
             _logger = logger;
         }
-        public async Task<Doctor> AddDoctorAsync(Doctor doctor)
-        {
-            await _context.Doctors.AddAsync(doctor);
-            await _context.SaveChangesAsync();
-            return doctor;
-        }
-
         public async Task<Doctor> AddDoctorAsync(DoctorForAddDto doctor)
         {
             if (doctor is null)
@@ -43,19 +36,31 @@ namespace Reservio.Services.DotorRepo
         {
             //i use Get By Id from BaseRepository
             var doctor = await GetByIdAsync(doctorId);
-            if(doctor is null)
+            if (doctor is null)
             {
-                _logger.LogError($"Try to delete doctor not found with ID : {doctorId} ");
-                throw new APIException(HttpStatusCode.BadRequest, "Error Try agian");
+                _logger.LogError($"Doctor not found with ID: {doctorId}");
+                throw new APIException(HttpStatusCode.BadRequest, "Doctor not found");
             }
+
             doctor.IsDeleted = true;
+            //Check if the doctor is register in Schedules delete from table Schedules
+            bool isDoctorScheduled = await _context.Schedules
+                                        .AnyAsync(s => s.DoctorId == doctorId);
+            if (isDoctorScheduled)
+            {
+                var schedules = await _context.Schedules
+                                    .Where(s => s.DoctorId == doctorId)
+                                    .ToListAsync();
+                schedules.ForEach(schedule => schedule.IsDeleted = true);
+                _context.Schedules.UpdateRange(schedules);
+            }
             _context.Doctors.Update(doctor);
             await _context.SaveChangesAsync();
         }
 
 
-        //TODO Saad => Not Good Code
-        public async Task<List<DoctorWithoutSubstitueDTO?>> GetAllDoctorsAsync()
+
+        public async Task<List<DoctorDTO>> GetAllDoctorsAsync()
         {
             var doctors = await _context.Doctors.Where(d => !d.IsDeleted).ToListAsync();
             if (doctors is null)
@@ -64,9 +69,9 @@ namespace Reservio.Services.DotorRepo
                 throw new APIException(HttpStatusCode.NotFound, "Not Found anything");
             }
 
-            return _mapper.Map<List<DoctorWithoutSubstitueDTO>>(doctors);
+            return _mapper.Map<List<DoctorDTO>>(doctors);
         }
-        public async Task<Doctor?> GetDoctorByIdAsync(int doctorId, bool includeSubstite)
+        public async Task<Doctor> GetDoctorByIdAsync(int doctorId, bool includeSubstite)
         {
             if (!includeSubstite)
             {
@@ -105,6 +110,31 @@ namespace Reservio.Services.DotorRepo
             _context.Doctors.Update(doctor);
             await _context.SaveChangesAsync();
             return doctor;
+        }
+        public async Task ReplaceScheduleDoctorAsync(int scheduleId, int newDoctorId)
+        {
+            var schedule = await _context.Schedules
+             .FirstOrDefaultAsync(s => s.ScheduleId == scheduleId);
+            if (schedule is null)
+            {
+                _logger.LogError($"Try replacing the doctor Id{newDoctorId}  schedule Id {scheduleId}");
+                throw new APIException(HttpStatusCode.NotFound, "Your sending data is not correct");
+            }
+            schedule.DoctorId = newDoctorId;
+            _context.Schedules.Update(schedule);
+            await _context.SaveChangesAsync();
+        }
+        public async Task ReplaceAllSchedulesDoctorAsync(int oldDoctorId, int newDoctorId)
+        {
+            List<Schedule> schedules = await _context.Schedules.Where(s => s.DoctorId == oldDoctorId).ToListAsync();
+            if (schedules is null)
+            {
+                _logger.LogError($"Try replace with Doctor Id {oldDoctorId} but not found any data");
+                throw new APIException(HttpStatusCode.BadRequest, "Check Form data and try again later");
+            }
+            schedules.ForEach(schedule => schedule.DoctorId = newDoctorId);
+            _context.Schedules.UpdateRange(schedules);
+            await _context.SaveChangesAsync();
         }
     }
 }

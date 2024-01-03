@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Reservio.DTOS.Doctor
 {
-    public class DoctorWithoutSubstitueDTO
+    public class DoctorDTO
     {
         public int DoctorId { get; set; }
         public string FullName { get; set; }
