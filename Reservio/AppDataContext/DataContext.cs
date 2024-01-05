@@ -1,5 +1,7 @@
 ﻿using Reservio.Models;
 using Microsoft.EntityFrameworkCore;
+using Reservio.Enums;
+using Reservio.Core;
 
 namespace Reservio.AppDataContext
 {
@@ -38,6 +40,7 @@ namespace Reservio.AppDataContext
             modelBuilder.Entity<Clinic>().HasData(GetClinics());
             modelBuilder.Entity<Doctor>().HasData(GetDoctors());
             modelBuilder.Entity<Schedule>().HasData(GetSchedules());
+            modelBuilder.Entity<Reservation>().HasData(GetReservations());
             #endregion
         }
 
@@ -90,6 +93,124 @@ namespace Reservio.AppDataContext
             schedules.Add(new Schedule { ScheduleId = 7, DoctorId = 7, ClinicId = 4, DayOfWeek = DayOfWeek.Sunday });
 
             return schedules;
+        }
+
+        private List<Reservation> GetReservations()
+        {
+            List<Reservation> reservations = new List<Reservation>();
+
+            reservations.Add(new Reservation
+            {
+                ReservationId = 1,
+                FirstName = "Abdullah",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Gender = GenderPaintet.Male,
+                Resgoin = "Reason for reservation 1",
+                PhoneNumber = "1234567890",
+                IPAddress = "192.168.0.1",
+                Date = DateTime.Now.AddHours(5),
+                BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
+                IsDeleted = false,
+                ClinicId = 1, // Heart Clinic
+            });
+
+            reservations.Add(new Reservation
+            {
+                ReservationId = 2,
+                FirstName = "Omar",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(1985, 5, 15),
+                Gender = GenderPaintet.Female,
+                Resgoin = "Reason for reservation 2",
+                PhoneNumber = "9876543210",
+                IPAddress = "192.168.0.2",
+                Date = DateTime.Now.AddHours(7),
+                BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
+                IsDeleted = false,
+                ClinicId = 2, // Children's Clinic
+            });
+
+            reservations.Add(new Reservation
+            {
+                ReservationId = 3,
+                FirstName = "Saad",
+                LastName = "Smith",
+                DateOfBirth = new DateTime(1982, 8, 20),
+                Gender = GenderPaintet.Female,
+                Resgoin = "Reason for reservation 3",
+                PhoneNumber = "5551234567",
+                IPAddress = "192.168.0.3",
+                Date = DateTime.Now.AddHours(4),
+                BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
+                IsDeleted = false,
+                ClinicId = 3, // Eye Clinic
+            });
+
+            reservations.Add(new Reservation
+            {
+                ReservationId = 4,
+                FirstName = "Ammar",
+                LastName = "Johnson",
+                DateOfBirth = new DateTime(1975, 3, 10),
+                Gender = GenderPaintet.Male,
+                Resgoin = "Reason for reservation 4",
+                PhoneNumber = "3339876543",
+                IPAddress = "192.168.0.4",
+                Date = DateTime.Now.AddHours(10),
+                BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
+                IsDeleted = false,
+                ClinicId = 4, // Ear, Nose and Throat Clinic
+            });
+
+            reservations.Add(new Reservation
+            {
+                ReservationId = 5,
+                FirstName = "Ali",
+                LastName = "Anderson",
+                DateOfBirth = new DateTime(1988, 12, 5),
+                Gender = GenderPaintet.Female,
+                Resgoin = "Reason for reservation 5",
+                PhoneNumber = "1112223333",
+                IPAddress = "192.168.0.5",
+                Date = DateTime.Now.AddHours(1),
+                BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
+                IsDeleted = false,
+                ClinicId = 5, // Dermatology Clinic
+            });
+
+            reservations.Add(new Reservation
+            {
+                ReservationId = 6,
+                FirstName = "Michael",
+                LastName = "Clark",
+                DateOfBirth = new DateTime(1978, 6, 18),
+                Gender = GenderPaintet.Male,
+                Resgoin = "Reason for reservation 6",
+                PhoneNumber = "9998887777",
+                IPAddress = "192.168.0.6",
+                Date = DateTime.Now.AddHours(10),
+                BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
+                IsDeleted = false,
+                ClinicId = 1, // Heart Clinic
+            });
+
+            reservations.Add(new Reservation
+            {
+                ReservationId = 7,
+                FirstName = "Sophia",
+                LastName = "Brown",
+                DateOfBirth = new DateTime(1995, 4, 30),
+                Gender = GenderPaintet.Female,
+                Resgoin = "Reason for reservation 7",
+                PhoneNumber = "7775558888",
+                IPAddress = "192.168.0.7",
+                Date = DateTime.Now.AddHours(2),
+                BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
+                IsDeleted = false,
+                ClinicId = 3, // Eye Clinic
+            });
+            return reservations;
         }
     }
 }

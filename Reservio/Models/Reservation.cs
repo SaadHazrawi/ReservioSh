@@ -25,14 +25,6 @@ public class Reservation
     public int ClinicId { get; set; }
   
     public Clinic Clinic { get; set; } = null!;
-
-
-   
-
-
   
-
- 
-    
 }
 

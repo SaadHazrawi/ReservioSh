@@ -6,9 +6,9 @@
         public static DateTime DetermineBookingDate(DateTime dateTime)
         {
             DateTime now = dateTime;
-            DateTime yesterdayAt8PM = DateTimeLocal.GetDate().AddDays(-1).AddHours(8);
+            DateTime yesterdayAt8AM = DateTimeLocal.GetDate().AddDays(-1).AddHours(8);
             DateTime todayAt8AM = DateTimeLocal.GetDate().AddHours(8);
-            if (now > yesterdayAt8PM && now < todayAt8AM)
+            if (now > yesterdayAt8AM && now < todayAt8AM)
             {
                 return DateTimeLocal.GetDate().Date;
             }
