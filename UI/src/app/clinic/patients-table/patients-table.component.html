@@ -1,0 +1,34 @@
+<div class="container pt-1">
+    <div class="card">
+        <div class="card-bady">
+          <div class="table-responsive background-table">
+            <div class="form-group">
+                <select class="form-control select-clinic" formControlName="clinicId" (change)="selectedClinic($event)">
+                    <option value="" selected hidden>Select Clinic</option> 
+                    <option *ngFor="let clinic of clinics" [value]="clinic.clinicId">{{ clinic.name }}
+                    </option>                              
+                </select>
+                <span class="select-arrow"></span>             
+            </div>
+            <table class="table table-hover" style="text-align: center;" *ngIf="patients as patients">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let patient of patients">
+                  <td >
+                   {{ patient.fullName}}             
+                  </td>        
+                  <td >
+                    {{ patient.phoneNumber}}             
+                   </td>       
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>

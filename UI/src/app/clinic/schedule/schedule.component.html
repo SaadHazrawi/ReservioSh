@@ -1,0 +1,8 @@
+<table>
+  <tbody>
+    <tr *ngFor="let day of days">
+      <td>{{ day.name }}</td>
+      <td *ngFor="let clinic of day.clinics">{{ clinic.name }}</td>
+    </tr>
+  </tbody>
+</table>

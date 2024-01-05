@@ -1,0 +1,60 @@
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  background-color: transparent;
+  height: 65px;
+  font-size: 22px;
+  padding: 0px 15px;
+  border-radius: 0px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  color: var(--secondary-color);
+  border: 2px solid var(--medium-color);
+}
+
+.form-control::-webkit-input-placeholder {
+  color: var(--placeholder-color);
+  font-size: 14px;
+}
+
+.form-control:-ms-input-placeholder {
+  color: var(--placeholder-color);
+  font-size: 14px;
+}
+
+.form-control::placeholder {
+  color: var(--placeholder-color);
+  font-size: 14px;
+}
+
+.form-group.input-not-empty .form-control {
+  border-color: var(--secondary-color);
+  padding-bottom: 20px;
+}
+
+select.form-control + .select-arrow {
+  position: absolute;
+  right: 0px;
+  bottom: 26px;
+  width: 32px;
+  line-height: 32px;
+  height: 32px;
+  text-align: center;
+  pointer-events: none;
+  color: var(--placeholder-color);
+  font-size: 14px;
+}
+
+select.form-control + .select-arrow:after {
+  content: "\279C";
+  display: block;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.form-group.input-not-empty select.form-control + .select-arrow {
+  color: var(--light-color);
+}
