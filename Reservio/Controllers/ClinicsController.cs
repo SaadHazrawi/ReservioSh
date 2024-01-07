@@ -24,18 +24,17 @@ namespace Reservio.Controllers
         [HttpGet(template: "GetAllClinics")]
         public async Task<IActionResult> GetAllClinics()
         {
-            List<Clinic> clinics = await _unitOfWork.Clinics.GetAllCinicsAsync();
-
-            return Ok(_mapper.Map<List<ClinicWithiutAnyThinkAsync>>(clinics));
+            var clinics = await _unitOfWork.Clinics.GetAllCinicsAsync();
+            return Ok(_mapper.Map<List<ClinicDto>>(clinics));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> CreationClicnic(ClinicCreationDTO clinicWith)
+        public async Task<IActionResult> CreationClicnic(ClinicCreationDTO clinicCreationDTO)
         {
 
-            var result = await _unitOfWork.Clinics.AddClinicAsync(_mapper.Map<Clinic>(clinicWith));
-            return CreatedAtRoute("GetClinic", new { clinicId = result.ClinicId }, _mapper.Map<ClinicWithiutAnyThinkAsync>(result));
+            var result = await _unitOfWork.Clinics.AddClinicAsync(clinicCreationDTO);
+            return CreatedAtRoute("GetClinic", new { clinicId = result.ClinicId }, _mapper.Map<ClinicDto>(result));
         }
 
         [HttpGet("{clinicId}", Name = "GetClinic")]
@@ -43,32 +42,26 @@ namespace Reservio.Controllers
         {
             var clinic = await _unitOfWork.Clinics.GetClinicByIdAsync(clinicId);
 
-            return Ok(_mapper.Map<ClinicWithiutAnyThinkAsync>(clinic));
+            return Ok(_mapper.Map<ClinicDto>(clinic));
         }
         [HttpPut("{clinicId}")]
         public async Task<IActionResult> UpdateClinic(int clinicId, ClinicForUpdateDTO clinic)
         {
-            if (clinic is null)
-                return BadRequest();
-            Clinic clinic1 = await _unitOfWork.Clinics.GetClinicByIdAsync(clinicId);
-
-            clinic1.Name = clinic.Name;
-            await _unitOfWork.Clinics.UpdateClinicAsync(clinic1);
+            await _unitOfWork.Clinics.UpdateClinicAsync(clinicId, clinic);
 
             return NoContent();
         }
         [HttpDelete("{clinicId}")]
         public async Task<IActionResult> DeleteClinic(int clinicId)
         {
-            Clinic clinic = await _unitOfWork.Clinics.GetClinicByIdAsync(clinicId);
-            await _unitOfWork.Clinics.DeleteClinicAsync(clinic);
+            await _unitOfWork.Clinics.DeleteClinicAsync(clinicId);
             return NoContent();
         }
         [HttpPost("{clinicId}")]
-        public async Task<IActionResult> ActiviteClinic( int clinicId)
+        public async Task<IActionResult> ActiviteClinic(int clinicId)
         {
-            var activeClinic = await _unitOfWork.Clinics.ActivationClinicAsync(clinicId);
-            return CreatedAtRoute("GetClinic", new { clinicId = activeClinic.ClinicId }, _mapper.Map<ClinicWithiutAnyThinkAsync>(activeClinic));
+            var activeClinic = await _unitOfWork.Clinics.ReActivateClinicAsync(clinicId);
+            return CreatedAtRoute("GetClinic", new { clinicId = activeClinic.ClinicId }, _mapper.Map<ClinicDto>(activeClinic));
 
         }
 

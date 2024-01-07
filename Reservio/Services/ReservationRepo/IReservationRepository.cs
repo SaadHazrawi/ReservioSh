@@ -13,7 +13,7 @@ public interface IReservationRepository :IBaseRepository<Reservation>
 
     Task<ReservationStatus> CheckReservationStatus(string iPAddress);
     Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto);
-    Task<Reservation> UpdateReservationAsync(Reservation reservation);
+    Task<Reservation> UpdateReservationAsync(int reservationId,ReservationUpdateDTO reservationDto);
 
     //TODO What is Logic , Issues 1
     Task DeleteReservationAsync(Reservation reservation);

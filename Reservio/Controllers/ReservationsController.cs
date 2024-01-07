@@ -19,11 +19,17 @@ namespace Reservio.Controllers
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
+        [HttpGet(template: "GetAllReservations")]
+        public async Task<IActionResult> GetAllReservations()
+        {
+            var reservations=await _unitOfWork.Reservation.GetAllReservationAsync();
+            return Ok(_mapper.Map<List<ReservationDto>>( reservations));
+        }
         [HttpGet]
         public async Task<ActionResult> CheckReservationStatus([FromQuery] string iPAddress)
         {
             var reservationStatus = await _unitOfWork.Reservation.CheckReservationStatus(iPAddress);
-            return Ok(reservationStatus);
+            return Ok( reservationStatus);
 
         }
 
@@ -87,7 +93,12 @@ namespace Reservio.Controllers
 
             return Ok(reservations);
         }
-
+        [HttpPut("{reservationId}")]
+        public async Task<IActionResult> UpdateReservation(int reservationId,ReservationUpdateDTO reservationUpdateDTO)
+        {
+            await _unitOfWork.Reservation.UpdateReservationAsync(reservationId, reservationUpdateDTO);
+            return NoContent();
+        }
 
     }
 }

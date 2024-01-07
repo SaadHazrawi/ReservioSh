@@ -15,9 +15,8 @@ namespace Reservio.Helpers
             #region Clinic
             CreateMap<Clinic, ClinicCreationDTO>();
             CreateMap<ClinicCreationDTO, Clinic>();
-            CreateMap<Clinic, ClinicWithiutAnyThinkAsync>();
             CreateMap<Clinic, ClinicForUpdateDTO>().ReverseMap();
-            CreateMap<Clinic, ClinicDto>();
+            CreateMap<Clinic, ClinicDto>().ReverseMap();
             #endregion
 
             #region Doctor
@@ -34,6 +33,8 @@ namespace Reservio.Helpers
 
             #region Reservation
             CreateMap<ReservationForAddDto, Reservation>();
+            CreateMap<Reservation,ReservationDto>().ReverseMap();    
+            CreateMap<Reservation,ReservationUpdateDTO>();
             #endregion
 
             #region Schedule

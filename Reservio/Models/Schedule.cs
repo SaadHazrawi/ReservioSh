@@ -4,7 +4,6 @@ namespace Reservio.Models
 {
     public class Schedule
     {
-        //TODO Rename ScheduleId
         public int ScheduleId { get; set; }
         public int DoctorId { get; set; }
         public int ClinicId { get;  set; }
