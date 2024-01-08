@@ -7,7 +7,6 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
-import { ClinicsTableComponent } from './clinics-table/clinics-table.component';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { ClinicsTableComponent } from './clinics-table/clinics-table.component';
   ],
   declarations: [
     PagesComponent,
-    ClinicsTableComponent,
   ],
 })
 export class PagesModule {
