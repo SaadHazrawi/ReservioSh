@@ -21,7 +21,7 @@ namespace Reservio.Controllers
 
         }
 
-        [HttpGet(template: "GetAllClinics")]
+        [HttpGet]
         public async Task<IActionResult> GetAllClinics()
         {
             List<Clinic> clinics = await _unitOfWork.Clinics.GetAllCinicsAsync();

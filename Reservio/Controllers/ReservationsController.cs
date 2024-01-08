@@ -84,7 +84,7 @@ namespace Reservio.Controllers
             {
                 return NotFound("No reservations found in the specified clinic.");
             }
-
+            //TODO : Nedd mapper
             return Ok(reservations);
         }
 

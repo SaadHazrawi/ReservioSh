@@ -91,10 +91,8 @@ namespace Reservio.Services.ClinicRepo
         public async Task<List<ClinicDto>> GetClinicsForReservations()
         {
             var dayOfWeek = ReservationHelper.DetermineBookingDayOfWeek();
-            // TODO: I am Abdullah, what is better 😕😵 ??
             //An additional requirement to check whether the number of patients admitted to the clinic is greater than the number of current bookings.
             //Is the condition required to ensure that the clinic has spaces available for new bookings?
-            //TODO:Saad=>Yes i Think it's better choice
             var clinics = await _context.Schedules
             .Where(s => s.DayOfWeek == dayOfWeek && s.Clinic.CountPaitentAccepte > s.Clinic.Reservations.Count)
             .Select(s => s.Clinic)

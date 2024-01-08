@@ -38,8 +38,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         {
             return reservationStatus;
         }
-        //TODO:Form Saad => To Abdullah he is Working but why we show on CMD ?
-        //Why doesn't register in Data Base Or File
+       
         _logger.LogWarning($"IPAddress {dto.IPAddress}, DateTime: {DateTime.Now}");
 
         int countPaitentAccepte = await _context.Clinics

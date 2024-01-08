@@ -8,8 +8,6 @@ namespace Reservio.Services.ReservationRepo;
 public interface IReservationRepository :IBaseRepository<Reservation>
 {
     Task<List<Reservation>> GetAllReservationAsync();
-    //TODO saad=>It's an old thing. After sitting with you, we agreed to delete it
-    Task<Reservation> GetReservationByIdAsync(int reservationId); //TODO To Saad: Why
 
     Task<ReservationStatus> CheckReservationStatus(string iPAddress);
     Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto);
