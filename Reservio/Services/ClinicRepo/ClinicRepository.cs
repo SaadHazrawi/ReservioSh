@@ -28,18 +28,22 @@ namespace Reservio.Services.ClinicRepo
         {
             List<Clinic> clinics = await _context.Clinics.Where(c => !c.IsDeleted).ToListAsync();
             if (clinics is null)
-                throw new APIException(HttpStatusCode.NotFound,"Not Found Any Clinics in your system");
-             return clinics;
+            {
+                _logger.LogError("He asked all the clinics and found nothing");
+                throw new APIException(HttpStatusCode.NotFound, "Not Found Any Clinics in your system");
+            }
+            return clinics;
         }
-        public async Task<Clinic> AddClinicAsync(Clinic clinic)
+        public async Task<Clinic> AddClinicAsync(ClinicCreationDTO clinic)
         {
             if(clinic is null)
             {
                 throw new APIException(HttpStatusCode.BadRequest, "you Can not Add Empty or null Clinic please try again with corriect data ....");
             }
-            await _context.Clinics.AddAsync(clinic);
+            var clinicCreate = _mapper.Map<Clinic>(clinic);
+            await _context.Clinics.AddAsync(clinicCreate);
             await _context.SaveChangesAsync();
-            return clinic;
+            return clinicCreate;
         }
 
 
@@ -54,25 +58,46 @@ namespace Reservio.Services.ClinicRepo
             return clinic;
         }
 
-        public async Task<Clinic> UpdateClinicAsync(Clinic clinic)
+        public async Task<Clinic> UpdateClinicAsync(int clinicId, ClinicForUpdateDTO clinic)
         {
-            if(clinic is null)
+            Clinic clinicToUpdate= await GetByIdAsync(clinicId);
+            if (clinicToUpdate is null)
+            {
+                _logger.LogError($"Error Has Been Becuase the Clinic With Id : {clinicId} Not Fiund in system");
+                throw new APIException(HttpStatusCode.NotFound); 
+            }
+            if (clinic is null)
                 throw new APIException(HttpStatusCode.BadRequest, "you Can not Edit Empty or null Clinic please try again with corriect data ....");
-            _context.Update(clinic);
+            _mapper.Map(clinic, clinicToUpdate);
+            _context.Update(clinicToUpdate);
             await _context.SaveChangesAsync();
-            return clinic;
+            return clinicToUpdate;
         }
 
-        public async Task DeleteClinicAsync(Clinic clinic)
+        public async Task DeleteClinicAsync(int clinicId)
         {
+            Clinic clinic= await GetByIdAsync(clinicId);
             if (clinic is null)
-                throw new APIException(HttpStatusCode.BadRequest, "you Can not Delete Clinic ....");
+            {
+                _logger.LogError($"Clinic not found with ID: {clinicId}");
+                throw new APIException(HttpStatusCode.BadRequest, "you Can not Delete Clinic .... try Agein");
+            }
             clinic.IsDeleted = true;
+            bool isClinicScheduled = await _context.Schedules
+                                        .AnyAsync(s => s.ClinicId == clinicId);
+            if (isClinicScheduled)
+            {
+                var schedules = await _context.Schedules
+                                    .Where(s => s.ClinicId == clinicId)
+                                    .ToListAsync();
+                schedules.ForEach(schedule => schedule.IsDeleted = true);
+                _context.Schedules.UpdateRange(schedules);
+            }
             _context.Clinics.Update(clinic);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Clinic> ActivationClinicAsync(int clincicId)
+        public async Task<Clinic> ReActivateClinicAsync(int clincicId)
         {
             Clinic? unActiveClinic = await _context.Clinics
                 .FirstOrDefaultAsync(c => c.ClinicId == clincicId && c.IsDeleted);

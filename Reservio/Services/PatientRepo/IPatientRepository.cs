@@ -12,7 +12,7 @@ namespace Reservio.Services.PatientRepo
         Task<List<Reservation>> GetPatientsInClinic(int clinicId);
 
         Task<Patient> AddPatientAsync(Patient patient);
-
+        Task GetPatientIdForReservationAsync(ReservationForAddDto dto);
         Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation);
         Task<Patient> UpdatePatientAsync(PatientCreationDTO patient);
         Task DeletePatienyAsync(Patient patient);

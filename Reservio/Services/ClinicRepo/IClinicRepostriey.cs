@@ -4,14 +4,14 @@ using Reservio.Services.BaseRepo;
 
 namespace Reservio.Services.ClinicRepo
 {
-    public interface IClinicRepository :IBaseRepository<Clinic>
+    public interface IClinicRepository : IBaseRepository<Clinic>
     {
         Task<List<Clinic>> GetAllCinicsAsync();
-        Task<Clinic> AddClinicAsync(Clinic clinic);
+        Task<Clinic> AddClinicAsync(ClinicCreationDTO clinic);
         Task<Clinic?> GetClinicByIdAsync(int clinicId);
-        Task<Clinic> UpdateClinicAsync(Clinic clinic);
-        Task DeleteClinicAsync(Clinic clinic);
-         Task<Clinic> ActivationClinicAsync(int clincicId);
+        Task<Clinic> UpdateClinicAsync(int clinicId, ClinicForUpdateDTO clinic);
+        Task DeleteClinicAsync(int clinicId);
+        Task<Clinic> ReActivateClinicAsync(int clincicId);
         Task<List<ClinicDto>> GetClinicsForReservations();
     }
 }

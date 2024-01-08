@@ -1,11 +1,10 @@
-﻿using Reservio.AppDataContext;
-using Reservio.Models;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Reservio.DTOS.Reservation;
+using Reservio.AppDataContext;
 using Reservio.Core;
-using AutoMapper;
+using Reservio.DTOS.Reservation;
+using Reservio.Models;
 using Reservio.Services.BaseRepo;
-using System.ComponentModel;
 using System.Net;
 
 namespace Reservio.Services.ReservationRepo;
@@ -38,7 +37,6 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         {
             return reservationStatus;
         }
-       
         _logger.LogWarning($"IPAddress {dto.IPAddress}, DateTime: {DateTime.Now}");
 
         int countPaitentAccepte = await _context.Clinics
@@ -104,9 +102,16 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         return reservationStatus;
     }
 
-    public Task<List<Reservation>> GetAllReservationAsync()
+    public async Task<List<Reservation>> GetAllReservationAsync()
     {
-        return _context.Reservations.ToListAsync();
+        var reservation = await _context.Reservations
+                    .Where(r => r.IsDeleted == false)
+                    .ToListAsync();
+        if (reservation is null)
+        {
+            throw new APIException(HttpStatusCode.NotFound, "Not Found Any Reservation in system");
+        }
+        return reservation;
     }
 
 
@@ -117,9 +122,49 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
     }
 
 
-    public Task<Reservation> UpdateReservationAsync(Reservation reservation)
+    public async Task<Reservation> UpdateReservationAsync(int reservationId, ReservationUpdateDTO reservationDto)
     {
-        //TODO To Saad
-        throw new NotImplementedException();
+        var reservation = await GetByIdAsync(reservationId);
+
+        if (reservation is null)
+        {
+            throw new APIException(HttpStatusCode.NotFound, "Error Try agein Latier");
+        }
+        if (!isValidInShculde(reservationDto.ClinicId))
+        {
+            throw new APIException(HttpStatusCode.BadRequest, "Error The clinic is not found id determinet day");
+        }
+        bool isAccept = await CheckIfCanAcceptMorePatients(reservationDto.ClinicId);
+
+        if (!isAccept)
+        {
+            _logger.LogError("try register in full clinic Schudle");
+            throw new APIException(HttpStatusCode.BadRequest, "The clinic is full");
+        }
+        _mapper.Map(reservation, reservationDto);
+        _context.Reservations.Update(reservation);
+        await _context.SaveChangesAsync();
+        return reservation;
+    }
+    /// <summary>
+    /// Check if Clinic is Work in day for the update
+    /// </summary>
+    /// <param name="clinicId"></param>
+    /// <returns></returns>
+    private bool isValidInShculde(int clinicId)
+    {
+        var valid = _context.Schedules.Any(sc => sc.ClinicId == clinicId
+        && (int)sc.DayOfWeek == (int)ReservationHelper.DetermineBookingDayOfWeek());
+        return valid;
+    }
+    private async Task<bool> CheckIfCanAcceptMorePatients(int clinicId)
+    {
+        int countPaitentAccepte = await _context.Clinics
+        .Where(c => c.ClinicId == clinicId)
+        .Select(c => c.CountPaitentAccepte)
+        .FirstOrDefaultAsync();
+        var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == clinicId
+             && r.Date.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
+        return CountReservations >= countPaitentAccepte;
     }
 }
