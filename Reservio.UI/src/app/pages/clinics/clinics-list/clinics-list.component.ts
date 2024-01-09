@@ -43,10 +43,6 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
       title: 'Accepted Patients',
       type: 'number',
       },
-      isDeleted: {
-      title: 'Deleted',
-      type: 'boolean',
-      },
       },
   };
 
@@ -73,7 +69,15 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
     } else {
       event.confirm.reject();
     }
-  }
+}
+
+  onCreateConfirm(event: any): void {
+    console.log(event);
+  };
+  onSaveConfirm(event: any): void {
+    console.log(event);
+  };
+
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
