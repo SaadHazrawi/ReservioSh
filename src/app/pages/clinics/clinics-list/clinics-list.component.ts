@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
+import { ClinicService } from '../services/clinic.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'ngx-clinics-list',
   templateUrl: './clinics-list.component.html',
   styleUrls: ['./clinics-list.component.scss']
 })
-export class ClinicsListComponent {
+export class ClinicsListComponent implements OnInit, OnDestroy {
+
+  private subs = new SubSink();
 
   settings = {
     add: {
@@ -25,39 +31,41 @@ export class ClinicsListComponent {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
+      clinicId: {
+      title: 'ID',
+      type: 'number',
       },
-      firstName: {
-        title: 'First Name',
-        type: 'string',
+      name: {
+      title: 'Name',
+      type: 'string',
       },
-      lastName: {
-        title: 'Last Name',
-        type: 'string',
+      countPatientAccepted: {
+      title: 'Accepted Patients',
+      type: 'number',
       },
-      username: {
-        title: 'Username',
-        type: 'string',
+      isDeleted: {
+      title: 'Deleted',
+      type: 'boolean',
       },
-      email: {
-        title: 'E-mail',
-        type: 'string',
       },
-      age: {
-        title: 'Age',
-        type: 'number',
-      },
-    },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData) {
-    const data = this.service.getData();
-    this.source.load(data);
+  constructor(private clinicService: ClinicService) { }
+
+  ngOnInit(): void {
+    this.clinicService.getClinics(1, 100).subscribe({
+      next: (data) => {
+        this.source.load(data.body);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
+
+
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
@@ -66,4 +74,9 @@ export class ClinicsListComponent {
       event.confirm.reject();
     }
   }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
 }
