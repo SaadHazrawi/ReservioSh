@@ -49,6 +49,12 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 
 app.UseHttpsRedirection();
 
+app.öíí(x => x.AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials()
+    .WithExposedHeaders("x-pagination"));
+
 app.UseAuthorization();
 
 app.MapControllers();
