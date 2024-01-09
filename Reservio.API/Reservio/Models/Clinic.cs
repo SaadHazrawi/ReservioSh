@@ -9,7 +9,7 @@ namespace Reservio.Models
         public string Name { get; set; } = string.Empty;
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();
         public List<Schedule> Schedules { get; set; } = new List<Schedule>();
-        public int CountPaitentAccepte { get; set; }
+        public int CountPaitentAccepted { get; set; }
         public bool IsDeleted { get; set; } = false;
 
     }

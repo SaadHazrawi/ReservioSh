@@ -44,6 +44,8 @@ namespace Reservio.Controllers
 
             return Ok(_mapper.Map<ClinicDto>(clinic));
         }
+
+
         [HttpPut("{clinicId}")]
         public async Task<IActionResult> UpdateClinic(int clinicId, ClinicForUpdateDTO clinic)
         {
@@ -51,12 +53,14 @@ namespace Reservio.Controllers
 
             return NoContent();
         }
+
         [HttpDelete("{clinicId}")]
         public async Task<IActionResult> DeleteClinic(int clinicId)
         {
             await _unitOfWork.Clinics.DeleteClinicAsync(clinicId);
             return NoContent();
         }
+
         [HttpPost("{clinicId}")]
         public async Task<IActionResult> ActiviteClinic(int clinicId)
         {

@@ -39,9 +39,9 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         }
         _logger.LogWarning($"IPAddress {dto.IPAddress}, DateTime: {DateTime.Now}");
 
-        int countPaitentAccepte = await _context.Clinics
+        int countPatientAccepted = await _context.Clinics
             .Where(c => c.ClinicId == dto.ClinicId)
-            .Select(c => c.CountPaitentAccepte)
+            .Select(c => c.CountPaitentAccepted)
             .FirstOrDefaultAsync();
 
 
@@ -49,7 +49,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == dto.ClinicId
         && r.Date.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
 
-        if (CountReservations >= countPaitentAccepte)
+        if (CountReservations >= countPatientAccepted)
         {
             reservationStatus.Stopping = true;
             reservationStatus.StoppingTo = DateTimeLocal.GetDateTime().ToShortDateString();
@@ -159,12 +159,12 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
     }
     private async Task<bool> CheckIfCanAcceptMorePatients(int clinicId)
     {
-        int countPaitentAccepte = await _context.Clinics
+        int countPaitentAccepted = await _context.Clinics
         .Where(c => c.ClinicId == clinicId)
-        .Select(c => c.CountPaitentAccepte)
+        .Select(c => c.CountPaitentAccepted)
         .FirstOrDefaultAsync();
         var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == clinicId
              && r.Date.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
-        return CountReservations >= countPaitentAccepte;
+        return CountReservations >= countPaitentAccepted;
     }
 }

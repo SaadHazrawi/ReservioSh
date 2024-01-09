@@ -50,12 +50,12 @@ namespace Reservio.AppDataContext
             List<Clinic> clinics = new List<Clinic>();
 
             //Clinic data
-            clinics.Add(new Clinic { ClinicId = 1, Name = "Heart Clinic", CountPaitentAccepte = 10 });
-            clinics.Add(new Clinic { ClinicId = 2, Name = "Children's Clinic", CountPaitentAccepte = 5});
-            clinics.Add(new Clinic { ClinicId = 3, Name = "Eye Clinic", CountPaitentAccepte = 8 });
+            clinics.Add(new Clinic { ClinicId = 1, Name = "Heart Clinic", CountPaitentAccepted = 10 });
+            clinics.Add(new Clinic { ClinicId = 2, Name = "Children's Clinic", CountPaitentAccepted = 5});
+            clinics.Add(new Clinic { ClinicId = 3, Name = "Eye Clinic", CountPaitentAccepted = 8 });
 
-            clinics.Add(new Clinic { ClinicId = 4, Name = "Ear, Nose and Throat Clinic", CountPaitentAccepte = 12 });
-            clinics.Add(new Clinic { ClinicId = 5, Name = "Dermatology Clinic", CountPaitentAccepte = 15 });
+            clinics.Add(new Clinic { ClinicId = 4, Name = "Ear, Nose and Throat Clinic", CountPaitentAccepted = 12 });
+            clinics.Add(new Clinic { ClinicId = 5, Name = "Dermatology Clinic", CountPaitentAccepted = 15 });
 
             return clinics;
         }
