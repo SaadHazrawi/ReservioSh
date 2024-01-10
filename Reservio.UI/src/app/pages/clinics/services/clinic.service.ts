@@ -20,22 +20,29 @@ export class ClinicService {
       .pipe(catchError(this.handleError));
   }
 
-  updateClinic(formData: ClinicForUpdateDTO): Observable<any> {
+  updateClinic(formData: any): Observable<any> {
+     // Remove the isDeleted field
+    const { isDeleted, ...updatedFormData } = formData;
     const url = `${this.apiUrl}Clinics`;
     console.log(formData);
-    return this.http.put<any>(url, formData).pipe(
+    return this.http.put<any>(url, updatedFormData).pipe(
       catchError(this.handleError)
     );
   }
   
-  addClinic(formData: ClinicCreationDTO): Observable<number> {
+  addClinic(formData: ClinicCreationDTO): Observable<any> {
+    const data: ClinicCreationDTO = {
+      name: formData.name,
+      acceptedPatientsCount: formData.acceptedPatientsCount,
+    };
     const url = `${this.apiUrl}Clinics`;
-    return this.http.post<number>(url, formData).pipe(
+    return this.http.post<any>(url, data).pipe(
       catchError(this.handleError)
     );
   }
 
   getClinicById(clinicId: string): Observable<any> {
+    
     return this.http.get<any>(`${this.apiUrl}Clinics/${clinicId}`)
       .pipe(catchError(this.handleError));
   }

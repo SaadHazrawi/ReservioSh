@@ -34,7 +34,7 @@ namespace Reservio.Controllers
         {
 
             var result = await _unitOfWork.Clinics.AddClinicAsync(clinicCreationDTO);
-            return CreatedAtRoute("GetClinic", new { clinicId = result.ClinicId }, _mapper.Map<ClinicDto>(result));
+            return Ok();
         }
 
         [HttpGet("{clinicId}", Name = "GetClinic")]
@@ -46,10 +46,10 @@ namespace Reservio.Controllers
         }
 
 
-        [HttpPut("{clinicId}")]
-        public async Task<IActionResult> UpdateClinic(int clinicId, ClinicForUpdateDTO clinic)
+        [HttpPut]
+        public async Task<IActionResult> UpdateClinic(ClinicForUpdateDTO clinic)
         {
-            await _unitOfWork.Clinics.UpdateClinicAsync(clinicId, clinic);
+            await _unitOfWork.Clinics.UpdateClinicAsync(clinic.ClinicId, clinic);
 
             return NoContent();
         }

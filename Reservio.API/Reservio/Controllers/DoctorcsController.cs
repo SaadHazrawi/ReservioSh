@@ -62,12 +62,14 @@ namespace Reservio.Controllers
             await _unitOfWork.Doctors.UpdateDoctorAsync(doctorId, dto);
             return NoContent();
         }
+
         [HttpPut("{scheduleId}/{newDoctorId}")]
         public async Task<IActionResult> ReplaceScheduleDoctor(int scheduleId, int newDoctorId)
         {
             await _unitOfWork.Doctors.ReplaceScheduleDoctorAsync(scheduleId, newDoctorId);
             return NoContent();
         }
+
         [HttpPut("{oldDoctorId}/{newDoctorId}")]
         public async Task<IActionResult> ReplaceAllSchedulesDoctor(int oldDoctorId, int newDoctorId)
         {

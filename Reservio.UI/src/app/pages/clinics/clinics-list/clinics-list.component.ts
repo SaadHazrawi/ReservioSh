@@ -4,6 +4,7 @@ import { ClinicService } from '../services/clinic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { SubSink } from 'subsink';
+import { ClinicForUpdateDTO } from '../Model/ClinicForUpdateDTO';
 
 @Component({
   selector: 'ngx-clinics-list',
