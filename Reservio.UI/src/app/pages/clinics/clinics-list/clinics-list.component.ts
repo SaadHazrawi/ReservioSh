@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { ClinicService } from '../services/clinic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
@@ -20,30 +19,28 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
     columns: {
-      clinicId: {
-      title: 'ID',
-      type: 'number',
-      },
       name: {
-      title: 'Name',
-      type: 'string',
+        title: 'Name',
+        type: 'string',
       },
-      countPatientAccepted: {
-      title: 'Accepted Patients',
-      type: 'number',
+      acceptedPatientsCount: {
+        title: 'Accepted Patients',
+        type: 'number',
       },
-      },
+    },
   };
 
   source: LocalDataSource = new LocalDataSource();
@@ -51,7 +48,7 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
   constructor(private clinicService: ClinicService) { }
 
   ngOnInit(): void {
-    this.clinicService.getClinics(1, 100).subscribe({
+    this.subs.sink = this.clinicService.getClinics(1, 100).subscribe({
       next: (data) => {
         this.source.load(data.body);
       },
@@ -61,23 +58,42 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
     });
   }
 
-
-
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+      this.subs.sink = this.clinicService.deleteClinic(event.data.clinicId).subscribe({
+        next: () => {
+          event.confirm.resolve();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
     } else {
       event.confirm.reject();
     }
-}
+  }
 
-  onCreateConfirm(event: any): void {
-    console.log(event);
-  };
-  onSaveConfirm(event: any): void {
-    console.log(event);
-  };
+  onCreateConfirm(event): void {
+    this.subs.sink = this.clinicService.addClinic(event.newData).subscribe({
+      next: () => {
+        event.confirm.resolve();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
 
+  onSaveConfirm(event): void {
+    this.subs.sink = this.clinicService.updateClinic(event.newData).subscribe({
+      next: () => {
+        event.confirm.resolve();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();

@@ -18,6 +18,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("S://LoggerHosptail/logger", rollingInterval: RollingInterval.Day)
     .CreateBootstrapLogger();
 builder.Host.UseSerilog();
+
 builder.Services.AddControllers()
     .AddFluentValidation(fv => {
         fv.RegisterValidatorsFromAssemblyContaining<Program>();
@@ -60,4 +61,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-//saad update

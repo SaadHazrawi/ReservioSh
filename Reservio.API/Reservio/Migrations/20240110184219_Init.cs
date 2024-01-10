@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Reservio.Migrations
 {
     /// <inheritdoc />
@@ -17,8 +19,8 @@ namespace Reservio.Migrations
                 {
                     ClinicId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    CountPaitentAccepte = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AcceptedPatientsCount = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -61,27 +63,27 @@ namespace Reservio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Substitutes",
+                name: "Schedules",
                 columns: table => new
                 {
-                    SubstituteId = table.Column<int>(type: "int", nullable: false)
+                    ScheduleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     ClinicId = table.Column<int>(type: "int", nullable: false),
-                    WeekDay = table.Column<int>(type: "int", nullable: false),
+                    DayOfWeek = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Substitutes", x => x.SubstituteId);
+                    table.PrimaryKey("PK_Schedules", x => x.ScheduleId);
                     table.ForeignKey(
-                        name: "FK_Substitutes_Clinics_ClinicId",
+                        name: "FK_Schedules_Clinics_ClinicId",
                         column: x => x.ClinicId,
                         principalTable: "Clinics",
                         principalColumn: "ClinicId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Substitutes_Doctors_DoctorId",
+                        name: "FK_Schedules_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "DoctorId",
@@ -94,11 +96,17 @@ namespace Reservio.Migrations
                 {
                     ReservationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClinicId = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    Resgoin = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IPAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BookFor = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ClinicId = table.Column<int>(type: "int", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -117,6 +125,63 @@ namespace Reservio.Migrations
                         principalColumn: "PatientId");
                 });
 
+            migrationBuilder.InsertData(
+                table: "Clinics",
+                columns: new[] { "ClinicId", "AcceptedPatientsCount", "IsDeleted", "Name" },
+                values: new object[,]
+                {
+                    { 1, 10, false, "Heart Clinic" },
+                    { 2, 5, false, "Children's Clinic" },
+                    { 3, 8, false, "Eye Clinic" },
+                    { 4, 12, false, "Ear, Nose and Throat Clinic" },
+                    { 5, 15, false, "Dermatology Clinic" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Doctors",
+                columns: new[] { "DoctorId", "FullName", "IsDeleted", "Specialist" },
+                values: new object[,]
+                {
+                    { 1, "Dr. Smith", false, "Cardiology" },
+                    { 2, "Dr. Johnson", false, "Cardiology" },
+                    { 3, "Dr. Williams", false, "Pediatrics" },
+                    { 4, "Dr. Brown", false, "Pediatrics" },
+                    { 5, "Dr. Jones", false, "Ophthalmology" },
+                    { 6, "Dr. Davis", false, "Ophthalmology" },
+                    { 7, "Dr. Miller", false, "ENT" },
+                    { 8, "Dr. Wilson", false, "ENT" },
+                    { 9, "Dr. Moore", false, "Dermatology" },
+                    { 10, "Dr. Taylor", false, "Dermatology" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "ReservationId", "BookFor", "ClinicId", "Date", "DateOfBirth", "FirstName", "Gender", "IPAddress", "IsDeleted", "LastName", "PatientId", "PhoneNumber", "Resgoin" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 1, new DateTime(2024, 1, 11, 2, 42, 19, 98, DateTimeKind.Local).AddTicks(420), new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Abdullah", 1, "192.168.0.1", false, "Doe", null, "1234567890", "Reason for reservation 1" },
+                    { 2, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 2, new DateTime(2024, 1, 11, 4, 42, 19, 98, DateTimeKind.Local).AddTicks(453), new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Omar", 2, "192.168.0.2", false, "Doe", null, "9876543210", "Reason for reservation 2" },
+                    { 3, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 3, new DateTime(2024, 1, 11, 1, 42, 19, 98, DateTimeKind.Local).AddTicks(459), new DateTime(1982, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saad", 2, "192.168.0.3", false, "Smith", null, "5551234567", "Reason for reservation 3" },
+                    { 4, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 4, new DateTime(2024, 1, 11, 7, 42, 19, 98, DateTimeKind.Local).AddTicks(464), new DateTime(1975, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ammar", 1, "192.168.0.4", false, "Johnson", null, "3339876543", "Reason for reservation 4" },
+                    { 5, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 5, new DateTime(2024, 1, 10, 22, 42, 19, 98, DateTimeKind.Local).AddTicks(469), new DateTime(1988, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ali", 2, "192.168.0.5", false, "Anderson", null, "1112223333", "Reason for reservation 5" },
+                    { 6, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 1, new DateTime(2024, 1, 11, 7, 42, 19, 98, DateTimeKind.Local).AddTicks(485), new DateTime(1978, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Michael", 1, "192.168.0.6", false, "Clark", null, "9998887777", "Reason for reservation 6" },
+                    { 7, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 3, new DateTime(2024, 1, 10, 23, 42, 19, 98, DateTimeKind.Local).AddTicks(490), new DateTime(1995, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sophia", 2, "192.168.0.7", false, "Brown", null, "7775558888", "Reason for reservation 7" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Schedules",
+                columns: new[] { "ScheduleId", "ClinicId", "DayOfWeek", "DoctorId", "IsDeleted" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, 1, false },
+                    { 2, 1, 2, 2, false },
+                    { 3, 2, 3, 3, false },
+                    { 4, 3, 4, 4, false },
+                    { 5, 3, 5, 5, false },
+                    { 6, 4, 6, 6, false },
+                    { 7, 4, 0, 7, false }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_ClinicId",
                 table: "Reservations",
@@ -128,13 +193,13 @@ namespace Reservio.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Substitutes_ClinicId",
-                table: "Substitutes",
+                name: "IX_Schedules_ClinicId",
+                table: "Schedules",
                 column: "ClinicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Substitutes_DoctorId",
-                table: "Substitutes",
+                name: "IX_Schedules_DoctorId",
+                table: "Schedules",
                 column: "DoctorId");
         }
 
@@ -145,7 +210,7 @@ namespace Reservio.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Substitutes");
+                name: "Schedules");
 
             migrationBuilder.DropTable(
                 name: "Patients");

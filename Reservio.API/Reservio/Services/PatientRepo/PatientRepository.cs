@@ -29,10 +29,6 @@ namespace Reservio.Services.PatientRepo
             return patient;
         }
 
-        public async Task GetPatientIdForReservationAsync(ReservationForAddDto dto)
-        {
-           throw new NotImplementedException();
-        }
 
         public async Task DeletePatienyAsync(Patient patient)
         {

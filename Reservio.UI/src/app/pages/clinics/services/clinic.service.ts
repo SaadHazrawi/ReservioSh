@@ -3,6 +3,8 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { ClinicForUpdateDTO } from '../Model/ClinicForUpdateDTO';
+import { ClinicCreationDTO } from '../Model/ClinicCreationDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +20,15 @@ export class ClinicService {
       .pipe(catchError(this.handleError));
   }
 
-  updateClinic(formData: any): Observable<any> {
+  updateClinic(formData: ClinicForUpdateDTO): Observable<any> {
     const url = `${this.apiUrl}Clinics`;
+    console.log(formData);
     return this.http.put<any>(url, formData).pipe(
       catchError(this.handleError)
-    );``
+    );
   }
-
-  addClinic(formData: any): Observable<number> {
+  
+  addClinic(formData: ClinicCreationDTO): Observable<number> {
     const url = `${this.apiUrl}Clinics`;
     return this.http.post<number>(url, formData).pipe(
       catchError(this.handleError)

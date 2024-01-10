@@ -41,7 +41,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
         int countPatientAccepted = await _context.Clinics
             .Where(c => c.ClinicId == dto.ClinicId)
-            .Select(c => c.CountPaitentAccepted)
+            .Select(c => c.AcceptedPatientsCount)
             .FirstOrDefaultAsync();
 
 
@@ -161,7 +161,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
     {
         int countPaitentAccepted = await _context.Clinics
         .Where(c => c.ClinicId == clinicId)
-        .Select(c => c.CountPaitentAccepted)
+        .Select(c => c.AcceptedPatientsCount)
         .FirstOrDefaultAsync();
         var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == clinicId
              && r.Date.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
