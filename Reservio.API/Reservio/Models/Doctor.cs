@@ -13,6 +13,7 @@ namespace Reservio.Models
         [StringLength(maximumLength: 50, MinimumLength = 2)]
         public string Specialist { get; set; } = string.Empty;
         public List<Schedule> Schedules { get; set; } = new List<Schedule>();
+        public List<Vacation> Vacations { get; set; }
         public bool IsDeleted { get; set; } = false;
 
 

@@ -13,6 +13,7 @@ namespace Reservio.AppDataContext
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Vacation> Vacations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

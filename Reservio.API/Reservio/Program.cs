@@ -1,16 +1,11 @@
 using FluentValidation.AspNetCore;
-using Reservio.AppDataContext;
-using Reservio.Services.ReservationRepo;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using Reservio.Services.PatientRepo;
-using Microsoft.Extensions.Configuration;
-using Reservio.Services.ClinicRepo;
-using Reservio.Services.DotorRepo;
+using Reservio.AppDataContext;
 using Reservio.Services.BaseRepo;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
- 
+
 // Add services to the container.
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -20,7 +15,8 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 builder.Services.AddControllers()
-    .AddFluentValidation(fv => {
+    .AddFluentValidation(fv =>
+    {
         fv.RegisterValidatorsFromAssemblyContaining<Program>();
         fv.DisableDataAnnotationsValidation = true;
     });
