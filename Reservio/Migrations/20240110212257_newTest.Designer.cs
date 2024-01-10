@@ -12,8 +12,8 @@ using Reservio.AppDataContext;
 namespace Reservio.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240102041336_UpdateReservation")]
-    partial class UpdateReservation
+    [Migration("20240110212257_newTest")]
+    partial class newTest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -284,6 +284,113 @@ namespace Reservio.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            ReservationId = 1,
+                            BookFor = new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ClinicId = 1,
+                            Date = new DateTime(2024, 1, 11, 5, 22, 57, 716, DateTimeKind.Local).AddTicks(3405),
+                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Abdullah",
+                            Gender = 1,
+                            IPAddress = "192.168.0.1",
+                            IsDeleted = false,
+                            LastName = "Doe",
+                            PhoneNumber = "1234567890",
+                            Resgoin = "Reason for reservation 1"
+                        },
+                        new
+                        {
+                            ReservationId = 2,
+                            BookFor = new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ClinicId = 2,
+                            Date = new DateTime(2024, 1, 11, 7, 22, 57, 716, DateTimeKind.Local).AddTicks(3434),
+                            DateOfBirth = new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Omar",
+                            Gender = 2,
+                            IPAddress = "192.168.0.2",
+                            IsDeleted = false,
+                            LastName = "Doe",
+                            PhoneNumber = "9876543210",
+                            Resgoin = "Reason for reservation 2"
+                        },
+                        new
+                        {
+                            ReservationId = 3,
+                            BookFor = new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ClinicId = 3,
+                            Date = new DateTime(2024, 1, 11, 4, 22, 57, 716, DateTimeKind.Local).AddTicks(3439),
+                            DateOfBirth = new DateTime(1982, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Saad",
+                            Gender = 2,
+                            IPAddress = "192.168.0.3",
+                            IsDeleted = false,
+                            LastName = "Smith",
+                            PhoneNumber = "5551234567",
+                            Resgoin = "Reason for reservation 3"
+                        },
+                        new
+                        {
+                            ReservationId = 4,
+                            BookFor = new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ClinicId = 4,
+                            Date = new DateTime(2024, 1, 11, 10, 22, 57, 716, DateTimeKind.Local).AddTicks(3443),
+                            DateOfBirth = new DateTime(1975, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Ammar",
+                            Gender = 1,
+                            IPAddress = "192.168.0.4",
+                            IsDeleted = false,
+                            LastName = "Johnson",
+                            PhoneNumber = "3339876543",
+                            Resgoin = "Reason for reservation 4"
+                        },
+                        new
+                        {
+                            ReservationId = 5,
+                            BookFor = new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ClinicId = 5,
+                            Date = new DateTime(2024, 1, 11, 1, 22, 57, 716, DateTimeKind.Local).AddTicks(3447),
+                            DateOfBirth = new DateTime(1988, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Ali",
+                            Gender = 2,
+                            IPAddress = "192.168.0.5",
+                            IsDeleted = false,
+                            LastName = "Anderson",
+                            PhoneNumber = "1112223333",
+                            Resgoin = "Reason for reservation 5"
+                        },
+                        new
+                        {
+                            ReservationId = 6,
+                            BookFor = new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ClinicId = 1,
+                            Date = new DateTime(2024, 1, 11, 10, 22, 57, 716, DateTimeKind.Local).AddTicks(3451),
+                            DateOfBirth = new DateTime(1978, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Michael",
+                            Gender = 1,
+                            IPAddress = "192.168.0.6",
+                            IsDeleted = false,
+                            LastName = "Clark",
+                            PhoneNumber = "9998887777",
+                            Resgoin = "Reason for reservation 6"
+                        },
+                        new
+                        {
+                            ReservationId = 7,
+                            BookFor = new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ClinicId = 3,
+                            Date = new DateTime(2024, 1, 11, 2, 22, 57, 716, DateTimeKind.Local).AddTicks(3455),
+                            DateOfBirth = new DateTime(1995, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Sophia",
+                            Gender = 2,
+                            IPAddress = "192.168.0.7",
+                            IsDeleted = false,
+                            LastName = "Brown",
+                            PhoneNumber = "7775558888",
+                            Resgoin = "Reason for reservation 7"
+                        });
                 });
 
             modelBuilder.Entity("Reservio.Models.Schedule", b =>
@@ -373,6 +480,27 @@ namespace Reservio.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Reservio.Models.Vacation", b =>
+                {
+                    b.Property<int>("VacationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VacationId"));
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VacationId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("Vacations");
+                });
+
             modelBuilder.Entity("Reservio.Models.Reservation", b =>
                 {
                     b.HasOne("Reservio.Models.Clinic", "Clinic")
@@ -407,6 +535,15 @@ namespace Reservio.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("Reservio.Models.Vacation", b =>
+                {
+                    b.HasOne("Reservio.Models.Doctor", null)
+                        .WithMany("Vacations")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Reservio.Models.Clinic", b =>
                 {
                     b.Navigation("Reservations");
@@ -417,6 +554,8 @@ namespace Reservio.Migrations
             modelBuilder.Entity("Reservio.Models.Doctor", b =>
                 {
                     b.Navigation("Schedules");
+
+                    b.Navigation("Vacations");
                 });
 
             modelBuilder.Entity("Reservio.Models.Patient", b =>
