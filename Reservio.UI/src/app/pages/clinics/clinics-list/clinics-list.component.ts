@@ -49,6 +49,7 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
   constructor(private clinicService: ClinicService) { }
 
   ngOnInit(): void {
+    //TODO
     this.subs.sink = this.clinicService.getClinics(1, 100).subscribe({
       next: (data) => {
         this.source.load(data.body);

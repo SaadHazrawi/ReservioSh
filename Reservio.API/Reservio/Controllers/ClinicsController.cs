@@ -34,7 +34,8 @@ namespace Reservio.Controllers
         {
 
             var result = await _unitOfWork.Clinics.AddClinicAsync(clinicCreationDTO);
-            return Ok();
+            return CreatedAtRoute("GetClinic", new { clinicId = result.ClinicId }, _mapper.Map<ClinicDto>(result));
+         
         }
 
         [HttpGet("{clinicId}", Name = "GetClinic")]
