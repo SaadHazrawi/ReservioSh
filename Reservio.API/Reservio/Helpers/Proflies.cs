@@ -4,7 +4,6 @@ using Reservio.DTOS.Doctor;
 using Reservio.DTOS.Patient;
 using Reservio.DTOS.Reservation;
 using Reservio.DTOS.Schedule;
-using Reservio.DTOS.Vacation;
 using Reservio.Models;
 
 namespace Reservio.Helpers
@@ -48,9 +47,6 @@ namespace Reservio.Helpers
 
             #endregion
 
-            #region Vacation
-            CreateMap<Vacation, VacationAddDTO>();
-            #endregion
         }
     }
 }

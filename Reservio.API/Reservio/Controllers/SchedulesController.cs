@@ -18,28 +18,28 @@ namespace Reservio.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<ActionResult> GetAll()
         {
 
             var Schedule = await _unitOfWork.Schedules.GetAll();
             return Ok(Schedule);
         }
-        [HttpPost]
+        [HttpPost()]
         public async Task<ActionResult> Add(ScheduleForAddDto dto)
         {
             await _unitOfWork.Schedules.AddAsync(dto);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete()]
         public async Task<ActionResult> Delete(int scheduleId)
         {
             await _unitOfWork.Schedules.DeleteAsync(s=>s.ScheduleId == scheduleId);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut()]
         public async Task<ActionResult> Update(int scheduleId  , ScheduleForUpdateDto dto)
         {
 

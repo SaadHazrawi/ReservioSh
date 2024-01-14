@@ -3,7 +3,6 @@ using Reservio.Services.DotorRepo;
 using Reservio.Services.PatientRepo;
 using Reservio.Services.ReservationRepo;
 using Reservio.Services.ScheduleRepo;
-using Reservio.Services.VacationRepo;
 
 namespace Reservio.Services.BaseRepo
 {
@@ -14,7 +13,6 @@ namespace Reservio.Services.BaseRepo
         IDotorRepository Doctors { get; }
         IPatientRepository Patients { get; }
         ISchedulesRepository Schedules { get; }
-        IVacationRepository Vacations { get; }
 
     }
 }
