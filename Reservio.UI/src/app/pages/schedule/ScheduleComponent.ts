@@ -4,5 +4,5 @@ import { Component } from '@angular/core';
   selector: 'ngx-tables',
   template: `<router-outlet></router-outlet>`,
 })
-export class  ScheduleComponent {
+export class  ScheduleComponents {
 }

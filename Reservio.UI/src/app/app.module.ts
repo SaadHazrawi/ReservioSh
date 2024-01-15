@@ -20,11 +20,13 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { Select2Module } from 'ng-select2-component';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    Select2Module,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,

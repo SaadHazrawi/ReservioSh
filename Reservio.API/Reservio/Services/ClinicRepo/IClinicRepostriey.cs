@@ -7,6 +7,7 @@ namespace Reservio.Services.ClinicRepo
     public interface IClinicRepository : IBaseRepository<Clinic>
     {
         Task<List<Clinic>> GetAllCinicsAsync();
+        Task<List<ClinicStatisticDto>> GetClinicsStatisticsAsync();
         Task<Clinic> AddClinicAsync(ClinicCreationDTO clinic);
         Task<Clinic?> GetClinicByIdAsync(int clinicId);
         Task<Clinic> UpdateClinicAsync(int clinicId, ClinicForUpdateDTO clinic);

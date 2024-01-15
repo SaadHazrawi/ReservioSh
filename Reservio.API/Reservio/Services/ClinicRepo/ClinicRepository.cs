@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
-using Reservio.Controllers;
 using Reservio.Core;
+using Reservio.DTOS.Clinic;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
-using AutoMapper;
-using Reservio.Core;
 using System.Net;
-using Reservio.DTOS.Clinic;
 
 namespace Reservio.Services.ClinicRepo
 {
@@ -36,7 +33,7 @@ namespace Reservio.Services.ClinicRepo
         }
         public async Task<Clinic> AddClinicAsync(ClinicCreationDTO clinic)
         {
-            if(clinic is null)
+            if (clinic is null)
             {
                 throw new APIException(HttpStatusCode.BadRequest, "you Can not Add Empty or null Clinic please try again with corriect data ....");
             }
@@ -50,7 +47,7 @@ namespace Reservio.Services.ClinicRepo
         public async Task<Clinic?> GetClinicByIdAsync(int clinicId)
         {
 
-            Clinic ?clinic= await _context.Clinics
+            Clinic? clinic = await _context.Clinics
                                 .FirstOrDefaultAsync(c => c.ClinicId == clinicId
                                 && c.IsDeleted == false);
             if (clinic is null)
@@ -60,11 +57,11 @@ namespace Reservio.Services.ClinicRepo
 
         public async Task<Clinic> UpdateClinicAsync(int clinicId, ClinicForUpdateDTO clinic)
         {
-            Clinic clinicToUpdate= await GetByIdAsync(clinicId);
+            Clinic clinicToUpdate = await GetByIdAsync(clinicId);
             if (clinicToUpdate is null)
             {
                 _logger.LogError($"Error Has Been Becuase the Clinic With Id : {clinicId} Not Fiund in system");
-                throw new APIException(HttpStatusCode.NotFound); 
+                throw new APIException(HttpStatusCode.NotFound);
             }
             if (clinic is null)
                 throw new APIException(HttpStatusCode.BadRequest, "you Can not Edit Empty or null Clinic please try again with corriect data ....");
@@ -76,7 +73,7 @@ namespace Reservio.Services.ClinicRepo
 
         public async Task DeleteClinicAsync(int clinicId)
         {
-            Clinic clinic= await GetByIdAsync(clinicId);
+            Clinic clinic = await GetByIdAsync(clinicId);
             if (clinic is null)
             {
                 _logger.LogError($"Clinic not found with ID: {clinicId}");
@@ -132,6 +129,25 @@ namespace Reservio.Services.ClinicRepo
             return clinicDtos;
         }
 
+        public async Task<List<ClinicStatisticDto>> GetClinicsStatisticsAsync()
+        {
+            var clinicsWithReservationCounts = await _context.Clinics
+                .Include(c=>c.Reservations)
+                .ToListAsync();
+            
+            var dto = _mapper.Map<List<ClinicStatisticDto>>(clinicsWithReservationCounts);
 
+            //.Select(c => new ClinicStatisticDto
+            // {
+            //     ClinicId = c.ClinicId,
+            //     ClinicName = c.Name,
+            //     ReservationCount = c.Reservations.Count()
+            // }
+            if (clinicsWithReservationCounts is null)
+            {
+                throw new APIException(HttpStatusCode.NotFound, "No statistics were found. Try again later");
+            }
+            return dto;
+        }
     }
 }

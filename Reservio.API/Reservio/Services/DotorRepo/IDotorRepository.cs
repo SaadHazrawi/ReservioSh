@@ -10,7 +10,7 @@ namespace Reservio.Services.DotorRepo
         Task<List<DoctorDTO>> GetAllDoctorsAsync();
         Task<Doctor> AddDoctorAsync(DoctorForAddDto doctor);
         Task<Doctor> GetDoctorByIdAsync(int doctorId, bool includeSubstite);
-        Task<Doctor> UpdateDoctorAsync(int doctorId ,DoctorForAddDto doctor);
+        Task<Doctor> UpdateDoctorAsync(DoctorForUpdateDto doctor);
         Task DeleteDoctorAsync(int doctorId);
         Task ReplaceScheduleDoctorAsync(int scheduleId,int newDoctorId);
         //TODO:From Saad=> To Abdullah I have created this service for you, if you wish, move it to the Schedule Services

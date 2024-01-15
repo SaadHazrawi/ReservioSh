@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Reservio.Services.ScheduleRepo
 {
-    public class SchedulesRepository: BaseRepository<Schedule>, ISchedulesRepository
+    public class SchedulesRepository : BaseRepository<Schedule>, ISchedulesRepository
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -37,9 +37,7 @@ namespace Reservio.Services.ScheduleRepo
             {
                 throw new APIException(HttpStatusCode.BadRequest, "Schedule already exists");
             }
-
             var schedule = _mapper.Map<Schedule>(dto);
-
             await _context.Schedules.AddAsync(schedule);
             await _context.SaveChangesAsync();
 
@@ -51,6 +49,8 @@ namespace Reservio.Services.ScheduleRepo
             var schedules = await _context.Schedules
                 .Include(s => s.Clinic)
                 .Include(s => s.Doctor)
+                .OrderBy(s => s.DayOfWeek)
+                .ThenBy(s => s.Doctor)
                 .ToListAsync();
 
             var scheduleDtos = _mapper.Map<List<ScheduleDto>>(schedules);
@@ -62,10 +62,27 @@ namespace Reservio.Services.ScheduleRepo
 
             return scheduleDtos;
         }
-
-        public async Task<Schedule> UpdateAsync(int scheduleId, ScheduleForUpdateDto dto)
+        public async Task<List<ScheduleForEditDto>> GetAllForEdit()
         {
-            var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.ScheduleId == scheduleId);
+            var schedules = await _context.Schedules
+                .Include(s => s.Clinic)
+                .Include(s => s.Doctor)
+                .OrderBy(s => s.DayOfWeek)
+                .ThenBy(s => s.Doctor)
+                .ToListAsync();
+
+            var scheduleDtos = _mapper.Map<List<ScheduleForEditDto>>(schedules);
+
+            if (scheduleDtos.Count == 0)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "No schedules found.");
+            }
+
+            return scheduleDtos;
+        }
+        public async Task<Schedule> UpdateAsync(ScheduleForUpdateDto dto)
+        {
+            var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.ScheduleId == dto.ScheduleId);
             if (schedule == null)
             {
                 throw new APIException(HttpStatusCode.BadRequest, "Schedule not found");
@@ -73,6 +90,7 @@ namespace Reservio.Services.ScheduleRepo
 
 
             _mapper.Map(dto, schedule);
+           
             _context.Schedules.Update(schedule);
             await _context.SaveChangesAsync();
 

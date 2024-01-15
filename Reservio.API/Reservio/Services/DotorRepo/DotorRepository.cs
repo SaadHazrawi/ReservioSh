@@ -99,9 +99,9 @@ namespace Reservio.Services.DotorRepo
                 return doctor;
             }
         }
-        public async Task<Doctor> UpdateDoctorAsync(int doctorId, DoctorForAddDto dto)
+        public async Task<Doctor> UpdateDoctorAsync(DoctorForUpdateDto dto)
         {
-            var doctor = await GetDoctorByIdAsync(doctorId, false);
+            var doctor = await GetDoctorByIdAsync(dto.DoctorId, false);
             if (doctor is null)
             {
                 throw new APIException(HttpStatusCode.BadRequest, "Adding failed. The Doctor does not exist..");

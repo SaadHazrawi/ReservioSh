@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Reservio.AppDataContext;
 using Reservio.DTOS.Clinic;
-using Reservio.Models;
 using Reservio.Services.BaseRepo;
 
 namespace Reservio.Controllers
@@ -12,13 +12,14 @@ namespace Reservio.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly DataContext _context;
 
-        public ClinicsController(IMapper mapper, IUnitOfWork unitOfWork)
+        public ClinicsController(IMapper mapper, IUnitOfWork unitOfWork, DataContext context)
         {
 
             _mapper = mapper;
             this._unitOfWork = unitOfWork;
-
+            this._context = context;
         }
 
         [HttpGet]
@@ -35,7 +36,7 @@ namespace Reservio.Controllers
 
             var result = await _unitOfWork.Clinics.AddClinicAsync(clinicCreationDTO);
             return CreatedAtRoute("GetClinic", new { clinicId = result.ClinicId }, _mapper.Map<ClinicDto>(result));
-         
+
         }
 
         [HttpGet("{clinicId}", Name = "GetClinic")]
@@ -69,6 +70,11 @@ namespace Reservio.Controllers
             return CreatedAtRoute("GetClinic", new { clinicId = activeClinic.ClinicId }, _mapper.Map<ClinicDto>(activeClinic));
 
         }
-
+        [HttpGet(template: "ClinicStatistics")]
+        public async Task<IActionResult> GetClinicsStatistics()
+        {
+            var clinicsStatistics =await _unitOfWork.Clinics.GetClinicsStatisticsAsync();
+            return Ok(clinicsStatistics);
+        }
     }
 }

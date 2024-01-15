@@ -1,4 +1,4 @@
-﻿namespace Reservio.Core
+﻿ namespace Reservio.Core
 {
     public static class DateTimeLocal
     {

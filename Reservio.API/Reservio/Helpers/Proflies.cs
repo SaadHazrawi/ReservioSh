@@ -4,6 +4,7 @@ using Reservio.DTOS.Doctor;
 using Reservio.DTOS.Patient;
 using Reservio.DTOS.Reservation;
 using Reservio.DTOS.Schedule;
+using Reservio.DTOS.Vacation;
 using Reservio.Models;
 
 namespace Reservio.Helpers
@@ -17,12 +18,19 @@ namespace Reservio.Helpers
             CreateMap<ClinicCreationDTO, Clinic>();
             CreateMap<Clinic, ClinicForUpdateDTO>().ReverseMap();
             CreateMap<Clinic, ClinicDto>().ReverseMap();
+
+            CreateMap<Clinic, ClinicStatisticDto>()
+                .ForMember(dest => dest.ClinicName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.ReservationCount,
+                        opt => opt.MapFrom(src => src.Reservations.Count()))
+                .ReverseMap();
             #endregion
 
             #region Doctor
             CreateMap<DoctorForAddDto, Doctor>();
             CreateMap<Doctor, DoctorForAddDto>();
             CreateMap<Doctor, DoctorDTO>();
+            CreateMap<DoctorForUpdateDto, Doctor>().ReverseMap();
             #endregion
 
             #region Patient
@@ -33,20 +41,34 @@ namespace Reservio.Helpers
 
             #region Reservation
             CreateMap<ReservationForAddDto, Reservation>();
-            CreateMap<Reservation,ReservationDto>().ReverseMap();    
-            CreateMap<Reservation,ReservationUpdateDTO>();
+            CreateMap<Reservation, ReservationDto>().ReverseMap();
+            CreateMap<Reservation, ReservationUpdateDTO>();
             #endregion
 
             #region Schedule
             CreateMap<ScheduleForAddDto, Schedule>();
 
             CreateMap<Schedule, ScheduleDto>()
+
              .ForMember(dest => dest.Doctor, opt => opt.MapFrom(src => src.Doctor.FullName))
              .ForMember(dest => dest.Clinic, opt => opt.MapFrom(src => src.Clinic.Name))
              .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.DayOfWeek.ToString()));
 
+
+
+            CreateMap<Schedule, ScheduleForEditDto>()
+            .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.DayOfWeek.ToString()));
+
+
+            CreateMap<Doctor, DoctorForShcudluDto>().ReverseMap();
+            CreateMap<Clinic, ClinicForShcudluDto>().ReverseMap();
+
+            CreateMap<ScheduleForUpdateDto, Schedule>().ReverseMap();
             #endregion
 
+            #region Vacation
+            CreateMap<Vacation, VacationAddDTO>();
+            #endregion
         }
     }
 }

@@ -91,6 +91,27 @@ namespace Reservio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vacations",
+                columns: table => new
+                {
+                    VacationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DayOfWeek = table.Column<int>(type: "int", nullable: false),
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vacations", x => x.VacationId);
+                    table.ForeignKey(
+                        name: "FK_Vacations_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reservations",
                 columns: table => new
                 {
@@ -159,13 +180,13 @@ namespace Reservio.Migrations
                 columns: new[] { "ReservationId", "BookFor", "ClinicId", "Date", "DateOfBirth", "FirstName", "Gender", "IPAddress", "IsDeleted", "LastName", "PatientId", "PhoneNumber", "Resgoin" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 1, new DateTime(2024, 1, 11, 2, 42, 19, 98, DateTimeKind.Local).AddTicks(420), new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Abdullah", 1, "192.168.0.1", false, "Doe", null, "1234567890", "Reason for reservation 1" },
-                    { 2, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 2, new DateTime(2024, 1, 11, 4, 42, 19, 98, DateTimeKind.Local).AddTicks(453), new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Omar", 2, "192.168.0.2", false, "Doe", null, "9876543210", "Reason for reservation 2" },
-                    { 3, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 3, new DateTime(2024, 1, 11, 1, 42, 19, 98, DateTimeKind.Local).AddTicks(459), new DateTime(1982, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saad", 2, "192.168.0.3", false, "Smith", null, "5551234567", "Reason for reservation 3" },
-                    { 4, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 4, new DateTime(2024, 1, 11, 7, 42, 19, 98, DateTimeKind.Local).AddTicks(464), new DateTime(1975, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ammar", 1, "192.168.0.4", false, "Johnson", null, "3339876543", "Reason for reservation 4" },
-                    { 5, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 5, new DateTime(2024, 1, 10, 22, 42, 19, 98, DateTimeKind.Local).AddTicks(469), new DateTime(1988, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ali", 2, "192.168.0.5", false, "Anderson", null, "1112223333", "Reason for reservation 5" },
-                    { 6, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 1, new DateTime(2024, 1, 11, 7, 42, 19, 98, DateTimeKind.Local).AddTicks(485), new DateTime(1978, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Michael", 1, "192.168.0.6", false, "Clark", null, "9998887777", "Reason for reservation 6" },
-                    { 7, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 3, new DateTime(2024, 1, 10, 23, 42, 19, 98, DateTimeKind.Local).AddTicks(490), new DateTime(1995, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sophia", 2, "192.168.0.7", false, "Brown", null, "7775558888", "Reason for reservation 7" }
+                    { 1, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 1, new DateTime(2024, 1, 11, 7, 48, 52, 678, DateTimeKind.Local).AddTicks(2930), new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Abdullah", 1, "192.168.0.1", false, "Doe", null, "1234567890", "Reason for reservation 1" },
+                    { 2, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 2, new DateTime(2024, 1, 11, 9, 48, 52, 678, DateTimeKind.Local).AddTicks(2977), new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Omar", 2, "192.168.0.2", false, "Doe", null, "9876543210", "Reason for reservation 2" },
+                    { 3, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 3, new DateTime(2024, 1, 11, 6, 48, 52, 678, DateTimeKind.Local).AddTicks(2992), new DateTime(1982, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Saad", 2, "192.168.0.3", false, "Smith", null, "5551234567", "Reason for reservation 3" },
+                    { 4, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 4, new DateTime(2024, 1, 11, 12, 48, 52, 678, DateTimeKind.Local).AddTicks(3008), new DateTime(1975, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ammar", 1, "192.168.0.4", false, "Johnson", null, "3339876543", "Reason for reservation 4" },
+                    { 5, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 5, new DateTime(2024, 1, 11, 3, 48, 52, 678, DateTimeKind.Local).AddTicks(3023), new DateTime(1988, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ali", 2, "192.168.0.5", false, "Anderson", null, "1112223333", "Reason for reservation 5" },
+                    { 6, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 1, new DateTime(2024, 1, 11, 12, 48, 52, 678, DateTimeKind.Local).AddTicks(3042), new DateTime(1978, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Michael", 1, "192.168.0.6", false, "Clark", null, "9998887777", "Reason for reservation 6" },
+                    { 7, new DateTime(2024, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc), 3, new DateTime(2024, 1, 11, 4, 48, 52, 678, DateTimeKind.Local).AddTicks(3058), new DateTime(1995, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sophia", 2, "192.168.0.7", false, "Brown", null, "7775558888", "Reason for reservation 7" }
                 });
 
             migrationBuilder.InsertData(
@@ -201,6 +222,11 @@ namespace Reservio.Migrations
                 name: "IX_Schedules_DoctorId",
                 table: "Schedules",
                 column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vacations_DoctorId",
+                table: "Vacations",
+                column: "DoctorId");
         }
 
         /// <inheritdoc />
@@ -211,6 +237,9 @@ namespace Reservio.Migrations
 
             migrationBuilder.DropTable(
                 name: "Schedules");
+
+            migrationBuilder.DropTable(
+                name: "Vacations");
 
             migrationBuilder.DropTable(
                 name: "Patients");

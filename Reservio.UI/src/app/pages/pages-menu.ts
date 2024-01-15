@@ -23,6 +23,30 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ]
   },
   {
+    title: 'Doctors',
+    icon: 'home-outline',
+    children: [
+      {
+        title: 'Table',
+        link: '/pages/doctors/doctor-table',
+      }
+    ]
+  },
+  {
+    title: 'schedule',
+    icon: 'home-outline',
+    children: [
+      {
+        title: 'Table',
+        link: '/pages/schedule/schedule-table',
+      },
+      {
+        title: 'View',
+        link: '/pages/schedule/view',
+      }
+    ]
+  },
+  {
     title: 'FEATURES',
     group: true,
   },
