@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Reservio.Services.ScheduleRepo
 {
-    public class SchedulesRepository : BaseRepository<Schedule>, ISchedulesRepository
+    public class SchedulesRepository: BaseRepository<Schedule>, ISchedulesRepository
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -37,7 +37,9 @@ namespace Reservio.Services.ScheduleRepo
             {
                 throw new APIException(HttpStatusCode.BadRequest, "Schedule already exists");
             }
+
             var schedule = _mapper.Map<Schedule>(dto);
+
             await _context.Schedules.AddAsync(schedule);
             await _context.SaveChangesAsync();
 
