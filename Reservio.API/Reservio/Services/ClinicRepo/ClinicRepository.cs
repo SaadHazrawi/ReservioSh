@@ -136,13 +136,6 @@ namespace Reservio.Services.ClinicRepo
                 .ToListAsync();
             
             var dto = _mapper.Map<List<ClinicStatisticDto>>(clinicsWithReservationCounts);
-
-            //.Select(c => new ClinicStatisticDto
-            // {
-            //     ClinicId = c.ClinicId,
-            //     ClinicName = c.Name,
-            //     ReservationCount = c.Reservations.Count()
-            // }
             if (clinicsWithReservationCounts is null)
             {
                 throw new APIException(HttpStatusCode.NotFound, "No statistics were found. Try again later");
