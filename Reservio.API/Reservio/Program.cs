@@ -14,12 +14,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateBootstrapLogger();
 builder.Host.UseSerilog();
 
-builder.Services.AddControllers()
-    .AddFluentValidation(fv =>
-    {
-        fv.RegisterValidatorsFromAssemblyContaining<Program>();
-        fv.DisableDataAnnotationsValidation = true;
-    });
+builder.Services.AddControllers();
 
 
 builder.Services.AddEndpointsApiExplorer();
