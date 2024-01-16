@@ -57,9 +57,9 @@ namespace Reservio.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateDoctor(  DoctorForUpdateDto dto)
+        public async Task<IActionResult> UpdateDoctor(DoctorForUpdateDto dto)
         {
-            await _unitOfWork.Doctors.UpdateDoctorAsync( dto);
+            await _unitOfWork.Doctors.UpdateDoctorAsync(dto);
             return NoContent();
         }
 

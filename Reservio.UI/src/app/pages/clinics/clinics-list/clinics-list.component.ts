@@ -37,6 +37,7 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
       acceptedPatientsCount: {
         title: 'Accepted Patients',
         type: 'number',
+        filter: true
       },
     },
   };
@@ -97,5 +98,8 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
-
+  
+  onCustom(event) {
+    alert(`Custom event '${event.action}' fired on row №: ${event.data.id}`)
+  }
 }

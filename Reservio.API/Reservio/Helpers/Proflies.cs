@@ -49,19 +49,22 @@ namespace Reservio.Helpers
             CreateMap<ScheduleForAddDto, Schedule>();
 
             CreateMap<Schedule, ScheduleDto>()
-
              .ForMember(dest => dest.Doctor, opt => opt.MapFrom(src => src.Doctor.FullName))
              .ForMember(dest => dest.Clinic, opt => opt.MapFrom(src => src.Clinic.Name))
              .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.DayOfWeek.ToString()));
 
 
+            CreateMap<Doctor, DoctorForShcudleDto>()
+                  .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.DoctorId))
+                  .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.FullName))
+                  .ReverseMap();
 
-            CreateMap<Schedule, ScheduleForEditDto>()
-            .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.DayOfWeek.ToString()));
+            CreateMap<Clinic, ClinicForShcudleDto>()
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.ClinicId))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap();
 
-
-            CreateMap<Doctor, DoctorForShcudluDto>().ReverseMap();
-            CreateMap<Clinic, ClinicForShcudluDto>().ReverseMap();
+            CreateMap<Clinic, ClinicForShcudleDto>().ReverseMap();
 
             CreateMap<ScheduleForUpdateDto, Schedule>().ReverseMap();
             #endregion

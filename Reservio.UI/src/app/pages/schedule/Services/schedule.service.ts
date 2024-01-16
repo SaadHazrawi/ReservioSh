@@ -7,7 +7,7 @@ import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
-import { ScheduleCreationDto, ScheduleDto } from "../Model/ScheduleDto";
+import { ScheduleForEditDto } from "../Model/ScheduleForEditDto";
 
 @Injectable({
   providedIn: "root",
@@ -32,16 +32,16 @@ export class ScheduleService {
       .put<any>(url, updatedFormData)
       .pipe(catchError(this.handleError));
   }
-
-  addSchedule(formData: ScheduleCreationDto): Observable<any> {
-    const data: ScheduleCreationDto = {
-      clinic: formData.clinic,
-      doctor: formData.doctor,
-      day: formData.day,
-    };
-    const url = `${this.apiUrl}Schedules`;
-    return this.http.post<any>(url, data).pipe(catchError(this.handleError));
-  }
+  //TODO
+  // addSchedule(formData: any): Observable<any> {
+  //   const data: ScheduleCreationDto = {
+  //     clinic: formData.clinic,
+  //     doctor: formData.doctor,
+  //     day: formData.day,
+  //   };
+  //   const url = `${this.apiUrl}Schedules`;
+  //   return this.http.post<any>(url, data).pipe(catchError(this.handleError));
+  // }
 
   getScheduleById(scheduleId: string): Observable<any> {
     return this.http
@@ -49,14 +49,14 @@ export class ScheduleService {
       .pipe(catchError(this.handleError));
   }
   getSchedule(): Observable<any> {
-    let url = `${this.apiUrl}Schedules`;
+    let url = `${this.apiUrl}Schedules/View`;
     return this.http.get(url).pipe(catchError(this.handleError));
   }
    
-  getSchedulesForEdit(): Observable<HttpResponse<any[]>> {
-    let url = `${this.apiUrl}Schedules/View`;
+  getSchedulesForEdit(): Observable<HttpResponse<ScheduleForEditDto>> {
+    let url = `${this.apiUrl}Schedules`;
     return this.http
-      .get<any[]>(url, { observe: "response" })
+      .get<ScheduleForEditDto>(url, { observe: "response" })
       .pipe(catchError(this.handleError));
   }
 

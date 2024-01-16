@@ -6,3 +6,8 @@ export interface ScheduleForView {
 export interface Clinic {
     name: string;
 }
+
+
+
+
+
