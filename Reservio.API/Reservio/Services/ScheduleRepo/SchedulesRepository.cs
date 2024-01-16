@@ -32,7 +32,7 @@ namespace Reservio.Services.ScheduleRepo
         public async Task<Schedule> AddAsync(ScheduleForAddDto dto)
         {
             var existingSchedule = _context.Schedules.FirstOrDefault(s =>
-                s.DoctorId == dto.DoctorId && s.ClinicId == dto.ClinicId && s.DayOfWeek == dto.DayOfWeek);
+                s.DoctorId == dto.DoctorId && s.ClinicId == dto.ClinicId && s.Day == dto.Day);
 
             if (existingSchedule is not null)
             {
@@ -50,7 +50,7 @@ namespace Reservio.Services.ScheduleRepo
             var schedules = await _context.Schedules
                 .Include(s => s.Clinic)
                 .Include(s => s.Doctor)
-                .OrderBy(s => s.DayOfWeek)
+                .OrderBy(s => s.Day)
                 .ThenBy(s => s.Doctor)
                 .ToListAsync();
 
@@ -66,7 +66,7 @@ namespace Reservio.Services.ScheduleRepo
         public async Task<ScheduleResponse> GetAllForEdit()
         {
             var schedules = await _context.Schedules
-                .OrderBy(s => s.DayOfWeek)
+                .OrderBy(s => s.Day)
                 .ThenBy(s => s.Doctor)
                 .ToListAsync();
 

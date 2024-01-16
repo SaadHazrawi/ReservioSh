@@ -3,6 +3,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { SubSink } from 'subsink';
 import { ScheduleService } from '../Services/schedule.service';
 import { ScheduleForEditDto } from '../Model/ScheduleForEditDto';
+import { DayOfWeek } from '../../../@core/data/DayOfWeek';
 
 @Component({
   selector: 'ngx-schedule-table',
@@ -31,16 +32,31 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
       confirmDelete: true,
     },
     columns: {
+     
       day: {
-        title: "Day",
-        type: "string",
+        title: 'clinic',
+        editor: {
+          type: 'list',
+          config: {
+            list: [
+              { value: DayOfWeek.Sunday, title: 'Sunday' },
+              { value: DayOfWeek.Monday, title: 'Monday' },
+              { value: DayOfWeek.Tuesday, title: 'Tuesday' },
+              { value: DayOfWeek.Wednesday, title: 'Wednesday' },
+              { value: DayOfWeek.Thursday, title: 'Thursday' },
+              { value: DayOfWeek.Friday, title: 'Friday' },
+              { value: DayOfWeek.Saturday, title: 'Saturday' }
+            ]
+          }
+        },
       },
       clinic: {
         title: 'clinic',
         editor: {
           type: 'list',
           config: {
-            list: []
+            list: [],
+            filter: true
           }
         },
       },
@@ -49,7 +65,8 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
         editor: {
           type: 'list',
           config: {
-            list: []
+            list: [],
+            filter: true
           }
         },
       }
@@ -87,8 +104,21 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
           },
           columns: {
             day: {
-              title: "Day",
-              type: "string",
+              title: 'clinic',
+              editor: {
+                type: 'list',
+                config: {
+                  list: [
+                    { value: DayOfWeek.Sunday, title: 'Sunday' },
+                    { value: DayOfWeek.Monday, title: 'Monday' },
+                    { value: DayOfWeek.Tuesday, title: 'Tuesday' },
+                    { value: DayOfWeek.Wednesday, title: 'Wednesday' },
+                    { value: DayOfWeek.Thursday, title: 'Thursday' },
+                    { value: DayOfWeek.Friday, title: 'Friday' },
+                    { value: DayOfWeek.Saturday, title: 'Saturday' }
+                  ]
+                }
+              },
             },
             clinic: {
               title: 'clinic',
@@ -96,7 +126,9 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
                 type: 'list',
                 config: {
                   list: obj.clinics
+                  ,filter: true
                 }
+               
               },
             },
             doctor: {
@@ -105,6 +137,7 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
                 type: 'list',
                 config: {
                   list: obj.doctors
+                  ,filter: true
                 }
               },
             }
@@ -144,14 +177,14 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
 
   //TODO
   onCreateConfirm(event): void {
-    // this.subs.sink = this.scheduleService.addSchedule(event.newData).subscribe({
-    //   next: () => {
-    //     event.confirm.resolve();
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   },
-    // });
+    this.subs.sink = this.scheduleService.addSchedule(event.newData).subscribe({
+      next: () => {
+        event.confirm.resolve();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   onSaveConfirm(event): void {

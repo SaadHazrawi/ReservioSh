@@ -116,7 +116,7 @@ namespace Reservio.Services.ClinicRepo
             //An additional requirement to check whether the number of patients admitted to the clinic is greater than the number of current bookings.
             //Is the condition required to ensure that the clinic has spaces available for new bookings?
             var clinics = await _context.Schedules
-            .Where(s => s.DayOfWeek == dayOfWeek && s.Clinic.AcceptedPatientsCount > s.Clinic.Reservations.Count)
+            .Where(s => s.Day == dayOfWeek && s.Clinic.AcceptedPatientsCount > s.Clinic.Reservations.Count)
             .Select(s => s.Clinic)
             .ToListAsync();
 

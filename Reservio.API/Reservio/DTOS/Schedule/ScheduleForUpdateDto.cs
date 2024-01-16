@@ -5,7 +5,7 @@
         public int ScheduleId { get; set; }
         public int DoctorId { get; set; }
         public int ClinicId { get; set; }
-        public DayOfWeek DayOfWeek { get; set; }
+        public DayOfWeek Day { get; set; }
     }
 
 

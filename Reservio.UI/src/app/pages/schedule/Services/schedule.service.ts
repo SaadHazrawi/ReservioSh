@@ -8,6 +8,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { ScheduleForEditDto } from "../Model/ScheduleForEditDto";
+import { ScheduleForAddDto } from "../Model/ScheduleForAddDto";
 
 @Injectable({
   providedIn: "root",
@@ -32,22 +33,19 @@ export class ScheduleService {
       .put<any>(url, updatedFormData)
       .pipe(catchError(this.handleError));
   }
-  //TODO
-  // addSchedule(formData: any): Observable<any> {
-  //   const data: ScheduleCreationDto = {
-  //     clinic: formData.clinic,
-  //     doctor: formData.doctor,
-  //     day: formData.day,
-  //   };
-  //   const url = `${this.apiUrl}Schedules`;
-  //   return this.http.post<any>(url, data).pipe(catchError(this.handleError));
-  // }
+  
+  addSchedule(formData: ScheduleForAddDto): Observable<any> {
+    console.log(formData);
+    const url = `${this.apiUrl}Schedules`;
+    return this.http.post<any>(url, formData).pipe(catchError(this.handleError));
+  }
 
   getScheduleById(scheduleId: string): Observable<any> {
     return this.http
       .get<any>(`${this.apiUrl}Schedules/${scheduleId}`)
       .pipe(catchError(this.handleError));
   }
+
   getSchedule(): Observable<any> {
     let url = `${this.apiUrl}Schedules/View`;
     return this.http.get(url).pipe(catchError(this.handleError));
