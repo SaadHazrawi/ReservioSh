@@ -51,7 +51,7 @@ namespace Reservio.Helpers
             CreateMap<Schedule, ScheduleDto>()
              .ForMember(dest => dest.Doctor, opt => opt.MapFrom(src => src.Doctor.FullName))
              .ForMember(dest => dest.Clinic, opt => opt.MapFrom(src => src.Clinic.Name))
-             .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.DayOfWeek.ToString()));
+             .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.Day.ToString()));
 
 
             CreateMap<Doctor, DoctorForShcudleDto>()
@@ -64,7 +64,6 @@ namespace Reservio.Helpers
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Name))
                 .ReverseMap();
 
-            CreateMap<Clinic, ClinicForShcudleDto>().ReverseMap();
 
             CreateMap<ScheduleForUpdateDto, Schedule>().ReverseMap();
             #endregion
