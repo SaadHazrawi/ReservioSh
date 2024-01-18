@@ -17,14 +17,17 @@ namespace Reservio.AppDataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Reservation>().HasKey(r => r.ReservationId);
+
+            modelBuilder.Entity<Doctor>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Clinic>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Schedule>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Reservation>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Patient>().HasQueryFilter(d=>!d.IsDeleted);
 
             modelBuilder.Entity<Reservation>()
                 .HasOne(c => c.Clinic)
                 .WithMany(r => r.Reservations)
                 .HasForeignKey(r => r.ClinicId);
-
-
 
             modelBuilder.Entity<Schedule>().HasKey(s => s.ScheduleId);
             modelBuilder.Entity<Schedule>()
