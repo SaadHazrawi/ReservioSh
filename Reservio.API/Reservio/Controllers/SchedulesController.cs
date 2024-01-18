@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Reservio.DTOS.Clinic;
 using Reservio.DTOS.Schedule;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
@@ -33,14 +34,25 @@ namespace Reservio.Controllers
             var Schedule = await _unitOfWork.Schedules.GetAllForEdit();
             return Ok(Schedule);
         }
+
+        [HttpGet("{scheduleId}",Name = "GetById")]
+        public async Task<ActionResult> GetById(int scheduleId)
+        {
+            var Schedule = await _unitOfWork.Schedules.FindAsync(s=>s.ScheduleId == scheduleId);
+            return Ok(Schedule);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add(ScheduleForAddDto dto)
         {
-            await _unitOfWork.Schedules.AddAsync(dto);
-            return Ok();
+           var schedule = await _unitOfWork.Schedules.AddAsync(dto);
+           return CreatedAtAction(
+                nameof(GetById),
+                new { scheduleId = schedule.ScheduleId }, 
+                schedule);
         }
 
-        [HttpDelete]
+        [HttpDelete("{scheduleId}")]
         public async Task<ActionResult> Delete(int scheduleId)
         {
             await _unitOfWork.Schedules.DeleteAsync(s=>s.ScheduleId == scheduleId);
@@ -48,10 +60,10 @@ namespace Reservio.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update(  ScheduleForUpdateDto dto)
+        public async Task<ActionResult> Update(ScheduleForUpdateDto dto)
         {
 
-            await _unitOfWork.Schedules.UpdateAsync(  dto);
+            await _unitOfWork.Schedules.UpdateAsync( dto);
             return Ok();
         }
     }

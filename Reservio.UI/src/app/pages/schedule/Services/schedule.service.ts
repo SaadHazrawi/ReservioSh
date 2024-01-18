@@ -26,18 +26,27 @@ export class ScheduleService {
 
   updateSchedule(formData: any): Observable<any> {
     // Remove any unnecessary fields
-    const { unnecessaryField, ...updatedFormData } = formData;
+    const obj = {
+      scheduleId:formData.scheduleId,
+      clinicId: parseInt(formData.clinic),
+      doctorId: parseInt(formData.doctor),
+      day: parseInt(formData.day)
+    };
     const url = `${this.apiUrl}Schedules`;
-    console.log(formData);
     return this.http
-      .put<any>(url, updatedFormData)
+      .put<any>(url, obj)
       .pipe(catchError(this.handleError));
   }
-  
-  addSchedule(formData: ScheduleForAddDto): Observable<any> {
-    console.log(formData);
+  addSchedule(formData: any): Observable<any> {
+    const obj = {
+      clinicId: parseInt(formData.clinic),
+      doctorId: parseInt(formData.doctor),
+      day: parseInt(formData.day)
+    };
     const url = `${this.apiUrl}Schedules`;
-    return this.http.post<any>(url, formData).pipe(catchError(this.handleError));
+    return this.http.post<any>(url, obj).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getScheduleById(scheduleId: string): Observable<any> {

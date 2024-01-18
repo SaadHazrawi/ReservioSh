@@ -13,7 +13,6 @@ import { DayOfWeek } from '../../../@core/data/DayOfWeek';
 export class ScheduleTableComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   source: LocalDataSource = new LocalDataSource();
-  obj: ScheduleForEditDto;
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -32,9 +31,8 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
       confirmDelete: true,
     },
     columns: {
-     
       day: {
-        title: 'clinic',
+        title: 'Day',
         editor: {
           type: 'list',
           config: {
@@ -80,10 +78,11 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
   };
 
   constructor(private scheduleService: ScheduleService) { }
+
   ngOnInit(): void {
     this.subs.sink = this.scheduleService.getSchedulesForEdit().subscribe({
       next: (data) => {
-        let obj: ScheduleForEditDto=data.body;
+        const obj: ScheduleForEditDto = data.body;
         this.source.load(obj.schedules);
         this.settings = {
           add: {
@@ -104,7 +103,7 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
           },
           columns: {
             day: {
-              title: 'clinic',
+              title: 'Day',
               editor: {
                 type: 'list',
                 config: {
@@ -126,9 +125,9 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
                 type: 'list',
                 config: {
                   list: obj.clinics
-                  ,filter: true
+                  , filter: true
                 }
-               
+
               },
             },
             doctor: {
@@ -137,7 +136,7 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
                 type: 'list',
                 config: {
                   list: obj.doctors
-                  ,filter: true
+                  , filter: true
                 }
               },
             }
@@ -149,48 +148,6 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
             position: 'left'
           },
         };
-    
-      
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  onDeleteConfirm(event): void {
-    if (window.confirm("Are you sure you want to delete?")) {
-      this.subs.sink = this.scheduleService
-        .deleteSchedule(event.data.scheduleId)
-        .subscribe({
-          next: () => {
-            event.confirm.resolve();
-          },
-          error: (error) => {
-            console.log(error);
-          },
-        });
-    } else {
-      event.confirm.reject();
-    }
-  }
-
-  //TODO
-  onCreateConfirm(event): void {
-    this.subs.sink = this.scheduleService.addSchedule(event.newData).subscribe({
-      next: () => {
-        event.confirm.resolve();
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  onSaveConfirm(event): void {
-    this.subs.sink = this.scheduleService.updateSchedule(event.newData).subscribe({
-      next: () => {
-        event.confirm.resolve();
       },
       error: (error) => {
         console.log(error);
@@ -202,8 +159,57 @@ export class ScheduleTableComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  onRowSelected(event): void {
-    console.log(event);
+  onDeleteConfirm(event): void {
+    if (window.confirm("Are you sure you want to delete?")) {
+      this.subs.sink = this.scheduleService.deleteSchedule(event.data.scheduleId).subscribe({
+        next: () => {
+          event.confirm.resolve();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    } else {
+      event.confirm.reject();
+    }
   }
-  
+
+  onCreateConfirm(event): void {
+    this.subs.sink = this.scheduleService.addSchedule(event.newData).subscribe({
+      next: () => {
+        event.confirm.resolve();
+        const currentPage = this.source.getPaging().page;
+        this.reloadTableData(currentPage);
+      },
+      error: (error) => {
+        console.log('Error occurred:', error);
+      },
+    });
+  }
+
+  onSaveConfirm(event): void {
+    this.subs.sink = this.scheduleService.updateSchedule(event.newData).subscribe({
+      next: () => {
+        event.confirm.resolve();
+        const currentPage = this.source.getPaging().page;
+        this.reloadTableData(currentPage);
+      },
+      error: (error) => {
+        console.log(error);
+        event.confirm.reject();
+      },
+    });
+  }
+
+  private reloadTableData(currentPage: number): void {
+    this.subs.sink = this.scheduleService.getSchedulesForEdit().subscribe({
+      next: (data) => {
+        this.source.load(data.body.schedules);
+        this.source.setPaging(currentPage, this.source.getPaging().perPage);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    })
+  }
 }

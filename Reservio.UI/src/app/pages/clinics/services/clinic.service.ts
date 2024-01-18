@@ -47,7 +47,7 @@ export class ClinicService {
       .pipe(catchError(this.handleError));
   }
 
-  getClinics(pageNumber: number, pageSize: number): Observable<HttpResponse<any[]>> {
+  getClinics(): Observable<HttpResponse<any[]>> {
     let url = `${this.apiUrl}Clinics`;
     return this.http.get<any[]>(url, { observe: 'response' }).pipe(
     catchError(this.handleError));
