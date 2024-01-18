@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
+using Reservio.Middlewares;
 using Reservio.Services.BaseRepo;
 using Serilog;
 
@@ -38,7 +39,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -53,6 +54,8 @@ app.UseCors(x => x.AllowAnyMethod()
     .WithExposedHeaders("x-pagination"));
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 
