@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
 using Reservio.Services.BaseRepo;
 
@@ -11,18 +12,20 @@ namespace Reservio.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly DataContext _context;
 
-        public BIController(IUnitOfWork unitOfWork, IMapper mapper)
+        public BIController(IUnitOfWork unitOfWork, IMapper mapper, DataContext context)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _context = context;
         }
 
 
         [HttpGet(template: "GetCountByGenderPatient")]
         public async Task<IActionResult> GetCountByGenderPatient()
         {
-            var patientsByGender = await  _unitOfWork.BI.GetCountByGenderPatient();
+            var patientsByGender = await _unitOfWork.BI.GetCountByGenderPatient();
             return Ok(patientsByGender);
         }
 
@@ -31,6 +34,12 @@ namespace Reservio.Controllers
         {
             var patientsByGender = await _unitOfWork.BI.GetPatientInWeek();
             return Ok(patientsByGender);
+        }
+        [HttpGet(template: "GetPatientInClinic")]
+        public async Task<IActionResult> GetPatientInClinic()
+        {
+            var clinicsWithReservationCounts = await _unitOfWork.BI.GetPatientInClinic();
+            return Ok(clinicsWithReservationCounts);
         }
     }
 }

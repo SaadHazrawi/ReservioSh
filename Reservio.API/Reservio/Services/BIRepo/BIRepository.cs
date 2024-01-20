@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
 using Reservio.Core;
 using Reservio.DTOS.BI;
+using Reservio.DTOS.Clinic;
 using Reservio.DTOS.Reservation;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
+using System;
+using System.Reflection.Metadata;
 
 namespace Reservio.Services.BIRepo
 {
@@ -57,6 +60,38 @@ namespace Reservio.Services.BIRepo
 
             return patientCount.ToList();
         }
- 
+
+        public async Task<PatientInClinicDto> GetPatientInClinic()
+        {
+            Random random = new Random();
+            
+            var clinicsWithReservationCounts = await _context.Clinics
+                                         .Where(c => !c.IsDeleted)
+                                         .Select(c => new 
+                                         {
+                                             ClinicName = c.Name,
+                                             CountPatient = c.Reservations.Count(r => !r.IsDeleted)
+                                         })
+                                         .ToListAsync();
+
+            var clinicNames = clinicsWithReservationCounts.Select(c => c.ClinicName).ToArray();
+            var countPatients = clinicsWithReservationCounts.Select(c => c.CountPatient).ToArray();
+            var randomColorArray = new string[clinicNames.Length];
+            for (int i = 0; i < randomColorArray.Length; i++)
+            {
+                string randomColor = String.Format("#{0:X6}", random.Next(0x1000000));
+                randomColorArray[i] = randomColor;
+
+
+
+            }
+            var patientInClinicDto = new PatientInClinicDto { ClinicNames = clinicNames, CountPatients = countPatients,RandomColor= randomColorArray };
+            
+        
+           
+            return patientInClinicDto;
+        }
+
+
     }
 }
