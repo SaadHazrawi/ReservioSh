@@ -63,12 +63,18 @@ namespace Reservio.Services.ScheduleRepo
 
             return scheduleDtos;
         }
+
         public async Task<ScheduleResponse> GetAllForEdit()
         {
+            //TODO Filter IsDelte
             var schedules = await _context.Schedules
+                .Include(s => s.Clinic)
+                .Include(s => s.Doctor)
+                .Where(s => !s.Clinic.IsDeleted && !s.Doctor.IsDeleted)
                 .OrderBy(s => s.Day)
                 .ThenBy(s => s.Doctor)
                 .ToListAsync();
+
 
             var doctors = await _context.Doctors
                .OrderBy(d => d.FullName)
