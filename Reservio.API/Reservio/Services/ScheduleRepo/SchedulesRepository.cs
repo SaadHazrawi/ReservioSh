@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
 using Reservio.Core;
+using Reservio.DTOS.Clinic;
 using Reservio.DTOS.Schedule;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
@@ -31,7 +32,7 @@ namespace Reservio.Services.ScheduleRepo
         public async Task<Schedule> AddAsync(ScheduleForAddDto dto)
         {
             var existingSchedule = _context.Schedules.FirstOrDefault(s =>
-                s.DoctorId == dto.DoctorId && s.ClinicId == dto.ClinicId && s.DayOfWeek == dto.DayOfWeek);
+                s.DoctorId == dto.DoctorId && s.ClinicId == dto.ClinicId && s.Day == dto.Day);
 
             if (existingSchedule is not null)
             {
@@ -49,7 +50,7 @@ namespace Reservio.Services.ScheduleRepo
             var schedules = await _context.Schedules
                 .Include(s => s.Clinic)
                 .Include(s => s.Doctor)
-                .OrderBy(s => s.DayOfWeek)
+                .OrderBy(s => s.Day)
                 .ThenBy(s => s.Doctor)
                 .ToListAsync();
 
@@ -62,23 +63,40 @@ namespace Reservio.Services.ScheduleRepo
 
             return scheduleDtos;
         }
-        public async Task<List<ScheduleForEditDto>> GetAllForEdit()
+        public async Task<ScheduleResponse> GetAllForEdit()
         {
             var schedules = await _context.Schedules
-                .Include(s => s.Clinic)
-                .Include(s => s.Doctor)
-                .OrderBy(s => s.DayOfWeek)
+                .OrderBy(s => s.Day)
                 .ThenBy(s => s.Doctor)
                 .ToListAsync();
 
-            var scheduleDtos = _mapper.Map<List<ScheduleForEditDto>>(schedules);
+            var doctors = await _context.Doctors
+               .OrderBy(d => d.FullName)
+               .ToListAsync();
 
-            if (scheduleDtos.Count == 0)
+            var clinics = await _context.Clinics
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+
+            var schedulesDto = _mapper.Map<List<ScheduleDto>>(schedules);
+            var doctorsDto = _mapper.Map<List<DoctorForShcudleDto>>(doctors);
+            var clinicsDto = _mapper.Map<List<ClinicForShcudleDto>>(clinics);
+
+            //TODO 
+            //if (scheduleDtos.Count == 0)
+            //{
+            //    throw new APIException(HttpStatusCode.BadRequest, "No schedules found.");
+            //}
+
+            var dto = new ScheduleResponse()
             {
-                throw new APIException(HttpStatusCode.BadRequest, "No schedules found.");
-            }
+                Clinics = clinicsDto,
+                Doctors= doctorsDto,
+                Schedules= schedulesDto,
+            };
 
-            return scheduleDtos;
+
+            return dto;
         }
         public async Task<Schedule> UpdateAsync(ScheduleForUpdateDto dto)
         {
@@ -90,7 +108,7 @@ namespace Reservio.Services.ScheduleRepo
 
 
             _mapper.Map(dto, schedule);
-           
+
             _context.Schedules.Update(schedule);
             await _context.SaveChangesAsync();
 

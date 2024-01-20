@@ -17,14 +17,17 @@ namespace Reservio.AppDataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Reservation>().HasKey(r => r.ReservationId);
+
+            modelBuilder.Entity<Doctor>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Clinic>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Schedule>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Reservation>().HasQueryFilter(d=>!d.IsDeleted);
+            modelBuilder.Entity<Patient>().HasQueryFilter(d=>!d.IsDeleted);
 
             modelBuilder.Entity<Reservation>()
                 .HasOne(c => c.Clinic)
                 .WithMany(r => r.Reservations)
                 .HasForeignKey(r => r.ClinicId);
-
-
 
             modelBuilder.Entity<Schedule>().HasKey(s => s.ScheduleId);
             modelBuilder.Entity<Schedule>()
@@ -85,13 +88,13 @@ namespace Reservio.AppDataContext
             List<Schedule> schedules = new List<Schedule>();
 
             // Add schedules to the list
-            schedules.Add(new Schedule { ScheduleId = 1, DoctorId = 1, ClinicId = 1, DayOfWeek = DayOfWeek.Monday });
-            schedules.Add(new Schedule { ScheduleId = 2, DoctorId = 2, ClinicId = 1, DayOfWeek = DayOfWeek.Tuesday });
-            schedules.Add(new Schedule { ScheduleId = 3, DoctorId = 3, ClinicId = 2, DayOfWeek = DayOfWeek.Wednesday });
-            schedules.Add(new Schedule { ScheduleId = 4, DoctorId = 4, ClinicId = 3, DayOfWeek = DayOfWeek.Thursday });
-            schedules.Add(new Schedule { ScheduleId = 5, DoctorId = 5, ClinicId = 3, DayOfWeek = DayOfWeek.Friday });
-            schedules.Add(new Schedule { ScheduleId = 6, DoctorId = 6, ClinicId = 4, DayOfWeek = DayOfWeek.Saturday });
-            schedules.Add(new Schedule { ScheduleId = 7, DoctorId = 7, ClinicId = 4, DayOfWeek = DayOfWeek.Sunday });
+            schedules.Add(new Schedule { ScheduleId = 1, DoctorId = 1, ClinicId = 1, Day = DayOfWeek.Monday });
+            schedules.Add(new Schedule { ScheduleId = 2, DoctorId = 2, ClinicId = 1, Day = DayOfWeek.Tuesday });
+            schedules.Add(new Schedule { ScheduleId = 3, DoctorId = 3, ClinicId = 2, Day = DayOfWeek.Wednesday });
+            schedules.Add(new Schedule { ScheduleId = 4, DoctorId = 4, ClinicId = 3, Day = DayOfWeek.Thursday });
+            schedules.Add(new Schedule { ScheduleId = 5, DoctorId = 5, ClinicId = 3, Day = DayOfWeek.Friday });
+            schedules.Add(new Schedule { ScheduleId = 6, DoctorId = 6, ClinicId = 4, Day = DayOfWeek.Saturday });
+            schedules.Add(new Schedule { ScheduleId = 7, DoctorId = 7, ClinicId = 4, Day = DayOfWeek.Sunday });
 
             return schedules;
         }

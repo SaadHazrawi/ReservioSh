@@ -154,7 +154,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
     private bool isValidInShculde(int clinicId)
     {
         var valid = _context.Schedules.Any(sc => sc.ClinicId == clinicId
-        && (int)sc.DayOfWeek == (int)ReservationHelper.DetermineBookingDayOfWeek());
+        && (int)sc.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
         return valid;
     }
     private async Task<bool> CheckIfCanAcceptMorePatients(int clinicId)

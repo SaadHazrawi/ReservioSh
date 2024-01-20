@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../Services/schedule.service';
-import { ScheduleDto } from '../Model/ScheduleDto';
 import { ScheduleForView } from '../Model/ScheduleForView';
+import { Schedule } from '../Model/Schedule';
 
 @Component({
   selector: 'ngx-schedule-view',
@@ -16,7 +16,7 @@ export class ScheduleViewComponent implements OnInit {
   constructor(private scheduleService: ScheduleService) {}
 
   ngOnInit() {
-    this.scheduleService.getSchedule().subscribe((schedule: ScheduleDto[]) => {
+    this.scheduleService.getSchedule().subscribe((schedule: Schedule[]) => {
       const uniqueDays = [...new Set(schedule.map(item => item.day))];
       this.days = uniqueDays.map(day => ({
         name: day,

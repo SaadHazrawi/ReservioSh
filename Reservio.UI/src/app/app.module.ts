@@ -20,7 +20,6 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-// import { Select2Module } from 'ng-select2-component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +40,7 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+  
   ],
   bootstrap: [AppComponent],
 })

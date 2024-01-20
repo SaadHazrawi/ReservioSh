@@ -37,6 +37,7 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
       acceptedPatientsCount: {
         title: 'Accepted Patients',
         type: 'number',
+        filter: true
       },
     },
   };
@@ -46,8 +47,7 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
   constructor(private clinicService: ClinicService) { }
 
   ngOnInit(): void {
-    //TODO
-    this.subs.sink = this.clinicService.getClinics(1, 100).subscribe({
+    this.subs.sink = this.clinicService.getClinics().subscribe({
       next: (data) => {
         this.source.load(data.body);
       },
@@ -55,6 +55,10 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   onDeleteConfirm(event): void {
@@ -76,6 +80,8 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
     this.subs.sink = this.clinicService.addClinic(event.newData).subscribe({
       next: () => {
         event.confirm.resolve();
+        const currentPage = this.source.getPaging().page;
+        this.reloadTableData(currentPage);
       },
       error: (error) => {
         console.log(error);
@@ -94,8 +100,17 @@ export class ClinicsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
+  private reloadTableData(currentPage: number): void {
+    this.subs.sink = this.clinicService.getClinics().subscribe({
+      next: (data) => {
+        this.source.load(data.body);
+        this.source.setPaging(currentPage, this.source.getPaging().perPage);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
+
 
 }

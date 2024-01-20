@@ -39,7 +39,7 @@ namespace Reservio.Services.VacationRepo
             }
             // Check if the doctor is on the schedule and update to "Disabled"
             Schedule? doctorSchedule = await _context.Schedules
-                            .FirstOrDefaultAsync(s => (int)s.DayOfWeek == vacationDto.DateTime.Day
+                            .FirstOrDefaultAsync(s => (int)s.Day == vacationDto.DateTime.Day
                             && s.DoctorId == vacationDto.DoctorId);
             if (doctorSchedule is not null)
             {
