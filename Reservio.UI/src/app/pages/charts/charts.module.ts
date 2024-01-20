@@ -59,7 +59,7 @@ const components = [
     NgxChartsModule,
     ChartModule,
     NbCardModule,
-
+    NbSelectModule
   
   ],
   declarations: [...routedComponents, ...components],

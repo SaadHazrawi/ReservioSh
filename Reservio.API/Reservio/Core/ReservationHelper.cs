@@ -45,6 +45,20 @@
             return DateTime.Now.AddDays(-7);
         }
 
+        public static string[] GetRandomColors(int Length)
+        {
+            var randomColorArray = new string[Length];
+            Random random = new Random();
+            for (int i = 0; i < randomColorArray.Length; i++)
+            {
+                string randomColor = String.Format("#{0:X6}", random.Next(0x1000000));
+                randomColorArray[i] = randomColor;
+
+            }
+
+            return randomColorArray;
+        }
+
 
 
     }

@@ -4,4 +4,10 @@
     {
         Male = 1, Female = 2,
     }
+    public enum TimePeriod
+    {
+        Week,
+        Month,
+        Year
+    }
 }

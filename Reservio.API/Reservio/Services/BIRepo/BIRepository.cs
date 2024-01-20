@@ -5,6 +5,7 @@ using Reservio.Core;
 using Reservio.DTOS.BI;
 using Reservio.DTOS.Clinic;
 using Reservio.DTOS.Reservation;
+using Reservio.Enums;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
 using System;
@@ -63,11 +64,11 @@ namespace Reservio.Services.BIRepo
 
         public async Task<PatientInClinicDto> GetPatientInClinic()
         {
-            Random random = new Random();
-            
+
+
             var clinicsWithReservationCounts = await _context.Clinics
                                          .Where(c => !c.IsDeleted)
-                                         .Select(c => new 
+                                         .Select(c => new
                                          {
                                              ClinicName = c.Name,
                                              CountPatient = c.Reservations.Count(r => !r.IsDeleted)
@@ -76,22 +77,32 @@ namespace Reservio.Services.BIRepo
 
             var clinicNames = clinicsWithReservationCounts.Select(c => c.ClinicName).ToArray();
             var countPatients = clinicsWithReservationCounts.Select(c => c.CountPatient).ToArray();
-            var randomColorArray = new string[clinicNames.Length];
-            for (int i = 0; i < randomColorArray.Length; i++)
-            {
-                string randomColor = String.Format("#{0:X6}", random.Next(0x1000000));
-                randomColorArray[i] = randomColor;
-
-
-
-            }
-            var patientInClinicDto = new PatientInClinicDto { ClinicNames = clinicNames, CountPatients = countPatients,RandomColor= randomColorArray };
-            
-        
-           
+            string[] randomColorArray = ReservationHelper.GetRandomColors(clinicNames.Length);
+            var patientInClinicDto = new PatientInClinicDto { ClinicNames = clinicNames, CountPatients = countPatients, RandomColor = randomColorArray };
             return patientInClinicDto;
         }
 
+
+        public async Task<DataObject> GetPatientInClinicInDataAsync(TimePeriod period)
+        {
+            string formatDate = string.Empty;
+            if ((int)period == 2 )
+            {
+                formatDate = "mm";
+            }
+
+            var clinicsWithReservationCounts = await _context.Reservations
+                .Where(r=>r.BookFor.Year>DateTime.Now.Year)
+                .Select(r => r.BookFor.ToString(formatDate))
+                .Distinct()
+                .ToListAsync();
+
+            //var clinicNames = clinicsWithReservationCounts.Select(c => c.ClinicName).ToArray();
+            //var countPatients = clinicsWithReservationCounts.Select(c => c.CountPatient).ToArray();
+            //string[] randomColorArray = ReservationHelper.GetRandomColors(clinicNames.Length);
+            //var patientInClinicDto = new PatientInClinicDto { ClinicNames = clinicNames, CountPatients = countPatients, RandomColor = randomColorArray };
+            //return patientInClinicDto;
+        }
 
     }
 }

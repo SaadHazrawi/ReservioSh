@@ -28,14 +28,8 @@ export class ChartPanelHeaderComponent implements OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         const orderProfitLegend = theme.variables.orderProfitLegend;
-
         this.currentTheme = theme.name;
         this.setLegendItems(orderProfitLegend);
-        
-        
-        console.log(this.currentTheme);
-        console.log(orderProfitLegend);
-
       });
 
       this.breakpoints = this.breakpointService.getBreakpointsMap();
