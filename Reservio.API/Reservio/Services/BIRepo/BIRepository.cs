@@ -86,22 +86,32 @@ namespace Reservio.Services.BIRepo
         public async Task<DataObject> GetPatientInClinicInDataAsync(TimePeriod period)
         {
             string formatDate = string.Empty;
-            if ((int)period == 2 )
+            if (period == TimePeriod.Month)
             {
-                formatDate = "mm";
+                formatDate = "MM";
             }
 
             var clinicsWithReservationCounts = await _context.Reservations
-                .Where(r=>r.BookFor.Year>DateTime.Now.Year)
-                .Select(r => r.BookFor.ToString(formatDate))
-                .Distinct()
+                .Where(r => r.BookFor.Year > DateTime.Now.Year)
+                .GroupBy(r => r.BookFor.ToString(formatDate))
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    PatientCount = g.Count()
+                })
                 .ToListAsync();
 
-            //var clinicNames = clinicsWithReservationCounts.Select(c => c.ClinicName).ToArray();
-            //var countPatients = clinicsWithReservationCounts.Select(c => c.CountPatient).ToArray();
-            //string[] randomColorArray = ReservationHelper.GetRandomColors(clinicNames.Length);
-            //var patientInClinicDto = new PatientInClinicDto { ClinicNames = clinicNames, CountPatients = countPatients, RandomColor = randomColorArray };
-            //return patientInClinicDto;
+            DataObject data = new DataObject();
+            data.Labels = clinicsWithReservationCounts.Select(c => c.Date).ToList();
+
+            Dataset dataset = new Dataset();
+            dataset.Data = clinicsWithReservationCounts.Select(c => c.PatientCount).ToList();
+            dataset.Label = "Patient Count";
+            dataset.BackgroundColor = "00F";
+
+            data.Datasets = new List<Dataset> { dataset };
+
+            return data;
         }
 
     }

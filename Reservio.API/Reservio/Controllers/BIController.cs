@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
+using Reservio.Enums;
 using Reservio.Services.BaseRepo;
 
 namespace Reservio.Controllers
@@ -35,11 +36,21 @@ namespace Reservio.Controllers
             var patientsByGender = await _unitOfWork.BI.GetPatientInWeek();
             return Ok(patientsByGender);
         }
+
+
         [HttpGet(template: "GetPatientInClinic")]
         public async Task<IActionResult> GetPatientInClinic()
         {
             var clinicsWithReservationCounts = await _unitOfWork.BI.GetPatientInClinic();
             return Ok(clinicsWithReservationCounts);
+        }
+
+
+        [HttpGet(template: "GetPatientInClinicInDataAsync")]
+        public async Task<IActionResult> GetPatientInClinicInDataAsync()
+        {
+            var data = await _unitOfWork.BI.GetPatientInClinicInDataAsync(TimePeriod.Month);
+            return Ok(data);
         }
     }
 }
