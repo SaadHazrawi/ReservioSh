@@ -42,6 +42,7 @@ namespace Reservio.Controllers
         [HttpGet("{clinicId}", Name = "GetClinic")]
         public async Task<ActionResult> GetClinic(int clinicId)
         {
+            
             var clinic = await _unitOfWork.Clinics.GetClinicByIdAsync(clinicId);
 
             return Ok(_mapper.Map<ClinicDto>(clinic));

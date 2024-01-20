@@ -109,5 +109,8 @@ import { EarningLiveUpdateChartComponent } from './earning-card/front-side/earni
   providers: [
     CountryOrdersMapService,
   ],
+  exports:[
+    ECommerceLegendChartComponent
+  ]
 })
 export class ECommerceModule { }

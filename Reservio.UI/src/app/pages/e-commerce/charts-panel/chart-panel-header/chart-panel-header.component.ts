@@ -31,6 +31,11 @@ export class ChartPanelHeaderComponent implements OnDestroy {
 
         this.currentTheme = theme.name;
         this.setLegendItems(orderProfitLegend);
+        
+        
+        console.log(this.currentTheme);
+        console.log(orderProfitLegend);
+
       });
 
       this.breakpoints = this.breakpointService.getBreakpointsMap();
@@ -38,6 +43,7 @@ export class ChartPanelHeaderComponent implements OnDestroy {
         .pipe(takeWhile(() => this.alive))
         .subscribe(([oldValue, newValue]) => {
           this.breakpoint = newValue;
+        
         });
   }
 
@@ -61,6 +67,7 @@ export class ChartPanelHeaderComponent implements OnDestroy {
   changePeriod(period: string): void {
     this.type = period;
     this.periodChange.emit(period);
+    console.log(period);
   }
 
   ngOnDestroy() {

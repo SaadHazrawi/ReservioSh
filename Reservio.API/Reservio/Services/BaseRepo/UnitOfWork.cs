@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Reservio.AppDataContext;
+using Reservio.Services.BIRepo;
+ 
 using Reservio.Services.ClinicRepo;
 using Reservio.Services.DotorRepo;
 using Reservio.Services.PatientRepo;
@@ -21,6 +23,8 @@ namespace Reservio.Services.BaseRepo
 
         public IVacationRepository Vacations { get; private set; }
 
+        public IBIRepository BI { get; private set; }
+
         public UnitOfWork(DataContext context, IMapper mapper, ILogger<UnitOfWork> logger)
         {
             _context = context;
@@ -30,6 +34,7 @@ namespace Reservio.Services.BaseRepo
             Patients = new PatientRepository(context, mapper, logger);
             Schedules = new SchedulesRepository(context, mapper, logger);
             Vacations = new VacationRepository(context, mapper, logger);
+            BI= new BIRepository(context, mapper, logger);
         }
 
         public void Dispose()

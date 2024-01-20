@@ -43,6 +43,8 @@ namespace Reservio.Helpers
             CreateMap<ReservationForAddDto, Reservation>();
             CreateMap<Reservation, ReservationDto>().ReverseMap();
             CreateMap<Reservation, ReservationUpdateDTO>();
+            CreateMap<Reservation, ReservationGenderStatisticDto>();
+            
             #endregion
 
             #region Schedule

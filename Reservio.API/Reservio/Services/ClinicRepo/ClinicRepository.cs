@@ -132,6 +132,7 @@ namespace Reservio.Services.ClinicRepo
         public async Task<List<ClinicStatisticDto>> GetClinicsStatisticsAsync()
         {
             var clinicsWithReservationCounts = await _context.Clinics
+                .Where(c=>c.IsDeleted==false)
                 .Include(c=>c.Reservations)
                 .ToListAsync();
             

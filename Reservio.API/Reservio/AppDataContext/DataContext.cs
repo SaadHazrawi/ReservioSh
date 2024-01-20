@@ -110,7 +110,7 @@ namespace Reservio.AppDataContext
                 Resgoin = "Reason for reservation 1",
                 PhoneNumber = "1234567890",
                 IPAddress = "192.168.0.1",
-                Date = DateTime.Now.AddHours(5),
+                Date = DateTime.Now.AddDays(-5),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
                 IsDeleted = false,
                 ClinicId = 1, // Heart Clinic
@@ -126,7 +126,7 @@ namespace Reservio.AppDataContext
                 Resgoin = "Reason for reservation 2",
                 PhoneNumber = "9876543210",
                 IPAddress = "192.168.0.2",
-                Date = DateTime.Now.AddHours(7),
+                Date = DateTime.Now.AddDays(-1),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
                 IsDeleted = false,
                 ClinicId = 2, // Children's Clinic
@@ -142,7 +142,7 @@ namespace Reservio.AppDataContext
                 Resgoin = "Reason for reservation 3",
                 PhoneNumber = "5551234567",
                 IPAddress = "192.168.0.3",
-                Date = DateTime.Now.AddHours(4),
+                Date = DateTime.Now.AddDays(-4),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
                 IsDeleted = false,
                 ClinicId = 3, // Eye Clinic
@@ -158,7 +158,7 @@ namespace Reservio.AppDataContext
                 Resgoin = "Reason for reservation 4",
                 PhoneNumber = "3339876543",
                 IPAddress = "192.168.0.4",
-                Date = DateTime.Now.AddHours(10),
+                Date = DateTime.Now.AddDays(-1),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
                 IsDeleted = false,
                 ClinicId = 4, // Ear, Nose and Throat Clinic
@@ -174,7 +174,7 @@ namespace Reservio.AppDataContext
                 Resgoin = "Reason for reservation 5",
                 PhoneNumber = "1112223333",
                 IPAddress = "192.168.0.5",
-                Date = DateTime.Now.AddHours(1),
+                Date = DateTime.Now.AddDays(-3),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
                 IsDeleted = false,
                 ClinicId = 5, // Dermatology Clinic
@@ -190,7 +190,7 @@ namespace Reservio.AppDataContext
                 Resgoin = "Reason for reservation 6",
                 PhoneNumber = "9998887777",
                 IPAddress = "192.168.0.6",
-                Date = DateTime.Now.AddHours(10),
+                Date = DateTime.Now.AddDays(-3),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
                 IsDeleted = false,
                 ClinicId = 1, // Heart Clinic
@@ -206,7 +206,7 @@ namespace Reservio.AppDataContext
                 Resgoin = "Reason for reservation 7",
                 PhoneNumber = "7775558888",
                 IPAddress = "192.168.0.7",
-                Date = DateTime.Now.AddHours(2),
+                Date = DateTime.Now.AddDays(-2),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
                 IsDeleted = false,
                 ClinicId = 3, // Eye Clinic

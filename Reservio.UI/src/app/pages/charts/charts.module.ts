@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartModule } from 'angular2-chartjs';
-import { NbCardModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbListModule, NbProgressBarModule, NbSelectModule, NbTabsetModule, NbUserModule } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
 
@@ -26,6 +26,8 @@ import { EchartsMultipleXaxisComponent } from './echarts/echarts-multiple-xaxis.
 import { EchartsAreaStackComponent } from './echarts/echarts-area-stack.component';
 import { EchartsBarAnimationComponent } from './echarts/echarts-bar-animation.component';
 import { EchartsRadarComponent } from './echarts/echarts-radar.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { ECommerceModule } from '../e-commerce/e-commerce.module';
 
 const components = [
   ChartjsBarComponent,
@@ -57,6 +59,8 @@ const components = [
     NgxChartsModule,
     ChartModule,
     NbCardModule,
+
+  
   ],
   declarations: [...routedComponents, ...components],
 })

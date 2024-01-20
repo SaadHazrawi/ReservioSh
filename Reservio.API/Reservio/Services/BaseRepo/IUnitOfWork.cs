@@ -1,4 +1,6 @@
-﻿using Reservio.Services.ClinicRepo;
+﻿using Reservio.Services.BIRepo;
+ 
+using Reservio.Services.ClinicRepo;
 using Reservio.Services.DotorRepo;
 using Reservio.Services.PatientRepo;
 using Reservio.Services.ReservationRepo;
@@ -15,6 +17,7 @@ namespace Reservio.Services.BaseRepo
         IPatientRepository Patients { get; }
         ISchedulesRepository Schedules { get; }
         IVacationRepository Vacations { get; }
-
+        IBIRepository BI { get; }
+ 
     }
 }

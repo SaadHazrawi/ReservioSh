@@ -30,5 +30,22 @@
                 return DateTimeLocal.GetDateTime().DayOfWeek;
             }
         }
+        public static DateTime GetStartOfWeek()
+        {
+            DateTime currentDate = DateTime.Now;
+            for (int i = 0; i < 7; i++)
+            {
+                int dayOfWeek = (int)currentDate.AddDays(-i).DayOfWeek;
+                if (dayOfWeek == 1)
+                {
+                    return DateTime.Now.AddDays(-i);
+                }
+            }
+
+            return DateTime.Now.AddDays(-7);
+        }
+
+
+
     }
 }
