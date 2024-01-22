@@ -25,7 +25,6 @@ import {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    // Select2Module,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
