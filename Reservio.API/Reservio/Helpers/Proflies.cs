@@ -65,7 +65,7 @@ namespace Reservio.Helpers
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.ClinicId))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Name))
                 .ReverseMap();
-
+                
 
             CreateMap<ScheduleForUpdateDto, Schedule>().ReverseMap();
             #endregion
