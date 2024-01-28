@@ -173,7 +173,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/extra-components/calendar-kit',
       },
       {
-        title: 'Chat',
+        title: 'BI',
         link: '/pages/extra-components/chat',
       },
     ],
@@ -205,11 +205,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'pie-chart-outline',
     children: [
       {
-        title: 'Echarts',
+        title: 'Charts',
         link: '/pages/charts/echarts',
       },
       {
-        title: 'Charts.js',
+        title: 'Charts',
         link: '/pages/charts/chartjs',
       },
       {

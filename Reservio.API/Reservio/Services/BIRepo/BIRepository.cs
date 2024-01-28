@@ -4,16 +4,12 @@ using Reservio.AppDataContext;
 using Reservio.Core;
 using Reservio.DTOS.BI;
 using Reservio.DTOS.Clinic;
-using Reservio.DTOS.Reservation;
 using Reservio.Enums;
-using Reservio.Models;
 using Reservio.Services.BaseRepo;
-using System;
-using System.Reflection.Metadata;
 
 namespace Reservio.Services.BIRepo
 {
-    public class BIRepository:IBIRepository
+    public class BIRepository : IBIRepository
     {
         private DataContext _context;
         private IMapper _mapper;
@@ -82,8 +78,7 @@ namespace Reservio.Services.BIRepo
             return patientInClinicDto;
         }
 
-
-        public async Task<DataObject> GetPatientInClinicInDataAsync(TimePeriod period)
+        public async Task<DataObject> GetPatientCountInClinicsAsync(TimePeriod period)
         {
             string formatDate = string.Empty;
             if (period == TimePeriod.Month)
@@ -91,28 +86,112 @@ namespace Reservio.Services.BIRepo
                 formatDate = "MM";
             }
 
-            var clinicsWithReservationCounts = await _context.Reservations
-                .Where(r => r.BookFor.Year > DateTime.Now.Year)
+
+            var reservationsInSelectedYear = await _context.Reservations
+                .Where(r => r.BookFor.Year == DateTime.Now.Year).ToListAsync();
+
+            var labels = reservationsInSelectedYear
                 .GroupBy(r => r.BookFor.ToString(formatDate))
                 .Select(g => new
                 {
                     Date = g.Key,
-                    PatientCount = g.Count()
                 })
-                .ToListAsync();
+                .ToList();
 
-            DataObject data = new DataObject();
-            data.Labels = clinicsWithReservationCounts.Select(c => c.Date).ToList();
+            var datasets = new List<Dataset>();
+            var clinicIds =await _context.Clinics.Select(c => c.ClinicId).Distinct().ToListAsync();
+            foreach (var clinicId in clinicIds)
+            {
+                var dataset = new Dataset();
+                dataset.Label = _context.Clinics.FirstOrDefault(c => c.ClinicId == clinicId)!.Name;
+                dataset.Data = new List<int>();
+                dataset.BackgroundColor = ReservationHelper.GetRandomColors(1)[0];
 
-            Dataset dataset = new Dataset();
-            dataset.Data = clinicsWithReservationCounts.Select(c => c.PatientCount).ToList();
-            dataset.Label = "Patient Count";
-            dataset.BackgroundColor = "00F";
+                foreach (var date in labels)
+                {
+                    var month = Convert.ToInt32(date.Date);
 
-            data.Datasets = new List<Dataset> { dataset };
+                    var count = await _context.Reservations
+                        .Where(x => x.ClinicId == clinicId && x.BookFor.Month == month && x.BookFor.Year == DateTime.Now.Year)
+                        .CountAsync();
+
+                    dataset.Data.Add(count);
+                }
+
+                datasets.Add(dataset);
+            }
+
+            var data = new DataObject();
+            data.Labels = labels.Select(c => c.Date).ToList();
+            data.Datasets = datasets;
 
             return data;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*     public async Task<DataObject> GetPatientInClinicInDataAsync(TimePeriod period)
+             {
+                 string formatDate = string.Empty;
+                 if (period == TimePeriod.Month)
+                 {
+                     formatDate = "MM";
+                 }
+
+                 var getReservationInSelectedYear = await _context.Reservations
+                     .Where(r => r.BookFor.Year == DateTime.Now.Year).ToListAsync();
+
+                 var labels = getReservationInSelectedYear.GroupBy(r => r.BookFor.ToString(formatDate))
+                     .Select(g => new
+                     {
+                         Date = g.Key,
+                     })
+                  .ToList();
+
+                 foreach (var item in _context.Clinics.Select(c => c.ClinicId).Distinct().ToList())
+                 {
+
+                     var x = new Dataset();
+                     x.Label = _context.Clinics.FirstOrDefault(c => c.ClinicId == item).Name;
+                     var y = new List<int>();
+                     foreach (var date in labels)
+                     {
+                         var clinicId = item;
+                         var month = Convert.ToInt32(date.Date);
+
+                         var count = await _context.Reservations
+                             .Where(x => x.ClinicId == clinicId && x.BookFor.Month == month && x.BookFor.Year == DateTime.Now.Year)
+                             .CountAsync();
+
+                         y.Add(count);
+                     }
+
+                 }
+
+                 DataObject data = new DataObject();
+                 data.Labels = labels.Select(c => c.Date).ToList();
+
+                 Dataset dataset = new Dataset();
+                 dataset.Label = "Patient Count";
+                 dataset.BackgroundColor = "00F";
+
+                 data.Datasets = new List<Dataset> { dataset };
+
+                 return data;
+             }*/
 
     }
 }

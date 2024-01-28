@@ -10,6 +10,6 @@ namespace Reservio.Services.BIRepo
         Task<List<ValueName>> GetCountByGenderPatient();
         Task<List<int>> GetPatientInWeek();
         Task<PatientInClinicDto> GetPatientInClinic();
-        Task<DataObject> GetPatientInClinicInDataAsync(TimePeriod period);
+        Task<DataObject> GetPatientCountInClinicsAsync(TimePeriod period);
     }
 }
