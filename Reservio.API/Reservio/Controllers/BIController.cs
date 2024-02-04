@@ -49,7 +49,7 @@ namespace Reservio.Controllers
         [HttpGet(template: "GetPatientInClinicInDataAsync")]
         public async Task<IActionResult> GetPatientInClinicInDataAsync()
         {
-            var data = await _unitOfWork.BI.GetPatientInClinicInDataAsync(TimePeriod.Month);
+            var data = await _unitOfWork.BI.GetPatientCountInClinicsAsync(TimePeriod.Month);
             return Ok(data);
         }
     }
