@@ -6,7 +6,7 @@ import { Schedule } from '../Model/Schedule';
 @Component({
   selector: 'ngx-schedule-view',
   templateUrl: './schedule-view.component.html',
-  styleUrls: ['./schedule-view.component.scss']
+  styleUrls: ['./schedule-view.component.css']
 })
 export class ScheduleViewComponent implements OnInit {
 
