@@ -19,12 +19,8 @@ namespace Reservio.Controllers
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        [HttpGet(template: "GetAllReservations")]
-        public async Task<IActionResult> GetAllReservations()
-        {
-            var reservations=await _unitOfWork.Reservation.GetAllReservationAsync();
-            return Ok(_mapper.Map<List<ReservationDto>>( reservations));
-        }
+   
+
         [HttpGet]
         public async Task<ActionResult> CheckReservationStatus([FromQuery] string iPAddress)
         {
@@ -79,20 +75,12 @@ namespace Reservio.Controllers
         [HttpGet("GetReservationsByDate")]
         public async Task<IActionResult> GetReservationsByDate([FromQuery] GetReservationsByDateInput input)
         {
-            var reservations = await _unitOfWork.Reservation.FindAllAsync(
-                x => x.ClinicId == input.ClinicId && x.BookFor >= input.StartDate && x.BookFor <= input.EndDate,
-                new string[] { },
-                od => od.Date,
-                OrderBy.Descending
-            );
+            var (reservations, paginationData) = await _unitOfWork.Reservation.GetReservationAsync(input);
+            Response.Headers.Add("x-pagination", paginationData.ToString());
 
-            if (reservations == null)
-            {
-                return NotFound("No reservations found in the specified clinic.");
-            }
-            //TODO : Nedd mapper
             return Ok(reservations);
         }
+
         [HttpPut("{reservationId}")]
         public async Task<IActionResult> UpdateReservation(int reservationId,ReservationUpdateDTO reservationUpdateDTO)
         {

@@ -99,7 +99,7 @@ namespace Reservio.Services.BIRepo
                 .ToList();
 
             var datasets = new List<Dataset>();
-            var clinicIds =await _context.Clinics.Select(c => c.ClinicId).Distinct().ToListAsync();
+            var clinicIds = await _context.Clinics.Select(c => c.ClinicId).Distinct().ToListAsync();
             foreach (var clinicId in clinicIds)
             {
                 var dataset = new Dataset();
@@ -128,70 +128,4 @@ namespace Reservio.Services.BIRepo
             return data;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*     public async Task<DataObject> GetPatientInClinicInDataAsync(TimePeriod period)
-             {
-                 string formatDate = string.Empty;
-                 if (period == TimePeriod.Month)
-                 {
-                     formatDate = "MM";
-                 }
-
-                 var getReservationInSelectedYear = await _context.Reservations
-                     .Where(r => r.BookFor.Year == DateTime.Now.Year).ToListAsync();
-
-                 var labels = getReservationInSelectedYear.GroupBy(r => r.BookFor.ToString(formatDate))
-                     .Select(g => new
-                     {
-                         Date = g.Key,
-                     })
-                  .ToList();
-
-                 foreach (var item in _context.Clinics.Select(c => c.ClinicId).Distinct().ToList())
-                 {
-
-                     var x = new Dataset();
-                     x.Label = _context.Clinics.FirstOrDefault(c => c.ClinicId == item).Name;
-                     var y = new List<int>();
-                     foreach (var date in labels)
-                     {
-                         var clinicId = item;
-                         var month = Convert.ToInt32(date.Date);
-
-                         var count = await _context.Reservations
-                             .Where(x => x.ClinicId == clinicId && x.BookFor.Month == month && x.BookFor.Year == DateTime.Now.Year)
-                             .CountAsync();
-
-                         y.Add(count);
-                     }
-
-                 }
-
-                 DataObject data = new DataObject();
-                 data.Labels = labels.Select(c => c.Date).ToList();
-
-                 Dataset dataset = new Dataset();
-                 dataset.Label = "Patient Count";
-                 dataset.BackgroundColor = "00F";
-
-                 data.Datasets = new List<Dataset> { dataset };
-
-                 return data;
-             }*/
-
     }
-}

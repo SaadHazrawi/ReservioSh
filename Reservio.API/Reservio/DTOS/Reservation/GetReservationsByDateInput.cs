@@ -21,5 +21,8 @@ namespace Reservio.DTOS.Reservation
         /// The end date of the reservation period.
         /// </summary>
         public DateTime EndDate { get; set; }
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 50;
+
     }
 }

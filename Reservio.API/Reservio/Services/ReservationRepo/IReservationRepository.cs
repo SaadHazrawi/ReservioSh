@@ -2,12 +2,13 @@
 using Reservio.Models;
 using Reservio.DTOS.Reservation;
 using Reservio.Services.BaseRepo;
+using Reservio.Core;
 
 namespace Reservio.Services.ReservationRepo;
 
 public interface IReservationRepository :IBaseRepository<Reservation>
 {
-    Task<List<Reservation>> GetAllReservationAsync();
+    Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationAsync(GetReservationsByDateInput dto);
 
     Task<ReservationStatus> CheckReservationStatus(string iPAddress);
     Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto);

@@ -102,16 +102,59 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         return reservationStatus;
     }
 
-    public async Task<List<Reservation>> GetAllReservationAsync()
+    public async Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationAsync(GetReservationsByDateInput dto)
     {
-        var reservation = await _context.Reservations
-                    .Where(r => r.IsDeleted == false)
-                    .ToListAsync();
-        if (reservation is null)
+        var query = _context.Reservations as IQueryable<Reservation>;
+
+
+        if (dto.ClinicId>0)
+        {
+            query = query.Where(c => c.ClinicId == dto.ClinicId);
+        }
+
+        if (dto.StartDate > DateTime.MinValue)
+        {
+            query = query.Where(c => c.BookFor >= dto.StartDate);
+        }
+
+        if (dto.EndDate > DateTime.MinValue)
+        {
+            query = query.Where(c => c.BookFor <= dto.EndDate);
+        }
+
+
+        var reservation = query.Select(reservation => new ReservationDto
+        {
+            ReservationId= reservation.ReservationId,
+            FirstName = reservation.FirstName,
+            LastName = reservation.LastName,
+            DateOfBirth= reservation.DateOfBirth,
+            Date = reservation.Date,
+            BookFor = reservation.BookFor,
+            Gender = reservation.Gender,
+            PhoneNumber = reservation.PhoneNumber,
+            Clinic = _context.Clinics.FirstOrDefault(r=>r.ClinicId == reservation.ClinicId)!.Name
+        });
+
+
+        var totalCourses = await reservation.CountAsync();
+
+        var result =reservation
+            .OrderBy(c => c.Date)
+            .Skip((dto.PageNumber - 1) * dto.PageSize)
+            .Take(dto.PageSize);
+
+
+
+
+        var paginationMetaData = new PaginationMetaData(totalCourses, dto.PageSize, dto.PageNumber);
+
+        if (result is null)
         {
             throw new APIException(HttpStatusCode.NotFound, "Not Found Any Reservation in system");
         }
-        return reservation;
+
+        return (result, paginationMetaData);
     }
 
 
