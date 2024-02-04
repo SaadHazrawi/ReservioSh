@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngx-tables',
+  selector: 'ngx-doctors',
   template: `<router-outlet></router-outlet>`,
 })
-export class DoctorComponents {
+
+export class DoctorsComponent {
+             
 }
+
+

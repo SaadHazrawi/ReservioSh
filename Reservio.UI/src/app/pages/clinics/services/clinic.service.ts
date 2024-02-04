@@ -3,7 +3,6 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ClinicForUpdateDTO } from '../Model/ClinicForUpdateDTO';
 import { ClinicCreationDTO } from '../Model/ClinicCreationDTO';
 
 @Injectable({
@@ -42,7 +41,6 @@ export class ClinicService {
   }
 
   getClinicById(clinicId: string): Observable<any> {
-    
     return this.http.get<any>(`${this.apiUrl}Clinics/${clinicId}`)
       .pipe(catchError(this.handleError));
   }
@@ -51,7 +49,7 @@ export class ClinicService {
     let url = `${this.apiUrl}Clinics`;
     return this.http.get<any[]>(url, { observe: 'response' }).pipe(
     catchError(this.handleError));
-    }
+  }
 
   handleError(error: HttpErrorResponse) {
     let errorMessage: string = '';

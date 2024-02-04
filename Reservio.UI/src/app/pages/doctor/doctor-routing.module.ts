@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DoctorTableComponent } from './doctor-table/doctor-table.component';
- import { DoctorComponents } from './DoctorComponents';
+ import { DoctorsComponent } from './DoctorsComponent';
 
 const routes: Routes = [{
  path: '',
@@ -20,6 +20,6 @@ children: [
 })
 export class DoctorRoutingModule { }
 export const routedComponents = [
-  DoctorComponents,
+  DoctorsComponent,
   DoctorTableComponent
 ];

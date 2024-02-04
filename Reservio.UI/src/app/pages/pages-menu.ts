@@ -13,6 +13,34 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/iot-dashboard',
   },
   {
+    title: 'Pages',
+    icon: 'home-outline',
+    children: [
+      {
+        title: 'Home',
+        link: '/Home',
+      },
+      {
+        title: 'Contact Us',
+        link: '/ContactUs',
+      },
+      {
+        title: 'Booking form',
+        link: '/BookingForm',
+      }
+    ]
+  },
+  {
+    title: 'Patients',
+    icon: 'home-outline',
+    children: [
+      {
+        title: '',
+        link: '',
+      }
+    ]
+  },
+  {
     title: 'Clinics',
     icon: 'home-outline',
     children: [
@@ -22,6 +50,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ]
   },
+
   {
     title: 'Doctors',
     icon: 'home-outline',
@@ -173,7 +202,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/extra-components/calendar-kit',
       },
       {
-        title: 'BI',
+        title: 'Chat',
         link: '/pages/extra-components/chat',
       },
     ],
@@ -205,11 +234,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'pie-chart-outline',
     children: [
       {
-        title: 'Charts',
+        title: 'Echarts',
         link: '/pages/charts/echarts',
       },
       {
-        title: 'Charts',
+        title: 'Charts.js',
         link: '/pages/charts/chartjs',
       },
       {

@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { ScheduleTableComponent } from "./schedule-table/schedule-table.component";
-import { ScheduleComponents } from "./ScheduleComponent";
+import { ScheduleComponent } from "./ScheduleComponent";
 import { ScheduleViewComponent } from "./schedule-view/schedule-view.component";
 
 const routes: Routes = [
@@ -32,4 +32,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class ScheduleRoutingModule {}
-export const routedComponents = [ScheduleTableComponent, ScheduleComponents,ScheduleViewComponent];
+export const routedComponents = [ScheduleTableComponent, ScheduleComponent,ScheduleViewComponent];
