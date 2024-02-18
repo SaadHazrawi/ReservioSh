@@ -12,6 +12,16 @@
   transform: translateY(-50%);
 }
 
+
+#div-message {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 #booking {
   font-family: "Raleway", sans-serif;
   background-image: url("../../../assets/background.jpg");

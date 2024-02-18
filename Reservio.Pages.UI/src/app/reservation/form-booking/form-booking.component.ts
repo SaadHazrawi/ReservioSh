@@ -71,6 +71,7 @@ export class FormBookingComponent implements OnInit {
 
   hideBookingForm() {
     const bookingFormElement = document.getElementById('bookingForm');
+    console.log("bookingFormElement.style.display = 'none'");
     if (bookingFormElement) {
       bookingFormElement.style.display = 'none';
       console.log("bookingFormElement.style.display = 'none'");
@@ -109,7 +110,7 @@ export class FormBookingComponent implements OnInit {
     if (alertPlaceholder) {
       const wrapper = document.createElement('div');
       wrapper.innerHTML = `<div class="alert alert-${type} alert-dismissible" role="alert">    
-                           <div>${message}</div>      
+                           <div> <strong>${message}</strong>     </div> 
                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
                            </div>  ;`
       alertPlaceholder.append(wrapper);
