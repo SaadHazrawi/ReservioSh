@@ -2,12 +2,6 @@
 {
     public enum GenderPaintet
     {
-        Male = 1, Female = 2,
-    }
-    public enum TimePeriod
-    {
-        Week,
-        Month,
-        Year
+        Male = 0, Female = 1,
     }
 }

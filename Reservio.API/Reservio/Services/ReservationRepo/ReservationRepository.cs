@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Reservio.AppDataContext;
 using Reservio.Core;
 using Reservio.DTOS.Reservation;
+using Reservio.Enums;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
 using System.Net;
@@ -33,7 +34,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         }
 
         var reservationStatus = await CheckReservationStatus(dto.IPAddress);
-        if (reservationStatus.Stopping)
+        if (reservationStatus.Status != ReservationState.Successfully)
         {
             return reservationStatus;
         }
@@ -51,9 +52,8 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
         if (CountReservations >= countPatientAccepted)
         {
-            reservationStatus.Stopping = true;
             reservationStatus.StoppingTo = DateTimeLocal.GetDateTime().ToShortDateString();
-            reservationStatus.Status = "The clinic is full.";
+            reservationStatus.Status = ReservationState.ClinicFull;
             _logger.LogError("Try to register on Tansima Clinic");
             return reservationStatus;
         }
@@ -82,21 +82,21 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         var CountReservations = await _context.Reservations.CountAsync(r => r.IPAddress == iPAddress
             && r.BookFor.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
 
-        //_logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
+        _logger.LogWarning($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
 
         var reservationStatus = new ReservationStatus();
         if (CountReservations > 0)
         {
-            reservationStatus.Status = "Make a reservation today. \n You can make another reservation after";
+            //"Make a reservation today. \n You can make another reservation after"
+            reservationStatus.Status = ReservationState.Stopping;
             reservationStatus.StoppingTo = DateTimeLocal.GetDate()
                 .Date.AddDays(1)
                 .AddHours(8)
                 .ToString("yyyy/MM/dd hh:mm");
-            reservationStatus.Stopping = true;
         }
         else
         {
-            reservationStatus.Status = "Reservation is possible";
+            reservationStatus.Status = ReservationState.Successfully;
         }
 
         return reservationStatus;

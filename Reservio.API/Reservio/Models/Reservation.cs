@@ -14,7 +14,8 @@ public class Reservation
     public string LastName { get; set; } = null!;
     public DateTime DateOfBirth { get; set; }
     public GenderPaintet Gender { get; set; }
-    public string Resgoin { get; set; } = string.Empty;
+    [MaxLength(100, ErrorMessage = "Region must not exceed 50 characters.")]
+    public string Region { get; set; } = string.Empty;
     [StringLength(100, MinimumLength = 2)]
     public string PhoneNumber { get; set; } = null!;
     public string IPAddress { get; set; } = null!;

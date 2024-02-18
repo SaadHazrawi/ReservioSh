@@ -194,8 +194,8 @@ namespace Reservio.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
@@ -209,13 +209,13 @@ namespace Reservio.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Resgoin")
+                    b.Property<string>("Region")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("PatientId");
 
@@ -270,9 +270,10 @@ namespace Reservio.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Resgoin")
+                    b.Property<string>("Region")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ReservationId");
 
@@ -286,107 +287,107 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 1,
-                            BookFor = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 1,
-                            Date = new DateTime(2024, 1, 17, 6, 17, 42, 976, DateTimeKind.Local).AddTicks(6241),
+                            Date = new DateTime(2024, 2, 13, 12, 33, 16, 910, DateTimeKind.Local).AddTicks(2426),
                             DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Abdullah",
-                            Gender = 1,
+                            Gender = 0,
                             IPAddress = "192.168.0.1",
                             IsDeleted = false,
                             LastName = "Doe",
                             PhoneNumber = "1234567890",
-                            Resgoin = "Reason for reservation 1"
+                            Region = "Reason for reservation 1"
                         },
                         new
                         {
                             ReservationId = 2,
-                            BookFor = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 2,
-                            Date = new DateTime(2024, 1, 17, 8, 17, 42, 976, DateTimeKind.Local).AddTicks(6279),
+                            Date = new DateTime(2024, 2, 17, 12, 33, 16, 910, DateTimeKind.Local).AddTicks(2469),
                             DateOfBirth = new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Omar",
-                            Gender = 2,
+                            Gender = 1,
                             IPAddress = "192.168.0.2",
                             IsDeleted = false,
                             LastName = "Doe",
                             PhoneNumber = "9876543210",
-                            Resgoin = "Reason for reservation 2"
+                            Region = "Reason for reservation 2"
                         },
                         new
                         {
                             ReservationId = 3,
-                            BookFor = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 3,
-                            Date = new DateTime(2024, 1, 17, 5, 17, 42, 976, DateTimeKind.Local).AddTicks(6285),
+                            Date = new DateTime(2024, 2, 14, 12, 33, 16, 910, DateTimeKind.Local).AddTicks(2477),
                             DateOfBirth = new DateTime(1982, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Saad",
-                            Gender = 2,
+                            Gender = 1,
                             IPAddress = "192.168.0.3",
                             IsDeleted = false,
                             LastName = "Smith",
                             PhoneNumber = "5551234567",
-                            Resgoin = "Reason for reservation 3"
+                            Region = "Reason for reservation 3"
                         },
                         new
                         {
                             ReservationId = 4,
-                            BookFor = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 4,
-                            Date = new DateTime(2024, 1, 17, 11, 17, 42, 976, DateTimeKind.Local).AddTicks(6292),
+                            Date = new DateTime(2024, 2, 17, 12, 33, 16, 910, DateTimeKind.Local).AddTicks(2486),
                             DateOfBirth = new DateTime(1975, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ammar",
-                            Gender = 1,
+                            Gender = 0,
                             IPAddress = "192.168.0.4",
                             IsDeleted = false,
                             LastName = "Johnson",
                             PhoneNumber = "3339876543",
-                            Resgoin = "Reason for reservation 4"
+                            Region = "Reason for reservation 4"
                         },
                         new
                         {
                             ReservationId = 5,
-                            BookFor = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 5,
-                            Date = new DateTime(2024, 1, 17, 2, 17, 42, 976, DateTimeKind.Local).AddTicks(6299),
+                            Date = new DateTime(2024, 2, 15, 12, 33, 16, 910, DateTimeKind.Local).AddTicks(2494),
                             DateOfBirth = new DateTime(1988, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ali",
-                            Gender = 2,
+                            Gender = 1,
                             IPAddress = "192.168.0.5",
                             IsDeleted = false,
                             LastName = "Anderson",
                             PhoneNumber = "1112223333",
-                            Resgoin = "Reason for reservation 5"
+                            Region = "Reason for reservation 5"
                         },
                         new
                         {
                             ReservationId = 6,
-                            BookFor = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 1,
-                            Date = new DateTime(2024, 1, 17, 11, 17, 42, 976, DateTimeKind.Local).AddTicks(6307),
+                            Date = new DateTime(2024, 2, 15, 12, 33, 16, 910, DateTimeKind.Local).AddTicks(2503),
                             DateOfBirth = new DateTime(1978, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Michael",
-                            Gender = 1,
+                            Gender = 0,
                             IPAddress = "192.168.0.6",
                             IsDeleted = false,
                             LastName = "Clark",
                             PhoneNumber = "9998887777",
-                            Resgoin = "Reason for reservation 6"
+                            Region = "Reason for reservation 6"
                         },
                         new
                         {
                             ReservationId = 7,
-                            BookFor = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 3,
-                            Date = new DateTime(2024, 1, 17, 3, 17, 42, 976, DateTimeKind.Local).AddTicks(6313),
+                            Date = new DateTime(2024, 2, 16, 12, 33, 16, 910, DateTimeKind.Local).AddTicks(2511),
                             DateOfBirth = new DateTime(1995, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Sophia",
-                            Gender = 2,
+                            Gender = 1,
                             IPAddress = "192.168.0.7",
                             IsDeleted = false,
                             LastName = "Brown",
                             PhoneNumber = "7775558888",
-                            Resgoin = "Reason for reservation 7"
+                            Region = "Reason for reservation 7"
                         });
                 });
 

@@ -21,6 +21,6 @@ namespace Reservio.DTOS.Reservation
 
         [RegularExpression(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b")]
         public string IPAddress { get; set; } = null!;
-        public string Resgoin { get; set; } = string.Empty;
+        public string Region { get; set; } = string.Empty;
     }
 }

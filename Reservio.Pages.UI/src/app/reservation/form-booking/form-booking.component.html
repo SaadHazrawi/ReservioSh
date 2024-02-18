@@ -1,0 +1,112 @@
+<div id="booking" class="section">
+    <div class="section-center">
+        <div class="container">
+            <div class="row">
+                <pre id="div-message"></pre>
+                <div class="title">مشفى كنانة</div>
+                <div class="booking-form">
+                    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Enter your first name"
+                                formControlName="firstName" />
+                            <span class="form-label">First Name</span>
+                            <div *ngIf="bookingForm.get('firstName')?.getError('required') && bookingForm.get('firstName')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">First Name is required</p>
+                            </div>
+                            <div *ngIf="bookingForm.get('firstName')?.getError('maxlength') && bookingForm.get('firstName')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Invalid</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Enter your last name"
+                                formControlName="lastName" />
+                            <span class="form-label">Last Name</span>
+                            <div *ngIf="bookingForm.get('lastName')?.getError('required') && bookingForm.get('lastName')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Last Name is required</p>
+                            </div>
+                            <div *ngIf="bookingForm.get('lastName')?.getError('maxlength') && bookingForm.get('lastName')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Invalid</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Enter your region"
+                                formControlName="region" />
+                            <span class="form-label">Region</span>
+                            <div *ngIf="bookingForm.get('region')?.getError('required') && bookingForm.get('region')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Region is required</p>
+                            </div>
+                            <div *ngIf="bookingForm.get('region')?.getError('maxlength') && bookingForm.get('region')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Invalid</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="tel" placeholder="Enter your phone number"
+                                formControlName="phoneNumber" />
+                            <span class="form-label">Phone Number</span>
+                            <div *ngIf="bookingForm.get('phoneNumber')?.getError('required') && bookingForm.get('phoneNumber')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Phone Number is required</p>
+                            </div>
+                            <div *ngIf="(bookingForm.get('phoneNumber')?.getError('maxlength') || bookingForm.get('phoneNumber')?.getError('minlength')) && bookingForm.get('phoneNumber')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Invalid</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="date" formControlName="dateOfBirth" />
+                            <span class="form-label">Date of Birth</span>
+                            <div *ngIf="bookingForm.get('dateOfBirth')?.getError('required') && bookingForm.get('dateOfBirth')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Date of Birth is required</p>
+                            </div>
+                            <div *ngIf="bookingForm.get('dateOfBirth')?.getError('maxlength') && bookingForm.get('dateOfBirth')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Invalid</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control select-gender" formControlName="gender">
+                                <option value="" disabled selected hidden>Select Gender</option>
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                            <span class="form-label">Gender</span>
+                            <div *ngIf="bookingForm.get('gender')?.getError('required') && bookingForm.get('gender')?.touched"
+                                class="alert alert-danger p-2 mt-1">
+                                <p class="m-0">Gender is required</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control select-clinic" formControlName="clinicId">
+                                <option value selected hidden>Select
+                                    Clinic</option>
+                                <option *ngFor="let clinic of clinics" [value]="clinic.clinicId">
+                                    {{ clinic.name }}
+                                </option>
+                            </select>
+                            <span class="select-arrow"></span>
+                            <span class="form-label">Clinic</span>
+                            <div *ngIf="bookingForm.get('clinicId')?.errors && bookingForm.get('clinicId')?.touched"
+                                class="alert alert-danger p-2 mt-1 bo">
+                                <p *ngIf="bookingForm.get('clinicId')?.getError('required')" class="m-0"> clinic is
+                                    required</p>
+                                <p *ngIf="bookingForm.get('clinicId')?.getError('maxlength')" class="m-0">Invalid </p>
+                            </div>
+                        </div>
+
+                        <button [disabled]="bookingForm.invalid || !isReservationEnabled" class="submit-btn" type="submit">
+                            Ok
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

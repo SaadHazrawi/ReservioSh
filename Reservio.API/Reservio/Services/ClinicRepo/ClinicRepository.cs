@@ -120,10 +120,10 @@ namespace Reservio.Services.ClinicRepo
             .Select(s => s.Clinic)
             .ToListAsync();
 
-            if (clinics.Count == 0)
-            {
-                throw new APIException(HttpStatusCode.NotFound, "No available clinics for reservations");
-            }
+            //if (clinics.Count == 0)
+            //{
+            //    throw new APIException(HttpStatusCode.NotFound, "No available clinics for reservations");
+            //}
 
             var clinicDtos = _mapper.Map<List<ClinicDto>>(clinics);
             return clinicDtos;

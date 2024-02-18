@@ -1,7 +1,8 @@
-﻿namespace Reservio.DTOS.Reservation;
+﻿using Reservio.Enums;
+
+namespace Reservio.DTOS.Reservation;
 public class ReservationStatus
 {
-    public string Status { get; set; } = string.Empty;
+    public Enums.ReservationState Status { get; set; } 
     public string StoppingTo { get; set; } = string.Empty;
-    public bool Stopping { get; set; } = false;
 }

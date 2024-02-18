@@ -19,7 +19,7 @@ namespace Reservio.Controllers
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-   
+
 
         [HttpGet]
         public async Task<ActionResult> CheckReservationStatus([FromQuery] string iPAddress)
