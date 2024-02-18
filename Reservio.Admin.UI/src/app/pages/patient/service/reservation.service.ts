@@ -12,16 +12,16 @@ export class ReservationService {
 
   constructor(private http: HttpClient) { }
 
-  getReservationsByDate(clinicId: number, startDate: Date, endDate: Date): Observable<any[]> {
-    const url = `${this.apiUrl}/GetReservationsByDate`;
+  getReservationsByDate(clinicId: number, startDate: Date, endDate: Date, pageNumber: number, pageSize: number): Observable<any[]> {
     const params = {
-      clinicId: clinicId.toString(),
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString()
+      ClinicId: clinicId.toString(),
+      StartDate: startDate.toISOString(),
+      EndDate: endDate.toISOString(),
+      PageNumber: pageNumber.toString(),
+      PageSize: pageSize.toString()
     };
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    return this.http.get<any[]>(url, { params, headers });
+    const url = `${this.apiUrl}Reservations/GetReservationsByDate`;
+    return this.http.get<any[]>(url, { params });
   }
 
 

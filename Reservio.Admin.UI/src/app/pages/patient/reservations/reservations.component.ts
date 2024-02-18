@@ -10,22 +10,22 @@ import { log } from 'console';
 })
 export class ReservationsComponent implements OnInit , OnDestroy {
 
-  x:any[];
+  reservations:any[];
   private subs = new SubSink();
 
   constructor(private reservationService: ReservationService) { }
 
   ngOnInit(): void {
-    this.subs.sink = this.reservationService.getReservationsByDate(1,new Date() , new Date()).subscribe({
-      next: (data) => {
-      this.x=data;
-      console.log(data);
-      
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    this.subs.sink = this.reservationService.getReservationsByDate(1, new Date('2022-02-19 00:00:00.0000000'), new Date('2025-02-19 00:00:00.0000000'), 1, 10)
+      .subscribe(
+        (data: any[]) => {
+          this.reservations = data;
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnDestroy(): void {
