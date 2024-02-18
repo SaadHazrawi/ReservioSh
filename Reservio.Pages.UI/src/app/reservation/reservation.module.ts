@@ -22,6 +22,9 @@ import { ScheduleComponent } from './schedule/schedule.component';
       {
         path: '', component: FormBookingComponent,
       },
+      {
+        path: 'schedule', component: ScheduleComponent,
+      },
     ])
   ],  
   providers: [
