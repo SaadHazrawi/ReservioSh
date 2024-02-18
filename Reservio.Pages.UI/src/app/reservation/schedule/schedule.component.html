@@ -1,7 +1,7 @@
-<table>
-    <tbody>
+<table class="container mt-3">
+    <tbody class="border-dark m-1 border-1">
       <tr *ngFor="let day of days">
-        <td>{{ day.name }}</td>
+        <td class="width-10">{{ day.name }}</td>
         <td *ngFor="let clinic of day.clinics">{{ clinic.name }}</td>
       </tr>
     </tbody>
