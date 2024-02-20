@@ -21,7 +21,7 @@ public class Reservation
     public string IPAddress { get; set; } = null!;
     public DateTime Date { get; set; }
     public DateTime BookFor { get; set; }
-    public bool IsDeleted { get; set; } = false;
+    public bool PatientVisitReviewed { get; set; } = false;
 
     public int ClinicId { get; set; }
   

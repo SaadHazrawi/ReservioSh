@@ -68,11 +68,17 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
     }
 
 
-    public async Task DeleteReservationAsync(Reservation reservation)
+    public async Task MarkReservationAsPatientVisitReviewedAsync(int Id)
     {
-        reservation.IsDeleted = true;
-        _context.Update(reservation);
-        await _context.SaveChangesAsync();
+        var reservation = await _context.Reservations.FindAsync(Id);
+
+        if (reservation != null)
+        {
+            reservation.PatientVisitReviewed = true;
+            _context.Update(reservation);
+            await _context.SaveChangesAsync();
+        }
+    
     }
     public async Task<ReservationStatus> CheckReservationStatus(string iPAddress)
     {
@@ -107,6 +113,8 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         var query = _context.Reservations as IQueryable<Reservation>;
 
 
+        query = query.Where(c => c.PatientVisitReviewed == false);
+
         if (dto.ClinicId>0)
         {
             query = query.Where(c => c.ClinicId == dto.ClinicId);
@@ -133,6 +141,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
             BookFor = reservation.BookFor,
             Gender = reservation.Gender,
             PhoneNumber = reservation.PhoneNumber,
+            Region = reservation.Region,
             Clinic = _context.Clinics.FirstOrDefault(r=>r.ClinicId == reservation.ClinicId)!.Name
         });
 

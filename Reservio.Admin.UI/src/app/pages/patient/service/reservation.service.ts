@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -12,7 +12,8 @@ export class ReservationService {
 
   constructor(private http: HttpClient) { }
 
-  getReservationsByDate(clinicId: number, startDate: Date, endDate: Date, pageNumber: number, pageSize: number): Observable<any[]> {
+  getReservationsByDate(clinicId: number, startDate: Date, endDate: Date, pageNumber: number, pageSize: number)
+  : Observable<HttpResponse<any[]>> {
     const params = {
       ClinicId: clinicId.toString(),
       StartDate: startDate.toISOString(),
@@ -21,8 +22,14 @@ export class ReservationService {
       PageSize: pageSize.toString()
     };
     const url = `${this.apiUrl}Reservations/GetReservationsByDate`;
-    return this.http.get<any[]>(url, { params });
+    return this.http.get<any[]>(url, { observe: 'response', params });
   }
+
+  MarkReservationAsPatientVisitReviewed(id: number): Observable<any> {
+    const url = `${this.apiUrl}Reservations?id=${id}`
+    return this.http.delete(url);
+  }
+
 
 
   handleError(error: HttpErrorResponse) {

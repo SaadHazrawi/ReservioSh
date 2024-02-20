@@ -48,13 +48,10 @@ namespace Reservio.Controllers
         }
 
 
-
         [HttpDelete]
-        public async Task<ActionResult> DeleteReservation(string iPAddress)
+        public async Task<ActionResult> MarkReservationAsPatientVisitReviewed(int id)
         {
-
-            //TODO What is Logic , Issues 1
-            //await _reservation.DeleteReservationAsync(iPAddress);
+            await _unitOfWork.Reservation.MarkReservationAsPatientVisitReviewedAsync(id);
             return NoContent();
         }
 

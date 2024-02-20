@@ -21,7 +21,7 @@ namespace Reservio.AppDataContext
             modelBuilder.Entity<Doctor>().HasQueryFilter(d=>!d.IsDeleted);
             modelBuilder.Entity<Clinic>().HasQueryFilter(d=>!d.IsDeleted);
             modelBuilder.Entity<Schedule>().HasQueryFilter(d=>!d.IsDeleted);
-            modelBuilder.Entity<Reservation>().HasQueryFilter(d=>!d.IsDeleted);
+            //modelBuilder.Entity<Reservation>().HasQueryFilter(d=>!d.PatientVisitReviewed);
             modelBuilder.Entity<Patient>().HasQueryFilter(d=>!d.IsDeleted);
 
             modelBuilder.Entity<Reservation>()
@@ -115,7 +115,7 @@ namespace Reservio.AppDataContext
                 IPAddress = "192.168.0.1",
                 Date = DateTime.Now.AddDays(-5),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
-                IsDeleted = false,
+                PatientVisitReviewed = false,
                 ClinicId = 1, // Heart Clinic
             });
 
@@ -131,7 +131,7 @@ namespace Reservio.AppDataContext
                 IPAddress = "192.168.0.2",
                 Date = DateTime.Now.AddDays(-1),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
-                IsDeleted = false,
+                PatientVisitReviewed = false,
                 ClinicId = 2, // Children's Clinic
             });
 
@@ -147,7 +147,7 @@ namespace Reservio.AppDataContext
                 IPAddress = "192.168.0.3",
                 Date = DateTime.Now.AddDays(-4),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
-                IsDeleted = false,
+                PatientVisitReviewed = false,
                 ClinicId = 3, // Eye Clinic
             });
 
@@ -163,7 +163,7 @@ namespace Reservio.AppDataContext
                 IPAddress = "192.168.0.4",
                 Date = DateTime.Now.AddDays(-1),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
-                IsDeleted = false,
+                PatientVisitReviewed = false,
                 ClinicId = 4, // Ear, Nose and Throat Clinic
             });
 
@@ -179,7 +179,6 @@ namespace Reservio.AppDataContext
                 IPAddress = "192.168.0.5",
                 Date = DateTime.Now.AddDays(-3),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
-                IsDeleted = false,
                 ClinicId = 5, // Dermatology Clinic
             });
 
@@ -195,7 +194,6 @@ namespace Reservio.AppDataContext
                 IPAddress = "192.168.0.6",
                 Date = DateTime.Now.AddDays(-3),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
-                IsDeleted = false,
                 ClinicId = 1, // Heart Clinic
             });
 
@@ -211,7 +209,6 @@ namespace Reservio.AppDataContext
                 IPAddress = "192.168.0.7",
                 Date = DateTime.Now.AddDays(-2),
                 BookFor = ReservationHelper.DetermineBookingDate(DateTime.Now),
-                IsDeleted = false,
                 ClinicId = 3, // Eye Clinic
             });
             return reservations;

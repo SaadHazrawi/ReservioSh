@@ -17,8 +17,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'home-outline',
     children: [
       {
-        title: 'X',
-        link: '/pages/patient/x',
+        title: 'Reservations',
+        link: '/pages/patient/reservations',
       }
     ]
   },

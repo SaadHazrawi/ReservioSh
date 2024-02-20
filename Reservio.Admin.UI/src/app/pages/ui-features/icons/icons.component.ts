@@ -44,7 +44,7 @@ export class IconsComponent {
       'chart-bar', 'barcode', 'bars', 'bed', 'beer',
       'bell', 'bell-slash', 'bicycle', 'binoculars',
       'birthday-cake', 'bolt', 'bomb', 'book', 'bookmark',
-      'briefcase', 'bug', 'building', 'bullhorn',
+      'briefcase', 'bug', 'building', 'bullhorn'
     ],
 
     fontAwesomeRegular: [ 'chart-bar', 'bell', 'bell-slash', 'bookmark', 'building' ],

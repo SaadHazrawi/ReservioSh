@@ -14,9 +14,9 @@ public interface IReservationRepository :IBaseRepository<Reservation>
     Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto);
     Task<Reservation> UpdateReservationAsync(int reservationId,ReservationUpdateDTO reservationDto);
 
-    //TODO What is Logic , Issues 1
-    Task DeleteReservationAsync(Reservation reservation);
-     
+    Task MarkReservationAsPatientVisitReviewedAsync(int Id);
+
+
 
 
 

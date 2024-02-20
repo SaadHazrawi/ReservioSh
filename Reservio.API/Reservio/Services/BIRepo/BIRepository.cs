@@ -67,7 +67,7 @@ namespace Reservio.Services.BIRepo
                                          .Select(c => new
                                          {
                                              ClinicName = c.Name,
-                                             CountPatient = c.Reservations.Count(r => !r.IsDeleted)
+                                             CountPatient = c.Reservations.Count(r => !r.PatientVisitReviewed==true)
                                          })
                                          .ToListAsync();
 
