@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Reservio.Services.DotorRepo
 {
-    public class DotorRepository : BaseRepository<Doctor>, IDotorRepository
+    public class DotorRepository : BaseRepository<Doctor>, IDoctorRepository
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -71,6 +71,7 @@ namespace Reservio.Services.DotorRepo
 
             return _mapper.Map<List<DoctorDTO>>(doctors);
         }
+
         public async Task<Doctor> GetDoctorByIdAsync(int doctorId, bool includeSubstite)
         {
             if (!includeSubstite)

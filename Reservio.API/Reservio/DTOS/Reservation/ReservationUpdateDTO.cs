@@ -14,7 +14,7 @@ namespace Reservio.DTOS.Reservation
         public string LastName { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
         public DateTime Date { get; set; } = DateTimeLocal.GetDate();
-        public GenderPaintet Gender { get; set; }
+        public GenderPatient Gender { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
         public string PhoneNumber { get; set; } = null!;

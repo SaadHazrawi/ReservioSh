@@ -17,7 +17,7 @@ namespace Reservio.Services.BaseRepo
 
         public IReservationRepository Reservation { get; private set; }
         public IClinicRepository Clinics { get; private set; }
-        public IDotorRepository Doctors { get; private set; }
+        public IDoctorRepository Doctors { get; private set; }
         public IPatientRepository Patients { get; private set; }
         public ISchedulesRepository Schedules { get; private set; }
 

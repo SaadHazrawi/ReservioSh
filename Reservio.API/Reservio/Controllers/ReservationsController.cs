@@ -24,7 +24,7 @@ namespace Reservio.Controllers
         [HttpGet]
         public async Task<ActionResult> CheckReservationStatus([FromQuery] string iPAddress)
         {
-            var reservationStatus = await _unitOfWork.Reservation.CheckReservationStatus(iPAddress);
+            var reservationStatus = await _unitOfWork.Reservation.CheckReservationStatusByIPAddress(iPAddress);
             return Ok( reservationStatus);
 
         }
@@ -72,7 +72,7 @@ namespace Reservio.Controllers
         [HttpGet("GetReservationsByDate")]
         public async Task<IActionResult> GetReservationsByDate([FromQuery] GetReservationsByDateInput input)
         {
-            var (reservations, paginationData) = await _unitOfWork.Reservation.GetReservationAsync(input);
+            var (reservations, paginationData) = await _unitOfWork.Reservation.GetReservationsByDateAsync(input);
             Response.Headers.Add("x-pagination", paginationData.ToString());
 
             return Ok(reservations);

@@ -1,11 +1,12 @@
 ﻿using Reservio.Enums;
-using Reservio.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Reservio.DTOS.Patient
 {
-    public class PatientCreationDTO
+    public class PatientUpdateDTO
     {
+        public int Id { get; set; }
+
         [StringLength(50, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 15 characters.")]
         public string FirstName { get; set; } = null!;
 

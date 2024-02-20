@@ -13,18 +13,16 @@ namespace Reservio.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public DataContext Context { get; set; }
         public DoctorsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetAllDoctors()
         {
-            var doctors = await _unitOfWork.Doctors.GetAllDoctorsAsync();
+            var doctors = await _unitOfWork.Doctors.GetAllAsync();
             return Ok(doctors);
 
         }

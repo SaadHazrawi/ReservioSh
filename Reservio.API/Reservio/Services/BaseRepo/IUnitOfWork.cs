@@ -13,7 +13,8 @@ namespace Reservio.Services.BaseRepo
     {
         IReservationRepository Reservation { get; }
         IClinicRepository Clinics { get; }
-        IDotorRepository Doctors { get; }
+        
+        IDoctorRepository Doctors { get; }
         IPatientRepository Patients { get; }
         ISchedulesRepository Schedules { get; }
         IVacationRepository Vacations { get; }

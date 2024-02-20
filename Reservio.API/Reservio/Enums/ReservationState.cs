@@ -7,6 +7,8 @@
         Successfully = 1,
         NoAvailableClinics = 2,
         Stopping = 3,
-        ClinicFull = 4
+        ClinicFull = 4,
+        UnavailableDay
+
     }
 }

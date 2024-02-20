@@ -22,11 +22,21 @@ namespace Reservio.Services.PatientRepo
             _mapper = mapper;
             _logger = logger;
         }
-        public async Task<Patient> AddPatientAsync(Patient patient)
+        public async Task<Patient> AddPatientAsync(PatientCreationDTO dto)
         {
+
+            var patient =_mapper.Map<Patient>(dto);
+            if (patient == null)
+            {
+                throw new APIException(HttpStatusCode.NotFound, "Adding failed.");
+
+            }
+
             await _context.Patients.AddAsync(patient);
             await _context.SaveChangesAsync();
             return patient;
+
+
         }
 
 
@@ -38,61 +48,54 @@ namespace Reservio.Services.PatientRepo
 
         }
 
-        public async Task<List<Patient>> GetAllPatientAsync()
+        public async Task<List<Patient>> GetAllAsync()
         {
             return await _context.Patients
                         .Where(p => !p.IsDeleted)
                           .ToListAsync();
         }
 
-        public async Task<Patient?> GetPatientByIdASync(int patientId, bool includeReservation)
+        public async Task<Patient?> GetPatientByIdAsync(int patientId, bool includeRevision)
         {
-            if (includeReservation)
+            var query = _context.Patients as IQueryable<Patient>;
+
+            if (includeRevision)
             {
-                return await _context.Patients
-                .Include(r => r.Reservations)
-                  .FirstOrDefaultAsync(p => p.PatientId == patientId
-                  && !p.IsDeleted);
+                query = query.Include(r => r.Reservations);
             }
 
-            else
-                return await _context.Patients
-                    .FirstOrDefaultAsync(p => p.PatientId == patientId && !p.IsDeleted);
-        }
+            var patient = await query.FirstOrDefaultAsync(p => p.PatientId == patientId && !p.IsDeleted);
 
-
-
-        public async Task<List<Reservation>> GetPatientsInClinic(int clinicId)
-        {
-            return await _context.Reservations
-                .Where(c => c.ClinicId == clinicId
-                && c.BookFor.Date == DateTimeLocal.GetDate())
-               .ToListAsync();
-
-        }
-
-        public async Task<Patient> UpdatePatientAsync(int patientId ,  PatientCreationDTO dto)
-        {
-
-            if (dto is null)
-            {
-                throw new APIException(HttpStatusCode.BadRequest, "Adding failed.");
-            }
-
-            var patient = await GetPatientByIdASync(patientId, false);
             if (patient is null)
             {
-                throw new APIException(HttpStatusCode.BadRequest, "Adding failed. The Doctor does not exist..");
+                throw new APIException(HttpStatusCode.NotFound, "Patient not found.");
             }
+
+            return patient;
+        }
+
+
+    
+
+
+        public async Task<Patient> UpdatePatientAsync(PatientUpdateDTO dto)
+        {
+            if (dto is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Update failed. Invalid data provided.");
+            }
+
+            var patient = await GetPatientByIdAsync(dto.Id, false);
+            if (patient is null)
+            {
+                throw new APIException(HttpStatusCode.BadRequest, "Update failed. The patient does not exist.");
+            }
+
             _mapper.Map(dto, patient);
             _context.Patients.Update(patient);
             await _context.SaveChangesAsync();
+
             return patient;
-        }
-        //TODO For Abdullah
-        public Task<Patient> UpdatePatientAsync(PatientCreationDTO patient)
-        {
-            throw new NotImplementedException();
         }
     }
 }

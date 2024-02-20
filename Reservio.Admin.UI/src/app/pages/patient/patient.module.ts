@@ -7,11 +7,13 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ReservationFilterComponent } from './reservation-filter/reservation-filter.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { PatientsTableComponent } from './patients-table/patients-table.component';
 
 @NgModule({
   declarations: [
     ReservationsComponent,
     ReservationFilterComponent,
+    PatientsTableComponent,
   ],
   imports: [
     CommonModule,
