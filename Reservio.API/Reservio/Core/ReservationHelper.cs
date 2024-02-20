@@ -3,6 +3,15 @@
     public class ReservationHelper
     {
 
+        public static int GetReservationLimitationPerDay()
+        {
+            // You can modify this logic based on your specific requirements
+            // For example, you can retrieve the value from a configuration file or database
+
+            // In this example, we're returning a fixed value of 5 reservations per day
+            return 1;
+        }
+
         public static DateTime DetermineBookingDate(DateTime dateTime)
         {
             DateTime now = dateTime;

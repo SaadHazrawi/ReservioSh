@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Reservio.AppDataContext;
 using Reservio.Core;
 using Reservio.DTOS.Reservation;
@@ -25,10 +24,9 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
     public async Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationsByDateAsync(GetReservationsByDateInput dto)
     {
-        var query = _context.Reservations as IQueryable<Reservation>;
+        var query = _context.Reservations.AsQueryable();
 
-
-        query = query.Where(c => c.PatientVisitReviewed == false);
+        query = query.Where(c => !c.PatientVisitReviewed);
 
         if (dto.ClinicId > 0)
         {
@@ -45,8 +43,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
             query = query.Where(c => c.BookFor <= dto.EndDate);
         }
 
-
-        var reservation = query.Select(reservation => new ReservationDto
+        var reservations = await query.Select(reservation => new ReservationDto
         {
             ReservationId = reservation.ReservationId,
             FirstName = reservation.FirstName,
@@ -58,35 +55,37 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
             PhoneNumber = reservation.PhoneNumber,
             Region = reservation.Region,
             Clinic = _context.Clinics.FirstOrDefault(r => r.ClinicId == reservation.ClinicId)!.Name
-        });
+        }).ToListAsync();
 
+        var totalReservations = reservations.Count;
 
-        var totalCourses = await reservation.CountAsync();
-
-        var result = reservation
+        var result = reservations
             .OrderBy(c => c.Date)
             .Skip((dto.PageNumber - 1) * dto.PageSize)
             .Take(dto.PageSize);
 
+        var paginationMetaData = new PaginationMetaData(totalReservations, dto.PageSize, dto.PageNumber);
 
-
-
-        var paginationMetaData = new PaginationMetaData(totalCourses, dto.PageSize, dto.PageNumber);
-
-        if (result is null)
+        if (!result.Any())
         {
-            throw new APIException(HttpStatusCode.NotFound, "Not Found Any Reservation in system");
+            throw new APIException(HttpStatusCode.NotFound, "No reservations found in the system.");
         }
 
         return (result, paginationMetaData);
     }
-
-
-    public Task<Reservation> GetReservationByIdAsync(int reservationId)
+    
+    public async Task<Reservation> GetReservationByIdAsync(int reservationId)
     {
-        //TODO To Saad
-        throw new NotImplementedException();
+        var reservation = await _context.Reservations.FirstOrDefaultAsync(r => r.ReservationId == reservationId);
+
+        if (reservation is null)
+        {
+            throw new APIException(HttpStatusCode.NotFound, "Error: The reservation was not found.");
+        }
+
+        return reservation;
     }
+    
     public async Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto)
     {
         bool clinicExists = await _context.Clinics.AnyAsync(c => c.ClinicId == dto.ClinicId);
@@ -120,7 +119,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
         return reservationStatus;
     }
-
+   
     public async Task<ReservationStatus> UpdateReservationAsync(int reservationId, ReservationUpdateDTO reservationDto)
     {
         var reservation = await GetByIdAsync(reservationId);
@@ -134,7 +133,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         {
             Status = ReservationState.Successfully
         };
-            
+        /// Check if Clinic is Work in day for the update
         if (!isValidInSchedule(reservationDto.ClinicId))
         {
             reservationStatus.Status = ReservationState.UnavailableDay;
@@ -158,6 +157,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
         return reservationStatus;
     }
+    
     public async Task MarkReservationAsPatientVisitReviewedAsync(int Id)
     {
         var reservation = await _context.Reservations.FindAsync(Id);
@@ -168,55 +168,49 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
             _context.Update(reservation);
             await _context.SaveChangesAsync();
         }
-
     }
-    public async Task<ReservationStatus> CheckReservationStatusByIPAddress(string iPAddress)
+    
+    public async Task<ReservationStatus> CheckReservationStatusByIPAddress(string ipAddress)
     {
-        var DayForBooking = ReservationHelper.DetermineBookingDayOfWeek();
-
-        // TODO 003: Test =>  Complete the conditions for counting reservations based on your requirements.
-        var CountReservations = await _context.Reservations.CountAsync(r => r.IPAddress == iPAddress
-            && r.BookFor.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
-
-        _logger.LogInformation($"IPAddress {iPAddress}  , Date TimeL {DateTimeLocal.GetDate().Date}");
-
-        var reservationStatus = new ReservationStatus();
-        if (CountReservations > 0)
+        var reservationStatus = new ReservationStatus()
         {
-            //"Make a reservation today. \n You can make another reservation after"
-            reservationStatus.Status = ReservationState.Stopping;
-            reservationStatus.StoppingTo = DateTimeLocal.GetDate()
-                .Date.AddDays(1)
-                .AddHours(8)
-                .ToString("yyyy/MM/dd hh:mm");
-        }
-        else
+            Status = ReservationState.Successfully
+        };
+
+        _logger.LogInformation($"IPAddress{ipAddress},DateTimeL{DateTimeLocal.GetDate().Date}");
+
+
+        int DayForBooking = (int)ReservationHelper.DetermineBookingDayOfWeek();
+        var reservationCount = await _context.Reservations.CountAsync(r => r.IPAddress == ipAddress
+            && r.BookFor.Day == DayForBooking);
+        var maxReservationPerDay = Convert.ToInt32(ReservationHelper.GetReservationLimitationPerDay());
+
+        if (reservationCount >= maxReservationPerDay)
         {
-            reservationStatus.Status = ReservationState.Successfully;
+            reservationStatus.Status = ReservationState.MaxReservationPerDay;
+            reservationStatus.StoppingTo = DateTimeLocal.GetDate().Date.AddDays(1).AddHours(8).ToString("yyyy/MM/dd hh:mm");
         }
 
         return reservationStatus;
     }
-   
-    /// <summary>
-    /// Check if Clinic is Work in day for the update
-    /// </summary>
-    /// <param name="clinicId"></param>
-    /// <returns></returns>
+    
     private bool isValidInSchedule(int clinicId)
     {
         var valid = _context.Schedules.Any(sc => sc.ClinicId == clinicId
         && (int)sc.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
         return valid;
     }
+    
     private async Task<bool> CheckIfCanAcceptMorePatients(int clinicId)
     {
         int countPaitentAccepted = await _context.Clinics
-        .Where(c => c.ClinicId == clinicId)
-        .Select(c => c.AcceptedPatientsCount)
+        .Where(c => c.ClinicId == clinicId).Select(c => c.AcceptedPatientsCount)
         .FirstOrDefaultAsync();
+
         var CountReservations = await _context.Reservations.CountAsync(r => r.ClinicId == clinicId
              && r.Date.Day == (int)ReservationHelper.DetermineBookingDayOfWeek());
         return CountReservations >= countPaitentAccepted;
     }
+
+
 }

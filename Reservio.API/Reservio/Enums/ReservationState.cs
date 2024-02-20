@@ -6,7 +6,7 @@
         None = 0,
         Successfully = 1,
         NoAvailableClinics = 2,
-        Stopping = 3,
+        MaxReservationPerDay = 3,
         ClinicFull = 4,
         UnavailableDay
 
