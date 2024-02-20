@@ -1,10 +1,9 @@
 ﻿using Reservio.Enums;
-using Reservio.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Reservio.DTOS.Patient
 {
-    public class PatientCreationDTO
+    public class PatientFilter
     {
 
         [StringLength(100, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 15 characters.")]
@@ -21,5 +20,8 @@ namespace Reservio.DTOS.Patient
         [Range(typeof(DateTime), "1/1/1823", "{0}", ErrorMessage = "Date of birth must be after 1/1/1823.")]
         public DateTime DateOfBirth { get; set; }
 
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 50;
     }
+
 }

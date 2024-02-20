@@ -1,5 +1,4 @@
 ﻿using Reservio.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace Reservio.DTOS.Patient
 {
@@ -12,4 +11,5 @@ namespace Reservio.DTOS.Patient
         public GenderPatient Gender { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
+
 }

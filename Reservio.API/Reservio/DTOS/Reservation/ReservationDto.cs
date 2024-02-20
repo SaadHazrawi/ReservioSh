@@ -16,6 +16,6 @@ namespace Reservio.DTOS.Reservation
         public string PhoneNumber { get; set; } = null!;
         public DateTime Date { get; set; }
         public DateTime BookFor { get; set; }
-        public string Clinic { get; set; }
+        public string Clinic { get; set; } = null!;
     }
 }

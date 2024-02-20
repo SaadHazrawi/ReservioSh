@@ -1,17 +1,17 @@
-﻿using Reservio.DTOS.Patient;
-using Reservio.DTOS.Reservation;
+﻿using Reservio.Core;
+using Reservio.DTOS.Patient;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Reservio.Services.PatientRepo
+namespace Reservio.Services.PatientRepo;
+
+public interface IPatientRepository : IBaseRepository<Patient>
 {
-    public interface IPatientRepository : IBaseRepository<Patient>
-    {
-        Task<List<Patient>> GetAllAsync();
-        Task<Patient?> GetPatientByIdAsync(int patientId, bool includeRevision);
-        Task<Patient> AddPatientAsync(PatientCreationDTO patient);
-        Task<Patient> UpdatePatientAsync(PatientUpdateDTO patient);
-        Task DeletePatienyAsync(Patient patient);
-      
-    }
+    Task<(IEnumerable<Patient>, PaginationMetaData)> GetAllPatientsAsync(PatientFilter filter);
+    Task<Patient?> GetPatientByIdAsync(int patientId, bool includeRevision);
+    Task<Patient> AddPatientAsync(PatientCreationDTO patient);
+    Task<Patient> UpdatePatientAsync(PatientUpdateDTO patient);
+    Task DeletePatientAsync(int patientId);
 }

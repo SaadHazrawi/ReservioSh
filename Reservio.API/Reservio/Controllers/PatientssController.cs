@@ -73,12 +73,7 @@ namespace Reservio.Controllers
         [HttpDelete("{patientId}")]
         public async Task<IActionResult> Delete(int patientId)
         {
-            Patient patient = await _unitOfWork.Patients.GetPatientByIdAsync(patientId, false);
-            if (patient is null)
-            {
-                return NotFound("The Patient is not found");
-            }
-            await _unitOfWork.Patients.DeletePatienyAsync(patient);
+            await _unitOfWork.Patients.DeletePatientAsync(patientId);
             return NoContent();
         }
 

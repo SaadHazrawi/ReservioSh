@@ -22,7 +22,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         _logger = logger;
     }
 
-    public async Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationsByDateAsync(GetReservationsByDateInput dto)
+    public async Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationsByDateAsync(ReservationFilter dto)
     {
         var query = _context.Reservations.AsQueryable();
 
@@ -33,15 +33,52 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
             query = query.Where(c => c.ClinicId == dto.ClinicId);
         }
 
-        if (dto.StartDate > DateTime.MinValue)
+        if (dto.ReservationStart > DateTime.MinValue)
         {
-            query = query.Where(c => c.BookFor >= dto.StartDate);
+            query = query.Where(c => c.BookFor >= dto.ReservationStart);
         }
 
-        if (dto.EndDate > DateTime.MinValue)
+        if (dto.ReservationEnd > DateTime.MinValue)
         {
-            query = query.Where(c => c.BookFor <= dto.EndDate);
+            query = query.Where(c => c.BookFor <= dto.ReservationEnd);
         }
+
+        if (!string.IsNullOrEmpty(dto.FirstName))
+        {
+            query = query.Where(c => c.FirstName.ToLower().Contains(dto.FirstName.ToLower()));
+        }
+
+        if (!string.IsNullOrEmpty(dto.LastName))
+        {
+            query = query.Where(c => c.LastName.ToLower().Contains(dto.LastName.ToLower()));
+        }
+
+        if (dto.DateOfBirth != default)
+        {
+            query = query.Where(c => c.DateOfBirth == dto.DateOfBirth);
+        }
+
+        if (dto.Gender != GenderPatient.Unknown)
+        {
+            query = query.Where(c => c.Gender == dto.Gender);
+        }
+
+        if (!string.IsNullOrEmpty(dto.Region))
+        {
+            query = query.Where(c => c.Region.ToLower().Contains(dto.Region.ToLower()));
+        }
+
+        if (!string.IsNullOrEmpty(dto.PhoneNumber))
+        {
+            query = query.Where(c => c.PhoneNumber.Contains(dto.PhoneNumber));
+        }
+
+        if (dto.Date != default)
+        {
+            query = query.Where(c => c.Date == dto.Date);
+        }
+
+     
 
         var reservations = await query.Select(reservation => new ReservationDto
         {
@@ -73,7 +110,6 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
 
         return (result, paginationMetaData);
     }
-    
     public async Task<Reservation> GetReservationByIdAsync(int reservationId)
     {
         var reservation = await _context.Reservations.FirstOrDefaultAsync(r => r.ReservationId == reservationId);
