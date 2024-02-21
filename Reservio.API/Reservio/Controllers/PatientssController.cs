@@ -42,7 +42,7 @@ namespace Reservio.Controllers
             var patient = await _unitOfWork.Patients.GetPatientByIdAsync(patientId, includeRevision);
 
             if (!includeRevision)
-                return Ok(_mapper.Map<PatientWithoutReversoinDTO>(patient));
+                return Ok(_mapper.Map<PatientDto>(patient));
 
             return Ok(patient);
         }
@@ -53,7 +53,7 @@ namespace Reservio.Controllers
         {
             var createdPatient = await _unitOfWork.Patients.AddPatientAsync(patientCreationDto);
             var patientId = createdPatient.PatientId;
-            var patientDto = _mapper.Map<PatientWithoutReversoinDTO>(createdPatient);
+            var patientDto = _mapper.Map<PatientDto>(createdPatient);
 
             return CreatedAtRoute(nameof(GetPatient), new { patientId, includeRevision=false }, patientDto);
         }

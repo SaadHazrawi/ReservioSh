@@ -2,7 +2,7 @@
 
 namespace Reservio.DTOS.Patient
 {
-    public class PatientWithoutReversoinDTO
+    public class PatientDto
     {
         public int PatientId { get; set; }
 
