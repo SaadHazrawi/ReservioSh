@@ -29,7 +29,7 @@ public class ReservationForAddDto
 
     [Required(ErrorMessage = "Phone number is required.")]
     [RegularExpression(@"^(\+|00)[0-9]{2,18}$", ErrorMessage = "Phone number must start with '00' or '+' and have a length between 6 and 20 digits.")]
-    [Display(Name = "Phone Number")]
+
     public string PhoneNumber { get; set; } = null!;
 
     [Required(ErrorMessage = "Date is required.")]
@@ -38,7 +38,6 @@ public class ReservationForAddDto
 
     [Required(ErrorMessage = "Booking date is required.")]
     [DataType(DataType.DateTime)]
-    [Display(Name = "Book For")]
     public DateTime BookFor { get; set; }
 
 
