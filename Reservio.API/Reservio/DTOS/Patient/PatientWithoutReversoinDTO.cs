@@ -5,11 +5,16 @@ namespace Reservio.DTOS.Patient
     public class PatientWithoutReversoinDTO
     {
         public int PatientId { get; set; }
-        public string FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string Regoin { get; set; }
-        public GenderPatient Gender { get; set; }
-        public bool IsDeleted { get; set; } = false;
-    }
 
+        public string FirstName { get; set; } = null!;
+
+        public string LastName { get; set; } = null!;
+
+        public string Region { get; set; } = string.Empty;
+
+        public GenderPatient Gender { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+    }
+ 
 }
