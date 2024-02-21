@@ -79,7 +79,7 @@ const routes: Routes = [{
         .then(m => m.ScheduleModule),
     },
     {
-      path: 'patient',
+      path: 'Patients',
       loadChildren: () => import('./patient/patient.module')
         .then(m => m.PatientModule),
     },

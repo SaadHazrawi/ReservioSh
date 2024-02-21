@@ -29,6 +29,9 @@ import { PatientsTableComponent } from './patients-table/patients-table.componen
       {
         path: 'reservations', component: ReservationsComponent,
       },
+      {
+        path: '', component: PatientsTableComponent,
+      },
 
     ])
     
