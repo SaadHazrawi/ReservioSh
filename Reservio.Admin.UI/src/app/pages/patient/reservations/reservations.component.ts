@@ -93,15 +93,12 @@ export class ReservationsComponent implements OnInit, OnDestroy {
     const reservationFilter: ReservationFilter = {
       reservationStart: '2022-02-19 00:00:00.0000000',
       reservationEnd: '2025-02-19 00:00:00.0000000',
-      clinicId: 1,
+      clinicId: 0,
       firstName: '',
       lastName: '',
-      dateOfBirth: '',
-      gender: GenderPatient.Male,
+      gender: GenderPatient.Unknown,
       region: '',
       phoneNumber: '',
-      date: '',
-      bookFor: '',
       pageNumber: 1,
       pageSize: 10
     };
