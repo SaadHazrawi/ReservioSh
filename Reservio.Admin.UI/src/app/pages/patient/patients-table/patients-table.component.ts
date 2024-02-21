@@ -3,8 +3,8 @@ import { SubSink } from 'subsink';
 import { PatientService } from '../service/patient.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { FormGroup } from '@angular/forms';
-import { PatientFilter } from '../Model/PatientFilter';
-import { GenderPatient } from '../Model/GenderPatient';
+import { PatientFilter } from '../Model/patientFilter';
+import { GenderPatient } from '../Model/genderPatient';
 
 @Component({
   selector: 'ngx-patients-table',

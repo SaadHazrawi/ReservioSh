@@ -1,4 +1,4 @@
-import { GenderPatient } from "./GenderPatient";
+import { GenderPatient } from "./genderPatient";
 
 export interface PatientFilter {
     firstName: string;

@@ -5,8 +5,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { log } from 'console';
 import { NbCalendarRange, NbDateService } from '@nebular/theme';
 import { FormGroup } from '@angular/forms';
-import { ReservationFilter } from '../Model/ReservationFilter';
-import { GenderPatient } from '../Model/GenderPatient';
+import { ReservationFilter } from '../Model/reservationFilter';
+import { GenderPatient } from '../Model/genderPatient';
 
 @Component({
   selector: 'ngx-reservations',
