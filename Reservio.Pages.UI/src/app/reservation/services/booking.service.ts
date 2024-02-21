@@ -14,7 +14,7 @@ export class BookingService {
 
   apiUrl = environment.apiUrl;
   reservationStatus(iPAddress: String): Observable<any> {
-    const url = this.apiUrl+'Reservations?iPAddress='+iPAddress;
+    const url = this.apiUrl+'Reservations/CheckReservationStatus?iPAddress='+iPAddress;
     return this.http.get(url)
       .pipe(
         catchError(this.handleError)

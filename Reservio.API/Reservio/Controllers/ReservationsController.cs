@@ -21,38 +21,22 @@ namespace Reservio.Controllers
         }
 
 
+
         [HttpGet]
+        public async Task<IActionResult> GetReservations(ReservationFilter input)
+        {
+            var (reservations, paginationData) = await _unitOfWork.Reservation.GetReservationsByDateAsync(input);
+            Response.Headers.Add("x-pagination", paginationData.ToString());
+
+            return Ok(reservations);
+        }
+
+        [HttpGet(template: "CheckReservationStatus")]
         public async Task<ActionResult> CheckReservationStatus([FromQuery] string iPAddress)
         {
             var reservationStatus = await _unitOfWork.Reservation.CheckReservationStatusByIPAddress(iPAddress);
             return Ok( reservationStatus);
 
-        }
-
-        /// <summary>
-        /// Add a new reservation.
-        /// </summary>
-        /// <param name="dto">Added reservation data.</param>
-        /// <returns>The result of the operation.</returns>
-        [HttpPost]
-        public async Task<ActionResult> Add(ReservationForAddDto dto)
-        {
-            // Check if the clinic ID exists
-            bool clinicExists = await _unitOfWork.Clinics.ExistsAsync(c => c.ClinicId == dto.ClinicId);
-            if (clinicExists)
-            {
-                var reservationStatus = await _unitOfWork.Reservation.AddReservationAsync(dto);
-                return Ok(reservationStatus);
-            }
-            return BadRequest("Adding failed. The clinic does not exist.");
-        }
-
-
-        [HttpDelete]
-        public async Task<ActionResult> MarkReservationAsPatientVisitReviewed(int id)
-        {
-            await _unitOfWork.Reservation.MarkReservationAsPatientVisitReviewedAsync(id);
-            return NoContent();
         }
 
 
@@ -64,24 +48,26 @@ namespace Reservio.Controllers
         }
 
 
-        /// <summary>
-        /// Retrieves the reservations in a clinic within a specified date range.
-        /// </summary>
-        /// <param name="input">The input data specifying the clinic ID and date range.</param>
-        /// <returns>The list of reservations in the clinic.</returns>
-        [HttpGet]
-        public async Task<IActionResult> GetReservations(ReservationFilter input)
+        [HttpPost]
+        public async Task<ActionResult> Add(ReservationForAddDto dto)
         {
-            var (reservations, paginationData) = await _unitOfWork.Reservation.GetReservationsByDateAsync(input);
-            Response.Headers.Add("x-pagination", paginationData.ToString());
-
-            return Ok(reservations);
+            var reservationStatus = await _unitOfWork.Reservation.AddReservationAsync(dto);
+            return Ok(reservationStatus);
         }
 
+
         [HttpPut("{reservationId}")]
-        public async Task<IActionResult> UpdateReservation(int reservationId,ReservationUpdateDTO reservationUpdateDTO)
+        public async Task<IActionResult> UpdateReservation(int reservationId, ReservationUpdateDTO reservationUpdateDTO)
         {
             await _unitOfWork.Reservation.UpdateReservationAsync(reservationId, reservationUpdateDTO);
+            return NoContent();
+        }
+
+
+        [HttpDelete]
+        public async Task<ActionResult> MarkReservationAsPatientVisitReviewed(int id)
+        {
+            await _unitOfWork.Reservation.MarkReservationAsPatientVisitReviewedAsync(id);
             return NoContent();
         }
 
