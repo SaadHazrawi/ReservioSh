@@ -28,7 +28,7 @@ namespace Reservio.Services.PatientRepo
             _logger = logger;
         }
 
-        public async Task<(IEnumerable<Patient>, PaginationMetaData)> GetAllPatientsAsync(PatientFilter filter)
+        public async Task<(IEnumerable<PatientWithoutReversoinDTO>, PaginationMetaData)> GetAllPatientsAsync(PatientFilter filter)
         {
             var query = _context.Patients
                 .Where(p => !p.IsDeleted);
@@ -65,9 +65,11 @@ namespace Reservio.Services.PatientRepo
                 .Take(filter.PageSize)
                 .ToListAsync();
 
+
+            var patientsDto = _mapper.Map<IReadOnlyList<PatientWithoutReversoinDTO>>(patients);
             var paginationMetaData = new PaginationMetaData(totalPatients, filter.PageSize, filter.PageNumber);
 
-            return (patients, paginationMetaData);
+            return (patientsDto, paginationMetaData);
         }
 
         public async Task<Patient?> GetPatientByIdAsync(int patientId, bool includeRevision)
