@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Reservio.DTOS.Doctor;
 using Reservio.DTOS.Patient;
+using Reservio.Migrations;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
 
@@ -23,8 +24,9 @@ namespace Reservio.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(PatientFilter patientFilter)
         {
-            var doctors = await _unitOfWork.Patients.GetAllPatientsAsync(patientFilter);
-            return Ok(doctors);
+            var (patient, paginationData) = await _unitOfWork.Patients.GetAllPatientsAsync(patientFilter);
+            Response.Headers.Add("x-pagination", paginationData.ToString());
+            return Ok(patient);
 
         }
 
