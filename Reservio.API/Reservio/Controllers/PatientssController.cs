@@ -27,21 +27,6 @@ namespace Reservio.Controllers
             return Ok(doctors);
 
         }
-        /// <summary>
-        /// Adds a new patient.
-        /// </summary>
-        /// <param name="patientCreationDto">The DTO containing the patient information.</param>
-        /// <returns>The created patient.</returns>
-        [HttpPost]
-        public async Task<IActionResult> AddPatient(PatientCreationDTO patientCreationDto)
-        {
-            var createdPatient = await _unitOfWork.Patients.AddPatientAsync(patientCreationDto);
-            var patientId = createdPatient.PatientId;
-            var patientDto = _mapper.Map<PatientWithoutReversoinDTO>(createdPatient);
-
-            return CreatedAtRoute(nameof(GetPatient), new { patientId, includeRevision=false }, patientDto);
-        }
-
 
         /// <summary>
         /// Retrieves a patient by ID.
@@ -61,6 +46,18 @@ namespace Reservio.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> AddPatient(PatientCreationDTO patientCreationDto)
+        {
+            var createdPatient = await _unitOfWork.Patients.AddPatientAsync(patientCreationDto);
+            var patientId = createdPatient.PatientId;
+            var patientDto = _mapper.Map<PatientWithoutReversoinDTO>(createdPatient);
+
+            return CreatedAtRoute(nameof(GetPatient), new { patientId, includeRevision=false }, patientDto);
+        }
+
+
+  
 
         [HttpPut("{patientId}")]
         public async Task<IActionResult> Update(PatientUpdateDTO dto)
