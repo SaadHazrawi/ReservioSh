@@ -6,12 +6,12 @@ export interface ReservationFilter {
     clinicId: number;
     firstName: string;
     lastName: string;
-    dateOfBirth: string;
+    dateOfBirth?: string;
     gender: GenderPatient;
     region: string;
     phoneNumber: string;
-    date: string;
-    bookFor: string;
+    date?: string;
+    bookFor?: string;
     pageNumber: number;
     pageSize: number;
 }

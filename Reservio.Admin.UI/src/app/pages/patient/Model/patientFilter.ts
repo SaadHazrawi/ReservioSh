@@ -5,7 +5,7 @@ export interface PatientFilter {
     lastName: string;
     region: string;
     gender: GenderPatient;
-    dateOfBirth: string;
+    dateOfBirth?: string;
     pageNumber: number;
     pageSize: number;
 }
