@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ReservationSearchFilters } from '../Model/ReservationSearchFilters';
 import { NbCalendarRange, NbDateService } from '@nebular/theme';
+import { ReservationFilter } from '../Model/ReservationFilter';
 
 @Component({
   selector: 'ngx-reservation-filter',
@@ -10,7 +10,7 @@ import { NbCalendarRange, NbDateService } from '@nebular/theme';
 })
 export class ReservationFilterComponent {
   @Input() clinic:any[];
-  @Output() searchFilters = new EventEmitter<ReservationSearchFilters>(); 
+  @Output() searchFilters = new EventEmitter<ReservationFilter>(); 
   searchForm: FormGroup;
   range: NbCalendarRange<Date>;
 
@@ -35,7 +35,7 @@ export class ReservationFilterComponent {
   }
   search() {
     if (this.searchForm.valid) {
-      const filters: ReservationSearchFilters = this.searchForm.value;
+      const filters: ReservationFilter = this.searchForm.value;
       this.searchFilters.emit(filters);
     }
   }

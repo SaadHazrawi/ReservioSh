@@ -21,9 +21,9 @@ namespace Reservio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(PatientFilter patientFilter)
         {
-            var doctors = await _unitOfWork.Patients.GetAllAsync();
+            var doctors = await _unitOfWork.Patients.GetAllPatientsAsync(patientFilter);
             return Ok(doctors);
 
         }

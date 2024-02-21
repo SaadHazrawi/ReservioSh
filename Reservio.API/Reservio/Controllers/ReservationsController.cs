@@ -69,8 +69,8 @@ namespace Reservio.Controllers
         /// </summary>
         /// <param name="input">The input data specifying the clinic ID and date range.</param>
         /// <returns>The list of reservations in the clinic.</returns>
-        [HttpGet("GetReservationsByDate")]
-        public async Task<IActionResult> GetReservationsByDate([FromQuery] ReservationFilter input)
+        [HttpGet]
+        public async Task<IActionResult> GetReservations(ReservationFilter input)
         {
             var (reservations, paginationData) = await _unitOfWork.Reservation.GetReservationsByDateAsync(input);
             Response.Headers.Add("x-pagination", paginationData.ToString());

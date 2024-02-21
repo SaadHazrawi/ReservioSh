@@ -4,8 +4,9 @@ import { ReservationService } from '../service/reservation.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { log } from 'console';
 import { NbCalendarRange, NbDateService } from '@nebular/theme';
-import { ReservationSearchFilters } from '../Model/ReservationSearchFilters';
 import { FormGroup } from '@angular/forms';
+import { ReservationFilter } from '../Model/ReservationFilter';
+import { GenderPatient } from '../Model/GenderPatient';
 
 @Component({
   selector: 'ngx-reservations',
@@ -17,7 +18,7 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
   totalPages!: number;
   currentPage: number = 1;
-  PageSize: number = 10;
+  PageSize: number = 50;
   totalItems!: number;
 
   settings = {
@@ -89,7 +90,22 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subs.sink = this.reservationService.getReservationsByDate(1, new Date('2022-02-19 00:00:00.0000000'), new Date('2025-02-19 00:00:00.0000000'), 1, 10)
+    const reservationFilter: ReservationFilter = {
+      reservationStart: '2022-02-19 00:00:00.0000000',
+      reservationEnd: '2025-02-19 00:00:00.0000000',
+      clinicId: 1,
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '',
+      gender: GenderPatient.Male,
+      region: '',
+      phoneNumber: '',
+      date: '',
+      bookFor: '',
+      pageNumber: 1,
+      pageSize: 10
+    };
+    this.subs.sink = this.reservationService.getReservations(reservationFilter)
       .subscribe({
         next: (data) => {
           this.source.load(data.body);
@@ -114,7 +130,7 @@ export class ReservationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  search(filters: ReservationSearchFilters) {
+  search(filters: ReservationFilter) {
     this.currentPage = 1;
     this.searchForm.patchValue(filters);
     //this.loadPatients();
