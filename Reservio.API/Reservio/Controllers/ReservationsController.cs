@@ -23,7 +23,7 @@ namespace Reservio.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetReservations(ReservationFilter input)
+        public async Task<IActionResult> GetReservations([FromQuery] ReservationFilter input)
         {
             var (reservations, paginationData) = await _unitOfWork.Reservation.GetReservationsByDateAsync(input);
             Response.Headers.Add("x-pagination", paginationData.ToString());

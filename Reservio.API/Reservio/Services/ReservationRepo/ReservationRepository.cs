@@ -78,7 +78,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
             query = query.Where(c => c.Date == dto.Date);
         }
 
-     
+
 
         var reservations = await query.Select(reservation => new ReservationDto
         {
