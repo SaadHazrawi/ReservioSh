@@ -12,7 +12,7 @@ namespace Reservio.DTOS.Patient
 
         public string Region { get; set; } = string.Empty;
 
-        public GenderPatient Gender { get; set; }
+        public string Gender { get; set; } = string.Empty;
 
         public DateTime DateOfBirth { get; set; }
     }
