@@ -22,7 +22,7 @@ namespace Reservio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(PatientFilter patientFilter)
+        public async Task<IActionResult> GetAll([FromQuery]PatientFilter patientFilter)
         {
             var (patient, paginationData) = await _unitOfWork.Patients.GetAllPatientsAsync(patientFilter);
             Response.Headers.Add("x-pagination", paginationData.ToString());
@@ -36,14 +36,10 @@ namespace Reservio.Controllers
         /// <param name="patientId">The ID of the patient.</param>
         /// <param name="includeRevision">Whether to include the patient's revision information.</param>
         /// <returns>The patient.</returns>
-        [HttpGet("{patientId}/{includeRevision}", Name = "GetPatient")]
-        public async Task<IActionResult> GetPatient(int patientId, bool includeRevision)
+        [HttpGet("{patientId}", Name = "GetPatient")]
+        public async Task<IActionResult> GetPatient(int patientId)
         {
-            var patient = await _unitOfWork.Patients.GetPatientByIdAsync(patientId, includeRevision);
-
-            if (!includeRevision)
-                return Ok(_mapper.Map<PatientDto>(patient));
-
+            var patient = await _unitOfWork.Patients.GetPatientByIdAsync(patientId);
             return Ok(patient);
         }
 
@@ -58,8 +54,6 @@ namespace Reservio.Controllers
             return CreatedAtRoute(nameof(GetPatient), new { patientId, includeRevision=false }, patientDto);
         }
 
-
-  
 
         [HttpPut("{patientId}")]
         public async Task<IActionResult> Update(PatientUpdateDTO dto)

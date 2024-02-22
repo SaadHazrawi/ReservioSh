@@ -10,7 +10,7 @@ namespace Reservio.Services.PatientRepo;
 public interface IPatientRepository : IBaseRepository<Patient>
 {
     Task<(IEnumerable<PatientDto>, PaginationMetaData)> GetAllPatientsAsync(PatientFilter filter);
-    Task<Patient?> GetPatientByIdAsync(int patientId, bool includeRevision);
+    Task<Patient?> GetPatientByIdAsync(int patientId);
     Task<Patient> AddPatientAsync(PatientCreationDTO patient);
     Task<Patient> UpdatePatientAsync(PatientUpdateDTO patient);
     Task DeletePatientAsync(int patientId);

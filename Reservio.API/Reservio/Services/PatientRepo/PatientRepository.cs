@@ -72,16 +72,10 @@ namespace Reservio.Services.PatientRepo
             return (patientsDto, paginationMetaData);
         }
 
-        public async Task<Patient?> GetPatientByIdAsync(int patientId, bool includeRevision)
+        public async Task<Patient?> GetPatientByIdAsync(int patientId)
         {
-            var query = _context.Patients as IQueryable<Patient>;
 
-            if (includeRevision)
-            {
-                query = query.Include(r => r.Reservations);
-            }
-
-            var patient = await query.FirstOrDefaultAsync(p => p.PatientId == patientId && !p.IsDeleted);
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.PatientId == patientId && !p.IsDeleted);
 
             if (patient is null)
             {
@@ -113,7 +107,7 @@ namespace Reservio.Services.PatientRepo
                 throw new APIException(HttpStatusCode.BadRequest, "Update failed. Invalid data provided.");
             }
 
-            var patient = await GetPatientByIdAsync(dto.PatientId, false);
+            var patient = await GetPatientByIdAsync(dto.PatientId);
 
             if (patient is null)
             {
