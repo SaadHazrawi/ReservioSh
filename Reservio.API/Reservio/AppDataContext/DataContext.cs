@@ -45,6 +45,7 @@ namespace Reservio.AppDataContext
             modelBuilder.Entity<Doctor>().HasData(GetDoctors());
             modelBuilder.Entity<Schedule>().HasData(GetSchedules());
             modelBuilder.Entity<Reservation>().HasData(GetReservations());
+            modelBuilder.Entity<Patient>().HasData(GetPatients());
             #endregion
         }
 
@@ -213,5 +214,77 @@ namespace Reservio.AppDataContext
             });
             return reservations;
         }
+
+
+        private List<Patient> GetPatients()
+        {
+            List<Patient> patients = new List<Patient>();
+
+            patients.Add(new Patient
+            {
+                PatientId = 1,
+                FirstName = "Abdullah",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Gender = GenderPatient.Male,
+                Region = "Region 1",
+                IPAddress = "192.168.0.1",
+                IsDeleted = false,
+            });
+
+            patients.Add(new Patient
+            {
+                PatientId = 2,
+                FirstName = "Omar",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(1985, 5, 15),
+                Gender = GenderPatient.Female,
+                Region = "Region 2",
+                IPAddress = "192.168.0.2",
+                IsDeleted = false,
+            });
+
+            // Add more patients as needed...
+            patients.Add(new Patient
+            {
+                PatientId = 3,
+                FirstName = "John",
+                LastName = "Smith",
+                DateOfBirth = new DateTime(1978, 10, 25),
+                Gender = GenderPatient.Male,
+                Region = "Region 3",
+                IPAddress = "192.168.0.3",
+                IsDeleted = false,
+            });
+
+            patients.Add(new Patient
+            {
+                PatientId = 4,
+                FirstName = "Emily",
+                LastName = "Johnson",
+                DateOfBirth = new DateTime(1992, 3, 8),
+                Gender = GenderPatient.Female,
+                Region = "Region 4",
+                IPAddress = "192.168.0.4",
+                IsDeleted = false,
+            });
+
+            patients.Add(new Patient
+            {
+                PatientId = 5,
+                FirstName = "Michael",
+                LastName = "Brown",
+                DateOfBirth = new DateTime(1980, 7, 12),
+                Gender = GenderPatient.Male,
+                Region = "Region 5",
+                IPAddress = "192.168.0.5",
+                IsDeleted = false,
+            });
+
+            // Add more patients as needed...
+
+            return patients;
+        }
+
     }
 }
