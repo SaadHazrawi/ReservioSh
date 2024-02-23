@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NbCalendarRange, NbDateService } from '@nebular/theme';
-import { ReservationFilter } from '../Model/ReservationFilter';
+import { ReservationFilter } from '../Model/reservationFilter';
 
 @Component({
   selector: 'ngx-reservation-filter',
