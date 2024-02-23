@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservio.AppDataContext;
 
@@ -11,9 +12,11 @@ using Reservio.AppDataContext;
 namespace Reservio.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240222193335_change_in_Patient")]
+    partial class change_in_Patient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,63 +223,6 @@ namespace Reservio.Migrations
                     b.HasKey("PatientId");
 
                     b.ToTable("Patients");
-
-                    b.HasData(
-                        new
-                        {
-                            PatientId = 1,
-                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Abdullah",
-                            Gender = 1,
-                            IPAddress = "192.168.0.1",
-                            IsDeleted = false,
-                            LastName = "Doe",
-                            Region = "Region 1"
-                        },
-                        new
-                        {
-                            PatientId = 2,
-                            DateOfBirth = new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Omar",
-                            Gender = 2,
-                            IPAddress = "192.168.0.2",
-                            IsDeleted = false,
-                            LastName = "Doe",
-                            Region = "Region 2"
-                        },
-                        new
-                        {
-                            PatientId = 3,
-                            DateOfBirth = new DateTime(1978, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "John",
-                            Gender = 1,
-                            IPAddress = "192.168.0.3",
-                            IsDeleted = false,
-                            LastName = "Smith",
-                            Region = "Region 3"
-                        },
-                        new
-                        {
-                            PatientId = 4,
-                            DateOfBirth = new DateTime(1992, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Emily",
-                            Gender = 2,
-                            IPAddress = "192.168.0.4",
-                            IsDeleted = false,
-                            LastName = "Johnson",
-                            Region = "Region 4"
-                        },
-                        new
-                        {
-                            PatientId = 5,
-                            DateOfBirth = new DateTime(1980, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Michael",
-                            Gender = 1,
-                            IPAddress = "192.168.0.5",
-                            IsDeleted = false,
-                            LastName = "Brown",
-                            Region = "Region 5"
-                        });
                 });
 
             modelBuilder.Entity("Reservio.Models.Reservation", b =>
@@ -341,7 +287,7 @@ namespace Reservio.Migrations
                             ReservationId = 1,
                             BookFor = new DateTime(2024, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 1,
-                            Date = new DateTime(2024, 2, 17, 23, 5, 30, 464, DateTimeKind.Local).AddTicks(4840),
+                            Date = new DateTime(2024, 2, 17, 22, 33, 34, 741, DateTimeKind.Local).AddTicks(2732),
                             DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Abdullah",
                             Gender = 1,
@@ -356,7 +302,7 @@ namespace Reservio.Migrations
                             ReservationId = 2,
                             BookFor = new DateTime(2024, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 2,
-                            Date = new DateTime(2024, 2, 21, 23, 5, 30, 464, DateTimeKind.Local).AddTicks(4872),
+                            Date = new DateTime(2024, 2, 21, 22, 33, 34, 741, DateTimeKind.Local).AddTicks(2772),
                             DateOfBirth = new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Omar",
                             Gender = 2,
@@ -371,7 +317,7 @@ namespace Reservio.Migrations
                             ReservationId = 3,
                             BookFor = new DateTime(2024, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 3,
-                            Date = new DateTime(2024, 2, 18, 23, 5, 30, 464, DateTimeKind.Local).AddTicks(4878),
+                            Date = new DateTime(2024, 2, 18, 22, 33, 34, 741, DateTimeKind.Local).AddTicks(2779),
                             DateOfBirth = new DateTime(1982, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Saad",
                             Gender = 2,
@@ -386,7 +332,7 @@ namespace Reservio.Migrations
                             ReservationId = 4,
                             BookFor = new DateTime(2024, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 4,
-                            Date = new DateTime(2024, 2, 21, 23, 5, 30, 464, DateTimeKind.Local).AddTicks(4884),
+                            Date = new DateTime(2024, 2, 21, 22, 33, 34, 741, DateTimeKind.Local).AddTicks(2787),
                             DateOfBirth = new DateTime(1975, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ammar",
                             Gender = 1,
@@ -401,7 +347,7 @@ namespace Reservio.Migrations
                             ReservationId = 5,
                             BookFor = new DateTime(2024, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 5,
-                            Date = new DateTime(2024, 2, 19, 23, 5, 30, 464, DateTimeKind.Local).AddTicks(4889),
+                            Date = new DateTime(2024, 2, 19, 22, 33, 34, 741, DateTimeKind.Local).AddTicks(2795),
                             DateOfBirth = new DateTime(1988, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ali",
                             Gender = 2,
@@ -416,7 +362,7 @@ namespace Reservio.Migrations
                             ReservationId = 6,
                             BookFor = new DateTime(2024, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 1,
-                            Date = new DateTime(2024, 2, 19, 23, 5, 30, 464, DateTimeKind.Local).AddTicks(4895),
+                            Date = new DateTime(2024, 2, 19, 22, 33, 34, 741, DateTimeKind.Local).AddTicks(2804),
                             DateOfBirth = new DateTime(1978, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Michael",
                             Gender = 1,
@@ -431,7 +377,7 @@ namespace Reservio.Migrations
                             ReservationId = 7,
                             BookFor = new DateTime(2024, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 3,
-                            Date = new DateTime(2024, 2, 20, 23, 5, 30, 464, DateTimeKind.Local).AddTicks(4900),
+                            Date = new DateTime(2024, 2, 20, 22, 33, 34, 741, DateTimeKind.Local).AddTicks(2811),
                             DateOfBirth = new DateTime(1995, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Sophia",
                             Gender = 2,

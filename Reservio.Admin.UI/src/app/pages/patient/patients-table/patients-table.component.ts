@@ -1,6 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SubSink } from 'subsink';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SubSink } from 'subsink'; // Assuming you are using SubSink for managing subscriptions
+import { PatientDto } from '../Model/patientDto';
 import { PatientService } from '../service/patient.service';
+import { GenderPatient } from '../Model/genderPatient';
+import { PatientFilter } from '../Model/patientFilter';
 import { LocalDataSource } from 'ng2-smart-table';
 import { FormGroup } from '@angular/forms';
 import { PatientFilter } from '../Model/patientFilter';
@@ -14,105 +19,109 @@ import { GenderPatient } from '../Model/genderPatient';
 export class PatientsTableComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   searchForm!: FormGroup;
-  totalPages!: number;
   currentPage: number = 1;
-  PageSize: number = 50;
-  totalItems!: number;
+  pageSize: number = 50;
+  patients: PatientDto[] = [];
+  isModalOpen = false;
+  totalPages!: number;
+ 
 
-  settings = {
-    delete: {
-      deleteButtonContent: '<i class="fas fa-check"></i>',
-      confirmDelete: true,
-    },
-    columns: {
-      firstName: {
-        title: "First Name",
-        type: "string",
-      },
-      lastName: {
-        title: "Last Name",
-        type: "string",
-      },
-      dateOfBirth: {
-        title: "Date of Birth",
-        type: "html",
-        valuePrepareFunction: (date) => {
-          const formattedDate = new Date(date).toDateString();
-          return `<span style="width: 50px; display: inline-block;">${formattedDate}</span>`
-        }
-      },
-      gender: {
-        title: "Gender",
-        type: "string",
-      },
-      region: {
-        title: "Region",
-        type: "string",
-      },
-      phoneNumber: {
-        title: "Phone Number",
-        type: "string",
-      },
-      date: {
-        title: "Date",
-        type: "html",
-        valuePrepareFunction: (date) => {
-          const formattedDate = new Date(date).toDateString();
-          return `<span style="width: 50px; display: inline-block;">${formattedDate}</span>`
-        }
-      },
-      bookFor: {
-        title: "Book For",
-        type: "html",
-        valuePrepareFunction: (date) => {
-          const formattedDate = new Date(date).toDateString();
-          return `<span style="width: 50px; display: inline-block;">${formattedDate}</span>`
-        },
-        clinic: {
-          title: "Clinic",
-          type: "string",
-        },
-      },
-    },
-    actions: {
-      columnTitle: '',
-      add: false,
-      edit: false,
-      position: 'left'
-    },
-  };
-  source: LocalDataSource = new LocalDataSource();
 
-  constructor(private patientService: PatientService) {
-  }
+  constructor(
+    private patientService: PatientService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
-    const patientFilter: PatientFilter = {
-      firstName: '',
-      lastName: '',
-      region: '',
-      gender: GenderPatient.Unknown,
-      dateOfBirth: '',
-      pageNumber: 1,
-      pageSize: 50
+    this.initializeForm();
+    this.loadPatients();
+
+  }
+
+  initializeForm(): void {
+    this.searchForm = this.formBuilder.group({
+      firstName: [''],
+      lastName: [''],
+      region: [''],
+      gender: [GenderPatient.Unknown],
+      dateOfBirth: [''],
+    });
+  }
+
+  loadPatients(): void {
+    const filters: PatientFilter = {
+      ...this.searchForm.value,
+      pageNumber: this.currentPage,
+      pageSize: this.pageSize
     };
-    this.subs.sink = this.patientService.getPatients(patientFilter)
+
+    this.subs.sink = this.patientService.getPatients(filters)
       .subscribe({
         next: (data) => {
-          this.source.load(data.body);
+          this.patients=data.body
         },
         error: (error) => {
           console.log(error);
-        },
+          // Handle error appropriately, e.g., display an error message to the user
+        }
       });
   }
 
+  deletePatient(patientId: number) {
+    console.log(patientId);
+      this.subs.sink = this.patientService.deletePatient(patientId)
+        .subscribe({
+          next: () => {
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+    
+  }
 
 
-  search(filters: PatientFilter) {
+  onCreateConfirm(event): void {
+    console.log(event);
+    // this.subs.sink = this.patientService.addPatient(event.newData).subscribe({
+    //   next: () => {
+    //     event.confirm.resolve();
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   },
+    // });
+  }
+
+  onSaveConfirm(event): void {
+    // this.subs.sink = this.doctorService.updateDoctor(event.newData).subscribe({
+    //   next: () => {
+    //     event.confirm.resolve();
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   },
+    // });
+  }
+
+  pageChanged(page: number): void {
+    this.currentPage = page;
+    this.loadPatients();
+  }
+
+  // openModal(): void {
+  //   this.isModalOpen = true;
+  // }
+
+  // closeModal(): void {
+  //   this.router.navigate([]);
+  //   this.isModalOpen = false;
+  // }
+
+  search(filters: PatientFilter): void {
     this.currentPage = 1;
     this.searchForm.patchValue(filters);
-    //this.loadPatients();
   }
 
   ngOnDestroy(): void {

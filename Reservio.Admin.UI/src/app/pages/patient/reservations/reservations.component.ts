@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SubSink } from 'subsink';
 import { ReservationService } from '../service/reservation.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { log } from 'console';
-import { NbCalendarRange, NbDateService } from '@nebular/theme';
 import { FormGroup } from '@angular/forms';
 import { ReservationFilter } from '../Model/reservationFilter';
 import { GenderPatient } from '../Model/genderPatient';

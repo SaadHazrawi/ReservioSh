@@ -1,0 +1,53 @@
+.patient-search-container {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .patient-search-container h2 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+  
+  .form-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .input-group {
+    flex: 1;
+    padding-right: 10px;
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    min-width: 200px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  button {
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .is-invalid {
+    outline: #dc3545 auto 1px;
+  }

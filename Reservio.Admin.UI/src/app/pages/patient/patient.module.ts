@@ -6,14 +6,17 @@ import { ThemeModule } from "../../@theme/theme.module";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ReservationFilterComponent } from './reservation-filter/reservation-filter.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PatientsTableComponent } from './patients-table/patients-table.component';
+import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
     ReservationsComponent,
     ReservationFilterComponent,
     PatientsTableComponent,
+    PatientsFilterComponent,
   ],
   imports: [
     CommonModule,
@@ -23,8 +26,10 @@ import { PatientsTableComponent } from './patients-table/patients-table.componen
     NbIconModule,
     NbInputModule,
     ReactiveFormsModule,
+    FormsModule,
     NbCalendarRangeModule,
     NbSelectModule,
+    NgxPaginationModule,
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,
