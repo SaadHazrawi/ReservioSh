@@ -33,10 +33,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,
-      },  
+      },
       {
         path: '', component: PatientsTableComponent,
-      }
+      },
 
     ])
     

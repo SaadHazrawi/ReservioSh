@@ -7,7 +7,6 @@ import { PatientService } from '../service/patient.service';
 import { GenderPatient } from '../Model/genderPatient';
 import { PatientFilter } from '../Model/patientFilter';
 import { LocalDataSource } from 'ng2-smart-table';
-import { log } from 'console';
 
 @Component({
   selector: 'ngx-patients-table',
