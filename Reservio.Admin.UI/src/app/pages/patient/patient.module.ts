@@ -9,9 +9,8 @@ import { ReservationFilterComponent } from './reservation-filter/reservation-fil
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { PatientsFormComponent } from './patients-form/patients-form.component';
-import { MatDialogModule } from "@angular/material/dialog";
+import { NgxPaginationModule } from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -32,9 +31,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     FormsModule,
     NbCalendarRangeModule,
     NbSelectModule,
-    NgxPaginationModule,
     NbDatepickerModule,
-    MatDialogModule,
+    NgxPaginationModule,
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,
