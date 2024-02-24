@@ -18,3 +18,43 @@ button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
+.label{
+  font-size: 14px;
+}
+@media (max-width: 999px) {
+  .search-container {
+    display: none;
+  }
+
+  .btn-show-search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .btn-show-serach {
+    display: block;
+  }
+}
+
+.top-part {
+  display: flex;
+  justify-content: space-around;
+}
+
+.top-part-leftScetion {
+  width: 65%;
+}
+
+.label {
+  display: inline-block;
+
+}
+.show-hide-nb-select {
+  width:25%;
+}
+
+.show-hide-nb-select button {
+  width: 100%;
+}
+ 

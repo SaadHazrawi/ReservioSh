@@ -8,6 +8,7 @@ import { RouterModule } from "@angular/router";
 import { ReservationFilterComponent } from './reservation-filter/reservation-filter.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { PatientsTableComponent } from './patients-table/patients-table.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { PatientsTableComponent } from './patients-table/patients-table.componen
     ReactiveFormsModule,
     NbCalendarRangeModule,
     NbSelectModule,
+    MatDialogModule,
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,

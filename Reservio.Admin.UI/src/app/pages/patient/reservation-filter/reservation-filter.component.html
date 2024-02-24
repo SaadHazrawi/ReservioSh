@@ -1,20 +1,54 @@
 <div class="search-container">
-    <form [formGroup]="searchForm" (ngSubmit)="search()">
-      <div class="form-flex">
-        <div class="form-group">
-            <label class="label">Position:</label>
-            <nb-select [(selected)]="clinic" class="position-select">
-              <nb-option *ngFor="let p of clinic" [value]="p">{{ p }}</nb-option>
+  <form [formGroup]="searchForm" (ngSubmit)="search()">
+    <div class="form-flex">
+      <div class="top-part">
+        <div class="top-part-leftScetion" [hidden]="toggleBtnForState">
+          <label class="label">Position:</label>
+          <div class="form-group">
+            <nb-select  
+
+              placeholder="Selected Clinic"
+              [fullWidth]="500"
+              [(selected)]="clinics"
+              shape="semi-round"
+              class="position-select"
+              status="primary"
+            >
+              <nb-option option-list-background-color *ngFor="let clinic of clinics" [value]="clinic.clinicId">{{
+                clinic.name
+              }}</nb-option>
             </nb-select>
           </div>
-          <div class="calendar-container">
-            <span class="subtitle">
-              Selected range: {{ range.start | date }} - {{ range.end | date }}
-            </span>
-            <nb-calendar-range [(range)]="range"></nb-calendar-range>
-          </div>
+        </div>
+        <div class="show-hide-nb-select">
+          <button
+            class="btn btn-default p-2 rounded-5"
+            (click)="ShowHideSelect()"
+          >
+            {{ toggleBtnForState ? "Show" : "Hide" }}
+          </button>
+        </div>
       </div>
-      <button [disabled]="searchForm.invalid" type="submit">Search</button>
-    </form>
-  </div>
-  
+      <div class="calendar-container">
+        <span class="subtitle">
+          Selected range: {{ range.start | date }} - {{ range.end | date }}
+        </span>
+        <nb-calendar-range
+          calendar-weekday-holiday-text-color
+          [boundingMonth]="false"
+          [(range)]="range"
+        ></nb-calendar-range>
+      </div>
+      <div>
+        <button
+          class="btn-search btn btn-outline-info p-3 my-2 rounded-5 d-block"
+          style="width: 100%"
+          [disabled]="searchForm.invalid"
+          type="submit"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

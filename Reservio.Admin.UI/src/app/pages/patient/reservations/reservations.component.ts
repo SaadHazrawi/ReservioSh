@@ -1,13 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { SubSink } from 'subsink';
 import { ReservationService } from '../service/reservation.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { log } from 'console';
-import { NbCalendarRange, NbDateService } from '@nebular/theme';
 import { FormGroup } from '@angular/forms';
 import { ReservationFilter } from '../Model/reservationFilter';
 import { GenderPatient } from '../Model/genderPatient';
-
+import { MatDialog } from '@angular/material/dialog';
+import { ReservationFilterComponent } from '../reservation-filter/reservation-filter.component';
 @Component({
   selector: 'ngx-reservations',
   templateUrl: './reservations.component.html',
@@ -86,8 +85,24 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   };
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private reservationService: ReservationService) {
+
+  constructor(private reservationService: ReservationService, private dialog: MatDialog) {
   }
+
+
+  @ViewChild('searchDialog') searchDialog: TemplateRef<any>;
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ReservationFilterComponent, {
+      width: '400px',
+      height: '400px',
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+
+
 
   ngOnInit(): void {
     const reservationFilter: ReservationFilter = {

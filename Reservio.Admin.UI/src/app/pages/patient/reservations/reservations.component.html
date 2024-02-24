@@ -1,8 +1,29 @@
 <div class="row">
   <div class="col-3">
-    <ngx-reservation-filter
-      (searchFilters)="search($event)"
-    ></ngx-reservation-filter>
+    <ng-template #searchDialog>
+      <div>
+        <ngx-reservation-filter
+          (searchFilters)="search($event)"
+        ></ngx-reservation-filter>
+      </div>
+    </ng-template>
+
+    <div class="row">
+      <div class="col-3">
+        <ngx-reservation-filter
+          class="search-container"
+          (searchFilters)="search($event)"
+        ></ngx-reservation-filter>
+        <div class="btn-show-serach-container">
+          <button
+            class="btn btn-outline-primary btn-show-serach"
+            (click)="openDialog()"
+          >
+            Show Searched Data
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="col-9">
     <nb-card>

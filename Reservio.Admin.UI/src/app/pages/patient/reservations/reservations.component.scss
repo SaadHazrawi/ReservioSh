@@ -1,0 +1,21 @@
+@media (min-width: 1000px) {
+    .btn-show-serach {
+      display: none;
+    }
+  }
+  @media (max-width: 999px) {
+    .search-container {
+      display: none;
+    }
+ 
+    .btn-show-search-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+  
+    .btn-show-serach {
+      display: block;
+    }
+  }
+ 
