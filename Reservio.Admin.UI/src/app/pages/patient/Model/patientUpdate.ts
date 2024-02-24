@@ -1,7 +1,6 @@
 import { GenderPatient } from "./genderPatient";
 
-
-export interface PatientDto {
+export interface PatientUpdate {
     patientId: number;
     firstName: string;
     lastName: string;
@@ -9,5 +8,3 @@ export interface PatientDto {
     gender: GenderPatient;
     dateOfBirth: string;
 }
-
-

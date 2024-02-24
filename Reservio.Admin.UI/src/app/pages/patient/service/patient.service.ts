@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { PatientFilter } from '../Model/patientFilter';
 import { catchError, tap } from 'rxjs/operators';
 import { PatientDto } from '../Model/patientDto';
+import { PatientUpdate } from '../Model/patientUpdate';
 
 @Injectable({
   providedIn: 'root'
@@ -47,12 +48,28 @@ export class PatientService {
       );
   };
 
+  getPatientById(patientId: number): Observable<PatientDto> {
+    return this.http.get<PatientDto>(`${this.apiUrl}Patients/${patientId}`)
+      .pipe(tap(response => {
+        console.log(response);
+      }),
+      catchError(this.handleError))
+  };
+
   addPatient(data: any): Observable<any> {
     const url = `${this.apiUrl}Clinics`;
     return this.http.post<any>(url, data).pipe(
       catchError(this.handleError)
     );
   }
+
+  updatePatient(formData: PatientUpdate): Observable<PatientDto> {
+    const url = `${this.apiUrl}Patients`;
+    return this.http.put<PatientDto>(url, formData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   deletePatient(patientId: number): Observable<void> {
     const url = `${this.apiUrl}Patients/${patientId}`;
     return this.http.delete<void>(url)
