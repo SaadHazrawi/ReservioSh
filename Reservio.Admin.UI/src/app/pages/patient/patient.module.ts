@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { ReservationsComponent } from "./reservations/reservations.component";
 import { Ng2SmartTableModule } from "ng2-smart-table";
-import { NbCalendarRangeModule, NbCardModule, NbIconModule, NbInputModule, NbSelectModule } from "@nebular/theme";
+import { NbCalendarRangeModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from "@nebular/theme";
 import { ThemeModule } from "../../@theme/theme.module";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PatientsFormComponent } from './patients-form/patients-form.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReservationFilterComponent,
     PatientsTableComponent,
     PatientsFilterComponent,
+    PatientsFormComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NbCalendarRangeModule,
     NbSelectModule,
     NgxPaginationModule,
+    NbDatepickerModule,
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,

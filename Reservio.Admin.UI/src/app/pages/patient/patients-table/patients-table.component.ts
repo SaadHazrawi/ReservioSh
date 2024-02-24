@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { SubSink } from 'subsink'; // Assuming you are using SubSink for managing subscriptions
 import { PatientDto } from '../Model/patientDto';
 import { PatientService } from '../service/patient.service';
 import { GenderPatient } from '../Model/genderPatient';
 import { PatientFilter } from '../Model/patientFilter';
-import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'ngx-patients-table',
@@ -20,20 +19,25 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
   pageSize: number = 50;
   patients: PatientDto[] = [];
   isModalOpen = false;
-  totalPages!: number;
- 
-
+  totalItems!: number;
 
   constructor(
     private patientService: PatientService,
     private router: Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.initializeForm();
     this.loadPatients();
+    this.route.queryParamMap.subscribe((queryParams) => {
+      this.handleQueryParams(queryParams);
+    });
+  }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   initializeForm(): void {
@@ -55,8 +59,13 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
 
     this.subs.sink = this.patientService.getPatients(filters)
       .subscribe({
-        next: (data) => {
-          this.patients=data.body
+        next: (result) => {
+          this.patients = result.body;
+          const paginationData = JSON.parse(
+            result.headers.get('x-pagination')!
+          );
+          this.totalItems = paginationData.TotalItemCount;
+          this.currentPage = paginationData.CurrentPage;
         },
         error: (error) => {
           console.log(error);
@@ -65,41 +74,22 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  deletePatient(patientId: number) {
-    console.log(patientId);
-      this.subs.sink = this.patientService.deletePatient(patientId)
-        .subscribe({
-          next: () => {
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
-    
+  // Function to handle query parameters
+  private handleQueryParams(queryParams: ParamMap): void {
+    const editId = queryParams.has('edit');
+    if (editId) {
+      this.openModal();
+    }
+    const shouldOpenModal = queryParams.has('add') && queryParams.get('add') === 'true';
+    if (shouldOpenModal) {
+      this.openModal();
+    }
   }
 
-
-  onCreateConfirm(event): void {
-    console.log(event);
-    // this.subs.sink = this.patientService.addPatient(event.newData).subscribe({
-    //   next: () => {
-    //     event.confirm.resolve();
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   },
-    // });
-  }
-
-  onSaveConfirm(event): void {
-    // this.subs.sink = this.doctorService.updateDoctor(event.newData).subscribe({
-    //   next: () => {
-    //     event.confirm.resolve();
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   },
-    // });
+  search(filters: PatientFilter): void {
+    this.currentPage = 1;
+    this.searchForm.patchValue(filters);
+    this.loadPatients(); // Optionally, trigger loading patients after applying search filters
   }
 
   pageChanged(page: number): void {
@@ -107,21 +97,28 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
     this.loadPatients();
   }
 
-  // openModal(): void {
-  //   this.isModalOpen = true;
-  // }
-
-  // closeModal(): void {
-  //   this.router.navigate([]);
-  //   this.isModalOpen = false;
-  // }
-
-  search(filters: PatientFilter): void {
-    this.currentPage = 1;
-    this.searchForm.patchValue(filters);
+  deletePatient(patientId: number): void {
+    this.subs.sink = this.patientService.deletePatient(patientId)
+      .subscribe({
+        next: () => {
+          // Optionally, perform any action after successful deletion
+        },
+        error: (error) => {
+          console.log(error);
+          // Handle error appropriately
+        }
+      });
   }
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
+ 
+  openModal(): void {
+    this.isModalOpen = true;
   }
+
+  closeModal(): void {
+    this.router.navigate([]);
+    this.isModalOpen = false;
+  }
+
+
 }

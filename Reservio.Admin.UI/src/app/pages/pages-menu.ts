@@ -22,7 +22,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Patients',
-        link: '/pages/Patients',
+        link: '/pages/patients',
       }
     ]
   },

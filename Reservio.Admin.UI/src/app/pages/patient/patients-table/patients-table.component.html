@@ -3,12 +3,11 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Patient Form</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
             (click)="closeModal()"></button>
         </div>
         <div class="modal-body">
-          <app-patient-form (closeModal)="closeModal()"></app-patient-form>
+          <ngx-patients-form (closeModal)="closeModal()"></ngx-patients-form>
         </div>
       </div>
     </div>
@@ -38,7 +37,7 @@
                     | paginate: {
                         itemsPerPage: pageSize,
                         currentPage: currentPage,
-                        totalItems: totalPages,
+                        totalItems: totalItems,
                         id: 'patients'
                       }
                 ">
