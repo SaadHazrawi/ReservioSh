@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-12">
+        <nb-card>
+            <nb-card-body [formGroup]="patientForm">
+                <div class="full-name-inputs">
+                    <input type="text" id="firstName" name="firstName" formControlName="firstName" nbInput fullWidth
+                        placeholder="First Name"
+                        [ngClass]="{ 'is-invalid': patientForm.get('firstName')?.invalid && patientForm.get('firstName')?.touched }" />
+
+                    <input type="text" id="lastName" name="lastName" formControlName="lastName" nbInput fullWidth
+                        placeholder="Last Name"
+                        [ngClass]="{ 'is-invalid': patientForm.get('lastName')?.invalid && patientForm.get('lastName')?.touched }" />
+                </div>
+
+                <input type="text" id="region" name="region" formControlName="region"
+                    [ngClass]="{ 'is-invalid': patientForm.get('region')?.invalid && patientForm.get('region')?.touched }"
+                    nbInput fullWidth placeholder="Region" />
+
+               <div class="datepicker">
+                <input [nbDatepicker]="datepicker">
+                <nb-datepicker #datepicker></nb-datepicker>
+               </div>
+
+               <label for="birthDate">Birth Date:</label>
+               <input type="date" id="birthDate" formControlName="birthDate" required />
+               <div
+                 *ngIf="
+                   patientForm.get('birthDate')?.hasError('required') &&
+                   patientForm.get('birthDate')?.touched
+                 "
+               >
+                 Birth Date is required
+               </div>
+
+                <input type="text" nbInput fullWidth shape="semi-round" placeholder="Semi-round border" />
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
