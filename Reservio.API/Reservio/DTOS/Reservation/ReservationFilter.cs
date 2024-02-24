@@ -9,18 +9,16 @@ namespace Reservio.DTOS.Reservation
     public class ReservationFilter
     {
         public DateTime ReservationStart { get; set; }
-
         /// <summary>
         /// The end date of the reservation period.
         /// </summary>
         public DateTime ReservationEnd { get; set; }
         public int ClinicId { get; set; }
-        [StringLength(50, MinimumLength = 0, ErrorMessage = "First name must be between 2 and 50 characters.")]
         public string FirstName { get; set; } = string.Empty;
-        [StringLength(50, MinimumLength = 0, ErrorMessage = "Last name must be between 2 and 50 characters.")]
         public string LastName { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
         public GenderPatient Gender { get; set; }
+
         [MaxLength(100, ErrorMessage = "Region must not exceed 100 characters.")]
         public string Region { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = null!;

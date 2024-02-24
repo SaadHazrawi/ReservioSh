@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NbCalendarRange, NbDateService } from '@nebular/theme';
 import { ReservationFilter } from '../Model/reservationFilter';
 import { ClinicService } from '../../clinics/services/clinic.service';
+import { ClinicForUpdateDTO } from '../../clinics/Model/ClinicForUpdateDTO';
 
 @Component({
   selector: 'ngx-reservation-filter',
@@ -10,7 +11,7 @@ import { ClinicService } from '../../clinics/services/clinic.service';
   styleUrls: ['./reservation-filter.component.scss']
 })
 export class ReservationFilterComponent implements OnInit{
-  @Input() clinics:any[];
+  @Input() clinics:ClinicForUpdateDTO[];
   @Output() searchFilters = new EventEmitter<ReservationFilter>(); 
   searchForm: FormGroup;
   range: NbCalendarRange<Date>;
