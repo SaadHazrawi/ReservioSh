@@ -35,9 +35,9 @@
 
             </div>
             <div class="input-group">
-                <label for="dateOfBirth">Date of Birth:</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" formControlName="dateOfBirth"
-                    [ngClass]="{ 'is-invalid': searchForm.get('dateOfBirth')?.invalid && searchForm.get('dateOfBirth')?.touched }" />
+                <input id="dateOfBirth" name="dateOfBirth" formControlName="dateOfBirth"
+                    [nbDatepicker]="datepicker">
+                <nb-datepicker #datepicker></nb-datepicker>
             </div>
         </div>
         <button [disabled]="searchForm.invalid" type="submit">Search</button>

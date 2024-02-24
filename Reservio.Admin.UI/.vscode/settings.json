@@ -2,6 +2,7 @@
     "typescript.tsdk": "./node_modules/typescript/lib",
     "tslint.enable": false,
     "cSpell.words": [
-        "checkmark"
+        "checkmark",
+        "datepicker"
     ]
 }
