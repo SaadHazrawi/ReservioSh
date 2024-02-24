@@ -1,0 +1,36 @@
+th,
+td {
+  text-align: center;
+  padding: 10px 8px;
+  white-space: nowrap;
+}
+input[name="filter"] {
+  margin: 5px;
+}
+.fa-trash-alt {
+  color: #dc3545;
+  opacity: 0.8;
+}
+.fa-pen{
+  color: #1100ff;
+  opacity: 0.8;
+}
+i.fa-solid:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.modal{
+  display: block;
+}
+
+button.openModal {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 5px 10px;
+  width: 100px;
+}

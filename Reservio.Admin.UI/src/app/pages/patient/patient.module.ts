@@ -1,13 +1,16 @@
 import { NgModule } from "@angular/core";
 import { ReservationsComponent } from "./reservations/reservations.component";
 import { Ng2SmartTableModule } from "ng2-smart-table";
-import { NbCalendarRangeModule, NbCardModule, NbIconModule, NbInputModule, NbSelectModule } from "@nebular/theme";
+import { NbCalendarRangeModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from "@nebular/theme";
 import { ThemeModule } from "../../@theme/theme.module";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ReservationFilterComponent } from './reservation-filter/reservation-filter.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PatientsTableComponent } from './patients-table/patients-table.component';
+import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { PatientsFormComponent } from './patients-form/patients-form.component';
 import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
@@ -15,6 +18,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     ReservationsComponent,
     ReservationFilterComponent,
     PatientsTableComponent,
+    PatientsFilterComponent,
+    PatientsFormComponent,
   ],
   imports: [
     CommonModule,
@@ -24,8 +29,11 @@ import { MatDialogModule } from "@angular/material/dialog";
     NbIconModule,
     NbInputModule,
     ReactiveFormsModule,
+    FormsModule,
     NbCalendarRangeModule,
     NbSelectModule,
+    NgxPaginationModule,
+    NbDatepickerModule,
     MatDialogModule,
     RouterModule.forChild([
       {

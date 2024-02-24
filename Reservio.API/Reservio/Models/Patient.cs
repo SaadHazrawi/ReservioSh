@@ -20,10 +20,9 @@ namespace Reservio.Models
 
         [Range(typeof(DateTime), "1/1/1823", "{0}", ErrorMessage = "Date of birth must be after 1/1/1823.")]
         public DateTime DateOfBirth { get; set; }
-
+        //TODO Delete IPAddress
         public string IPAddress { get; set; } = null!;
         public bool IsDeleted { get; set; } = false;
 
-        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

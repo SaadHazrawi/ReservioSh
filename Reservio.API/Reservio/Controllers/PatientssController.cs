@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Reservio.DTOS.Doctor;
 using Reservio.DTOS.Patient;
+using Reservio.Migrations;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
 
@@ -21,10 +22,11 @@ namespace Reservio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(PatientFilter patientFilter)
+        public async Task<IActionResult> GetAll([FromQuery]PatientFilter patientFilter)
         {
-            var doctors = await _unitOfWork.Patients.GetAllPatientsAsync(patientFilter);
-            return Ok(doctors);
+            var (patient, paginationData) = await _unitOfWork.Patients.GetAllPatientsAsync(patientFilter);
+            Response.Headers.Add("x-pagination", paginationData.ToString());
+            return Ok(patient);
 
         }
 
@@ -34,14 +36,10 @@ namespace Reservio.Controllers
         /// <param name="patientId">The ID of the patient.</param>
         /// <param name="includeRevision">Whether to include the patient's revision information.</param>
         /// <returns>The patient.</returns>
-        [HttpGet("{patientId}/{includeRevision}", Name = "GetPatient")]
-        public async Task<IActionResult> GetPatient(int patientId, bool includeRevision)
+        [HttpGet("{patientId}", Name = "GetPatient")]
+        public async Task<IActionResult> GetPatient(int patientId)
         {
-            var patient = await _unitOfWork.Patients.GetPatientByIdAsync(patientId, includeRevision);
-
-            if (!includeRevision)
-                return Ok(_mapper.Map<PatientWithoutReversoinDTO>(patient));
-
+            var patient = await _unitOfWork.Patients.GetPatientByIdAsync(patientId);
             return Ok(patient);
         }
 
@@ -51,13 +49,11 @@ namespace Reservio.Controllers
         {
             var createdPatient = await _unitOfWork.Patients.AddPatientAsync(patientCreationDto);
             var patientId = createdPatient.PatientId;
-            var patientDto = _mapper.Map<PatientWithoutReversoinDTO>(createdPatient);
+            var patientDto = _mapper.Map<PatientDto>(createdPatient);
 
             return CreatedAtRoute(nameof(GetPatient), new { patientId, includeRevision=false }, patientDto);
         }
 
-
-  
 
         [HttpPut("{patientId}")]
         public async Task<IActionResult> Update(PatientUpdateDTO dto)
