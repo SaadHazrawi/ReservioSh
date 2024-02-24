@@ -1,0 +1,14 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "JWTSettings": {
+    "Key": "uyerircbwyfewyrcuboieoueooeyuwicrcwqruyewuryucewyrucnvbsaer",
+    "Issuer": "CoreIdentity",
+    "Audience": "CoreIdentityUser",
+    "DurationInMinutes": 1000
+  }
+}
