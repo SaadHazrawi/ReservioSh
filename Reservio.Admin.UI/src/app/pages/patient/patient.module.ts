@@ -11,7 +11,6 @@ import { PatientsTableComponent } from './patients-table/patients-table.componen
 import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PatientsFormComponent } from './patients-form/patients-form.component';
-import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -34,7 +33,6 @@ import { MatDialogModule } from "@angular/material/dialog";
     NbSelectModule,
     NgxPaginationModule,
     NbDatepickerModule,
-    MatDialogModule,
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,

@@ -5,26 +5,21 @@
         <div class="top-part-leftScetion" [hidden]="toggleBtnForState">
           <label class="label">Position:</label>
           <div class="form-group">
-            <nb-select  
-
-              placeholder="Selected Clinic"
+            <nb-select placeholder="Selected Clinic"
               [fullWidth]="500"
-              [(selected)]="clinics"
               shape="semi-round"
               class="position-select"
-              status="primary"
-            >
-              <nb-option option-list-background-color *ngFor="let clinic of clinics" [value]="clinic.clinicId">{{
-                clinic.name
-              }}</nb-option>
+              status="primary">
+              [(selected)]="selectedOption">
+              <nb-option *ngFor="let clinic of clinics"
+                [value]="clinic">{{ clinic.name }}</nb-option>
             </nb-select>
           </div>
         </div>
         <div class="show-hide-nb-select">
           <button
             class="btn btn-default p-2 rounded-5"
-            (click)="ShowHideSelect()"
-          >
+            (click)="ShowHideSelect()">
             {{ toggleBtnForState ? "Show" : "Hide" }}
           </button>
         </div>
@@ -33,19 +28,25 @@
         <span class="subtitle">
           Selected range: {{ range.start | date }} - {{ range.end | date }}
         </span>
-        <nb-calendar-range
-          calendar-weekday-holiday-text-color
-          [boundingMonth]="false"
-          [(range)]="range"
-        ></nb-calendar-range>
+        <nb-card size="large">
+          <nb-card-body>
+            <input
+              nbInput
+              placeholder="Pick Date Range"
+              [nbDatepicker]="formpicker" />
+            <nb-rangepicker
+              [(range)]="range"
+              [boundingMonth]="false"
+              #formpicker></nb-rangepicker>
+          </nb-card-body>
+        </nb-card>
       </div>
       <div>
         <button
           class="btn-search btn btn-outline-info p-3 my-2 rounded-5 d-block"
           style="width: 100%"
           [disabled]="searchForm.invalid"
-          type="submit"
-        >
+          type="submit">
           Search
         </button>
       </div>
