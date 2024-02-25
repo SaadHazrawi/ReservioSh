@@ -55,7 +55,7 @@ namespace Reservio.Controllers
         }
 
 
-        [HttpPut("{patientId}")]
+        [HttpPut]
         public async Task<IActionResult> Update(PatientUpdateDTO dto)
         {
             await _unitOfWork.Patients.UpdatePatientAsync(dto);
