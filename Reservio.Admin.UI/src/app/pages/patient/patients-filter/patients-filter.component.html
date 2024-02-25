@@ -1,45 +1,35 @@
-<div class="patient-search-container">
-    <form [formGroup]="searchForm" (ngSubmit)="searchPatients()">
-        <div class="form-flex">
-            <div class="input-group">
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" formControlName="firstName"
-                    [ngClass]="{ 'is-invalid': searchForm.get('firstName')?.invalid && searchForm.get('firstName')?.touched }" />
-                <div *ngIf="searchForm.get('firstName')?.invalid && searchForm.get('firstName')?.touched"
-                    class="invalid-feedback">
-                    Please enter a valid first name.
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" formControlName="lastName"
-                    [ngClass]="{ 'is-invalid': searchForm.get('lastName')?.invalid && searchForm.get('lastName')?.touched }" />
-                <div *ngIf="searchForm.get('lastName')?.invalid && searchForm.get('lastName')?.touched"
-                    class="invalid-feedback">
-                    Please enter a valid last name.
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="region">Region:</label>
-                <input type="text" id="region" name="region" formControlName="region"
-                    [ngClass]="{ 'is-invalid': searchForm.get('region')?.invalid && searchForm.get('region')?.touched }" />
-            </div>
-            <div class="input-group">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" formControlName="gender"
-                    [ngClass]="{ 'is-invalid': searchForm.get('gender')?.invalid && searchForm.get('gender')?.touched }">
-                    <option value="Unknown">Unknown</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-
-            </div>
-            <div class="input-group">
-                <input id="dateOfBirth" name="dateOfBirth" formControlName="dateOfBirth"
-                    [nbDatepicker]="datepicker">
-                <nb-datepicker #datepicker></nb-datepicker>
-            </div>
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-card-body class="centered-flex-container" [formGroup]="searchForm" (ngSubmit)="searchPatients()">
+        <div>
+          <input type="text" id="firstName" name="firstName" formControlName="firstName" nbInput
+                 [ngxAppFocus]="isFocused" (focus)="onfocus()" (blur)="onBlur()" placeholder="First Name" />
         </div>
-        <button [disabled]="searchForm.invalid" type="submit">Search</button>
-    </form>
+
+        <div>
+          <input type="text" id="lastName" name="lastName" formControlName="lastName" nbInput placeholder="Last Name" />
+        </div>
+
+        <div>
+          <input type="text" id="region" name="region" formControlName="region" nbInput placeholder="Region" />
+        </div>
+
+        <div>
+          <div class="col">
+            <input id="dateOfBirth" formControlName="dateOfBirth" placeholder="Birth Date" [nbDatepicker]="datepicker" />
+            <nb-datepicker #datepicker></nb-datepicker>
+          </div>
+        </div>
+
+        <div>
+          <div class="col">
+            <nb-select placeholder="Selected gender" class="position-select" formControlName="gender">
+              <nb-option *ngFor="let gender of selectGender" [value]="gender.value">{{ gender.name }}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
 </div>

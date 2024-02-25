@@ -9,8 +9,8 @@ import { ReservationFilterComponent } from './reservation-filter/reservation-fil
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { PatientsFormComponent } from './patients-form/patients-form.component';
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -23,15 +23,12 @@ import { PatientsFormComponent } from './patients-form/patients-form.component';
   imports: [
     CommonModule,
     ThemeModule,
-    Ng2SmartTableModule,
     NbCardModule,
     NbIconModule,
     NbInputModule,
-    ReactiveFormsModule,
-    FormsModule,
+    SharedModule,
     NbCalendarRangeModule,
     NbSelectModule,
-    NgxPaginationModule,
     NbDatepickerModule,
     RouterModule.forChild([
       {
