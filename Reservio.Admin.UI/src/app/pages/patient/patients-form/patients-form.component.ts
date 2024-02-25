@@ -102,8 +102,15 @@ export class PatientsFormComponent implements OnInit, OnDestroy {
           }
         });
       }
+      else {
+        const isAddPatient = Boolean(queryParams.get('add'));
+        if (!isAddPatient) {
+          this.closeModal.emit();    
+        }
+      }
     });
   }
+  
 
   formatAndPatchDateOfBirth(form: FormGroup, columnName: string): void {
     const selectedDate = new Date(form.get(columnName).value);
