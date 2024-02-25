@@ -1,56 +1,39 @@
 <div *ngIf="isModalOpen">
-  <button type="button" class="btn-close" data-bs-dismiss="modal"
-    aria-label="Close" (click)="closeModal()">close</button>
   <ngx-patients-form (closeModal)="closeModal()"></ngx-patients-form>
 </div>
 <div class="card" *ngIf="!isModalOpen">
-  <ngx-patients-filter (searchFilters)="search($event)"></ngx-patients-filter>
-  <button class="openModal" [routerLink]="['./']"
-    [queryParams]="{ add: 'true' }">
-    Add
+  <button class="openModal" [routerLink]="['./']" [queryParams]="{ add: 'true' }">
+    <i class="fas fa-plus icon"></i> Add
   </button>
-  <div class="card-bady">
-    <div class="card-bady">
-      <div class="table-responsive background-table">
-        <table class="table table-light table-hover">
-          <thead>
+  <div class="card-body">
+    <div class="table-responsive background-table">
+      <ngx-patients-filter (searchFilters)="search($event)"></ngx-patients-filter>
+      <table class="table table-light table-hover custom-table">
+        <thead>
+          <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Region</th>
             <th>Gender</th>
             <th>Date of Birth</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="
-                  let patient of patients
-                    | paginate: {
-                        itemsPerPage: pageSize,
-                        currentPage: currentPage,
-                        totalItems: totalItems,
-                        id: 'patients'
-                      }
-                ">
-              <td>{{ patient.firstName }}</td>
-              <td>{{ patient.lastName }}</td>
-              <td>{{ patient.region }}</td>
-              <td>{{ patient.gender}}</td>
-              <td>{{ patient.dateOfBirth | date }}</td>
-              <td>
-                <i class="fas fa-trash-alt" (click)="deletePatient(2)"></i>
-              </td>
-              <td>
-                <i class="fas fa-pen" [routerLink]="['.']"
-                  [queryParams]="{ edit: patient.patientId }"
-                  queryParamsHandling="merge"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <pagination-controls (pageChange)="pageChanged($event)" id="patients"
-          [routerLink]="'/patient'"
-          [queryParams]="{ currentPage: currentPage }"></pagination-controls>
-      </div>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of patients | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalItems, id: 'patients' }">
+            <td>{{ patient.firstName }}</td>
+            <td>{{ patient.lastName }}</td>
+            <td>{{ patient.region }}</td>
+            <td>{{ patient.gender}}</td>
+            <td>{{ patient.dateOfBirth | date }}</td>
+            <td>
+              <i class="fas fa-trash-alt icon mr-5 fa-2x" (click)="deletePatient(patient.patientId)"></i>
+              <i class="fas fa-pencil-alt icon fa-2x" [routerLink]="['./']" [queryParams]="{ edit: patient.patientId }" queryParamsHandling="merge"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="pageChanged($event)" id="patients" [routerLink]="'.'" [queryParams]="{ currentPage: currentPage }"></pagination-controls>
     </div>
   </div>
 </div>
