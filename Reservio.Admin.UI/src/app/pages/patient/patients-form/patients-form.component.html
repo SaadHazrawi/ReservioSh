@@ -25,7 +25,7 @@
             </div>
           </div>
 
-          <div class="col">
+          <div class="col" fullWidth>
             <label *ngIf="isEditing" for="gender">Gender</label>
             <nb-select placeholder="Selected gender" class="position-select"  formControlName="gender"
               [ngClass]="{ 'is-invalid': patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched }">
