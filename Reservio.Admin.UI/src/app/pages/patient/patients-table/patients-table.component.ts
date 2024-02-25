@@ -56,7 +56,6 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
       pageNumber: this.currentPage,
       pageSize: this.pageSize
     };
-
     this.subs.sink = this.patientService.getPatients(filters)
       .subscribe({
         next: (result) => {
@@ -68,11 +67,11 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
           this.currentPage = paginationData.CurrentPage;
         },
         error: (error) => {
-          console.log(error);
-          // Handle error appropriately, e.g., display an error message to the user
+          console.error('Error loading patients from server:', error);
         }
       });
   }
+
 
   // Function to handle query parameters
   private handleQueryParams(queryParams: ParamMap): void {
@@ -101,16 +100,36 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
     this.subs.sink = this.patientService.deletePatient(patientId)
       .subscribe({
         next: () => {
-          // Optionally, perform any action after successful deletion
+          // Decrement totalItems as one patient is deleted
+          this.totalItems--;
+
+          // Calculate the new total number of pages after deletion
+          const totalPages = Math.ceil(this.totalItems / this.pageSize);
+
+          // Adjust current page if it exceeds the new total number of pages
+          if (this.currentPage > totalPages) {
+            this.currentPage = totalPages;
+            this.loadPatients(); // Reload patients with updated pagination
+            // Update the URL to reflect the current page
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { currentPage: this.currentPage },
+              queryParamsHandling: 'merge' // Merge with existing query parameters
+            });
+          } else {
+            // Remove the deleted patient locally
+            this.patients = this.patients.filter(patient => patient.patientId !== patientId);
+          }
         },
         error: (error) => {
-          console.log(error);
+          console.error('Error deleting patient:', error);
           // Handle error appropriately
         }
       });
   }
 
- 
+
+
   openModal(): void {
     this.isModalOpen = true;
   }
@@ -118,6 +137,7 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
   closeModal(): void {
     this.router.navigate([]);
     this.isModalOpen = false;
+    this.loadPatients();
   }
 
 
