@@ -21,7 +21,7 @@ export class PatientsFilterComponent {
       dateOfBirth: [''],
       pageNumber: [1], 
       pageSize: [50] 
-   });
+    });
   }
   searchPatients() {
     if (this.searchForm.valid) {

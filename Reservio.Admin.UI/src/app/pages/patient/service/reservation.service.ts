@@ -14,9 +14,39 @@ export class ReservationService {
   constructor(private http: HttpClient) { }
 
   getReservations(reservationFilter: ReservationFilter): Observable<HttpResponse<any[]>> {
-    const url = `${this.apiUrl}Reservations`;
-    var params = {...reservationFilter};
-    return this.http.get<any[]>(url, { observe: 'response', params: params });
+    let url = `${this.apiUrl}Reservations`;
+    let queryParams = `?pageNumber=${reservationFilter.pageNumber}&pageSize=${reservationFilter.pageSize}`;
+    console.log(reservationFilter.clinicId);
+
+    if (reservationFilter.clinicId) {
+      queryParams += `&clinicId=${reservationFilter.clinicId}`;
+    }
+    if (reservationFilter.firstName) {
+      queryParams += `&firstName=${reservationFilter.firstName}`;
+    }
+    if (reservationFilter.lastName) {
+      queryParams += `&lastName=${reservationFilter.lastName}`;
+    }
+    if (reservationFilter.region) {
+      queryParams += `&region=${reservationFilter.region}`;
+    }
+    if (reservationFilter.gender !== undefined) {
+      queryParams += `&gender=${reservationFilter.gender}`;
+    }
+    if (reservationFilter.dateOfBirth) {
+      queryParams += `&dateOfBirth=${reservationFilter.dateOfBirth}`;
+    }
+    if (reservationFilter.reservationStart) {
+      const formattedReservationStart = this.formatDate(reservationFilter.reservationStart);
+      console.log(formattedReservationStart);
+      queryParams += `&reservationStart=${formattedReservationStart}`;
+    }
+    if (reservationFilter.reservationEnd) {
+      const formattedReservationEnd = this.formatDate(reservationFilter.reservationEnd);
+      queryParams += `&reservationEnd=${formattedReservationEnd}`;
+    }
+    url += queryParams;
+    return this.http.get<any[]>(url, { observe: 'response' });
   }
 
   MarkReservationAsPatientVisitReviewed(id: number): Observable<any> {
@@ -33,5 +63,10 @@ export class ReservationService {
     }
     console.log(errorMessage);
     return throwError(() => errorMessage);
+  }
+  formatDate(date: string): string {
+    const reservationDate = new Date(date);
+    const formattedReservationDate = reservationDate.toISOString().slice(0,10)+" 00:00:00.0000000";
+    return formattedReservationDate;
   }
 }

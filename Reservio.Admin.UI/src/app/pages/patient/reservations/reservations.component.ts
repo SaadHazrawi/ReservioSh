@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SubSink } from 'subsink';
 import { ReservationService } from '../service/reservation.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReservationFilter } from '../Model/reservationFilter';
 import { GenderPatient } from '../Model/genderPatient';
-import { ReservationFilterComponent } from '../reservation-filter/reservation-filter.component';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'ngx-reservations',
   templateUrl: './reservations.component.html',
@@ -18,8 +18,11 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   currentPage: number = 1;
   PageSize: number = 50;
   totalItems!: number;
-
+  reservationFilter!: ReservationFilter;
+  reservations: ReservationFilter[] = [];
+  toggleBtnForState: boolean = false;
   settings = {
+    
     delete: {
       deleteButtonContent: '<i class="fas fa-check"></i>',
       confirmDelete: true,
@@ -85,14 +88,37 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   source: LocalDataSource = new LocalDataSource();
 
 
-  constructor(private reservationService: ReservationService) {
+  constructor(private reservationService: ReservationService,
+    private formBuilder: FormBuilder) { }
+  ngOnInit(): void {
+    this.initializeForm();
+    this.loadReservations();
+  }
+  initializeForm(): void {
+    this.searchForm = this.formBuilder.group({
+      reservationStart: [''],
+      reservationEnd: [''],
+      clinicId: [0],
+      firstName: [""],
+      lastName: [""],
+      dateOfBirth: [''],
+      gender: [GenderPatient.Unknown],
+      region: [""],
+      phoneNumber: [""],
+      date: [''],
+      bookFor: [''],
+      pageNumber: [1],
+      pageSize: [50],
+    });
   }
 
-  ngOnInit(): void {
-    const reservationFilter: ReservationFilter = {
-      reservationStart: '2022-02-19 00:00:00.0000000',
-      reservationEnd: '2025-02-19 00:00:00.0000000',
-      clinicId: 0,
+  loadReservations() {
+    const filters: ReservationFilter = {
+      //'2022-02-19 00:00:00.0000000'
+      reservationStart: this.searchForm.value.reservationEnd,
+      //'2025-02-19 00:00:00.0000000'
+      reservationEnd: this.searchForm.value.reservationStart,
+      clinicId: this.searchForm.value.clinicId,
       firstName: '',
       lastName: '',
       gender: GenderPatient.Unknown,
@@ -101,17 +127,25 @@ export class ReservationsComponent implements OnInit, OnDestroy {
       pageNumber: 1,
       pageSize: 10
     };
-    this.subs.sink = this.reservationService.getReservations(reservationFilter)
+    console.table(filters);
+    this.subs.sink = this.reservationService.getReservations(filters)
       .subscribe({
-        next: (data) => {
-          this.source.load(data.body);
+        next: (result) => {
+          this.reservations = result.body;
+          const reservationData = JSON.parse(
+            result.headers.get('x-pagination')!
+          );
+          this.totalItems = reservationData.TotalItemCount;
+          this.currentPage = reservationData.CurrentPage;
+          console.log(this.reservations);
+          this.source.load(this.reservations);
         },
         error: (error) => {
           console.log(error);
-        },
+          // Handle error appropriately, e.g., display an error message to the user
+        }
       });
   }
-
 
   onCheckConfirm(event): void {
     if (window.confirm("Are you sure?")) {
@@ -128,12 +162,49 @@ export class ReservationsComponent implements OnInit, OnDestroy {
 
   search(filters: ReservationFilter) {
     this.currentPage = 1;
-    this.searchForm.patchValue(filters);
-    //this.loadPatients();
+    const filter = {
+      reservationStart: filters.reservationStart,
+      reservationEnd: filters.reservationEnd,
+      clinicId: filters.clinicId,
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '',
+      gender: '',
+      region: '',
+      phoneNumber: '',
+      date: '',
+      bookFor: '',
+      pageNumber: filters.pageNumber,
+      pageSize: filters.pageSize,
+    }
+    console.log("Print Filter: ");
+    console.table(filter);
+    this.searchForm.patchValue(filter);
+    console.log("Print searchForm: ");
+    console.table(this.searchForm.value);
+    this.loadReservations();
   }
+  ShowHideSelect(): void {
+    this.toggleBtnForState = !this.toggleBtnForState;
+  }
+  /**Default name for excel file when download**/
+  fileName = 'ExcelSheet.xlsx';
 
+  exportexcel() {
+    /**passing table id**/
+    let data = document.getElementById('table-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+
+    /**Generate workbook and add the worksheet**/
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /*save to file*/
+    XLSX.writeFile(wb, this.fileName);
+  }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
+
 }

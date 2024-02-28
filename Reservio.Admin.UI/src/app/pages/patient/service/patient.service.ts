@@ -17,7 +17,7 @@ export class PatientService {
 
   getPatients(patientFilter: PatientFilter): Observable<HttpResponse<PatientDto[]>> {
     let url = `${this.apiUrl}Patients`;
-
+  
     // Constructing query parameters
     let queryParams = `?pageNumber=${patientFilter.pageNumber}&pageSize=${patientFilter.pageSize}`;
 

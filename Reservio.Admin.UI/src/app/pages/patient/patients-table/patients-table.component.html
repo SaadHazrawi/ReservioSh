@@ -23,7 +23,7 @@
     <div class="card-bady">
       <div class="card-bady">
         <div class="table-responsive background-table">
-          <table class="table table-light table-hover">
+          <table class="table table-light table-hover" id="table-paginate">
             <thead>
               <th>First Name</th>
               <th>Last Name</th>
@@ -54,6 +54,8 @@
                     queryParamsHandling="merge"></i>
                 </td>
               </tr>
+              <ngx-xlsx [elemntId]="'table-paginate'" class="btn btn-info mb-3"></ngx-xlsx>
+
             </tbody>
           </table>
 

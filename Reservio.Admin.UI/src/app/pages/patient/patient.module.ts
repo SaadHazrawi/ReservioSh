@@ -11,6 +11,7 @@ import { PatientsTableComponent } from './patients-table/patients-table.componen
 import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
 import { PatientsFormComponent } from './patients-form/patients-form.component';
 import { NgxPaginationModule } from "ngx-pagination";
+import { XlsxComponent } from './xlsx/xlsx.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { NgxPaginationModule } from "ngx-pagination";
     PatientsTableComponent,
     PatientsFilterComponent,
     PatientsFormComponent,
+    XlsxComponent,
   ],
+  exports:[XlsxComponent],
   imports: [
     CommonModule,
     ThemeModule,
@@ -33,6 +36,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     NbSelectModule,
     NbDatepickerModule,
     NgxPaginationModule,
+    
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,

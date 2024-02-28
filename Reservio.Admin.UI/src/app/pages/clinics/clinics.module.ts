@@ -5,6 +5,7 @@ import { NbCardModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { ClinicsRoutingModule, routedComponents } from './clinics-routing.module';
+import { PatientModule } from '../patient/patient.module';
 @NgModule({
   imports: [
     NbCardModule,
@@ -13,6 +14,7 @@ import { ClinicsRoutingModule, routedComponents } from './clinics-routing.module
     ThemeModule,
     ClinicsRoutingModule,
     Ng2SmartTableModule,
+    PatientModule
   ],
   declarations: [
     ...routedComponents,

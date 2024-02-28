@@ -6,7 +6,9 @@
       (createConfirm)="onCreateConfirm($event)"
       (editConfirm)="onSaveConfirm($event)"
       (deleteConfirm)="onDeleteConfirm($event)"
+      id="table-clinic"
     >
     </ng2-smart-table>
+    <ngx-xlsx [elemntId]="'table-clinic'" class="btn btn-info mb-3"></ngx-xlsx>
   </nb-card-body>
 </nb-card>
