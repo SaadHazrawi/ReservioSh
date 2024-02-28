@@ -1,34 +1,47 @@
 <div class="row">
   <div class="col-12">
     <nb-card>
-      <nb-card-body class="centered-flex-container" [formGroup]="searchForm" (ngSubmit)="searchPatients()">
+      <nb-card-body class="centered-flex-container" [formGroup]="searchForm">
         <div>
           <input type="text" id="firstName" name="firstName" formControlName="firstName" nbInput
-                 [ngxAppFocus]="isFocused" (focus)="onfocus()" (blur)="onBlur()" placeholder="First Name" />
+            [ngxAppFocus]="isFirstNameFocused" (focus)="onFocus('firstName')" (blur)="onBlur()"
+            placeholder="First Name" />
         </div>
 
         <div>
-          <input type="text" id="lastName" name="lastName" formControlName="lastName" nbInput placeholder="Last Name" />
+          <input type="text" id="lastName" name="lastName" formControlName="lastName" nbInput
+            [ngxAppFocus]="isLastNameFocused" (focus)="onFocus('lastName')" (blur)="onBlur()" placeholder="Last Name" />
         </div>
 
         <div>
-          <input type="text" id="region" name="region" formControlName="region" nbInput placeholder="Region" />
-        </div>
-
-        <div>
-          <div class="col">
-            <input id="dateOfBirth" formControlName="dateOfBirth" placeholder="Birth Date" [nbDatepicker]="datepicker" />
-            <nb-datepicker #datepicker></nb-datepicker>
-          </div>
+          <input type="text" id="region" name="region" formControlName="region" nbInput placeholder="Region"
+            [ngxAppFocus]="isRegionFocused" (focus)="onFocus('region')" (blur)="onBlur()" />
         </div>
 
         <div>
           <div class="col">
-            <nb-select placeholder="Selected gender" class="position-select" formControlName="gender">
+            <nb-select placeholder="Selected gender" class="position-select" formControlName="gender"
+              [ngxAppFocus]="isGenderFocused" (focus)="onFocus('gender')" (blur)="onBlur()">
               <nb-option *ngFor="let gender of selectGender" [value]="gender.value">{{ gender.name }}</nb-option>
             </nb-select>
           </div>
         </div>
+
+        <div>
+          <div class="col">
+            <input id="dateOfBirth" formControlName="dateOfBirth" placeholder="Birth Date" [nbDatepicker]="datepicker"
+              [ngxAppFocus]="isDateOfBirthFocused" (focus)="onFocus('dateOfBirth')" (blur)="onBlur()" />
+            <nb-datepicker #datepicker></nb-datepicker>
+          </div>
+        </div>
+  
+        <div>
+          <button class="btn btn-primary" (click)="searchPatients()">
+            <nb-icon icon="search-outline"></nb-icon> Search  
+          </button>
+        </div>
+        
+
       </nb-card-body>
     </nb-card>
   </div>

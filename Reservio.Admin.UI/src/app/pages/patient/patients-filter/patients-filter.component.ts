@@ -14,8 +14,13 @@ export class PatientsFilterComponent {
   searchForm: FormGroup;
   selectGender = [];
   selectedOption;
-  isFocused: boolean = false;
-  
+  isFirstNameFocused: boolean = false;
+  isLastNameFocused: boolean = false;
+  isRegionFocused: boolean = false;
+  isGenderFocused: boolean = false;
+  isDateOfBirthFocused: boolean = false;
+
+
   constructor(private fb: FormBuilder) {
     this.searchForm = this.fb.group({
       firstName: ['', Validators.maxLength(100)],
@@ -37,22 +42,64 @@ export class PatientsFilterComponent {
 
   searchPatients() {
     if (this.searchForm.valid) {
+      this.formatAndPatchDateOfBirth(this.searchForm, 'dateOfBirth');
       const filters: PatientFilter = this.searchForm.value;
+      console.log(filters);
       this.searchFilters.emit(filters);
     }
   }
 
-  onfocus(): void {
-    if (!this.searchForm.get('firstName').value) {
-      this.isFocused = true;
-      console.log(this.isFocused);
+  onFocus(controlName: string): void {
+    // Reset all focus states
+    this.resetFocusStates();
+    // Set focus state for the focused control
+    switch (controlName) {
+      case 'firstName':
+        this.isFirstNameFocused = true;
+        break;
+      case 'lastName':
+        this.isFirstNameFocused = true;
+        break;
+      case 'region':
+        this.isFirstNameFocused = true;
+        break;
+      case 'gender':
+        this.isGenderFocused = true;
+        break;
+      case 'dateOfBirth':
+        this.isDateOfBirthFocused = true;
+        break;
+      // Add cases for other controls if needed
     }
   }
 
   onBlur(): void {
-    if (!this.searchForm.get('firstName').value) {
-      this.isFocused = false;
-      console.log(this.isFocused);
+    this.resetFocusStates();
+  }
+
+  private resetFocusStates(): void {
+    if (this.searchForm.get('firstName').value === null) {
+      this.isFirstNameFocused = false;
+    }
+    if (this.searchForm.get('lastName').value === null) {
+      this.isLastNameFocused = false;
+    }
+    if (this.searchForm.get('region').value === null) {
+      this.isRegionFocused = false;
+    }
+    if (this.searchForm.get('gender').value === null) {
+      this.isGenderFocused = false;
+    }
+    if (this.searchForm.get('dateOfBirth').value === null) {
+      this.isDateOfBirthFocused = false;
     }
   }
+  
+  formatAndPatchDateOfBirth(form: FormGroup, columnName: string): void {
+    const selectedDate = new Date(form.get(columnName).value);
+    const formattedDate = selectedDate.toISOString();
+    form.patchValue({columnName:formattedDate});
+    console.log(form);
+  }
+
 }

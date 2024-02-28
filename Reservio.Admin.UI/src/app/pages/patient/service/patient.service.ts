@@ -30,7 +30,7 @@ export class PatientService {
     if (patientFilter.region) {
       queryParams += `&region=${patientFilter.region}`;
     }
-    if (patientFilter.gender !== undefined) {
+    if (patientFilter.gender > 0) {
       queryParams += `&gender=${patientFilter.gender}`;
     }
     if (patientFilter.dateOfBirth) {
