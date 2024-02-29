@@ -56,7 +56,6 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
       pageNumber: this.currentPage,
       pageSize: this.pageSize
     };
-    console.table(filters);
     this.subs.sink = this.patientService.getPatients(filters)
       .subscribe({
         next: (result) => {

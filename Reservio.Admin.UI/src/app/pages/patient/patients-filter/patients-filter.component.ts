@@ -44,10 +44,17 @@ export class PatientsFilterComponent {
     if (this.searchForm.valid) {
       this.formatAndPatchDateOfBirth(this.searchForm, 'dateOfBirth');
       const filters: PatientFilter = this.searchForm.value;
-      console.log(filters);
       this.searchFilters.emit(filters);
     }
   }
+
+  clearAllFilters() {
+    this.searchForm.reset();
+    this.searchForm.patchValue({'dateOfBirth':''});
+    this.searchForm.patchValue({'gender':GenderPatient.Unknown});
+    this.searchFilters.emit(this.searchForm.value);
+  }
+
 
   onFocus(controlName: string): void {
     // Reset all focus states
@@ -58,10 +65,10 @@ export class PatientsFilterComponent {
         this.isFirstNameFocused = true;
         break;
       case 'lastName':
-        this.isFirstNameFocused = true;
+        this.isLastNameFocused = true;
         break;
       case 'region':
-        this.isFirstNameFocused = true;
+        this.isRegionFocused = true;
         break;
       case 'gender':
         this.isGenderFocused = true;
@@ -78,28 +85,30 @@ export class PatientsFilterComponent {
   }
 
   private resetFocusStates(): void {
-    if (this.searchForm.get('firstName').value === null) {
-      this.isFirstNameFocused = false;
-    }
-    if (this.searchForm.get('lastName').value === null) {
-      this.isLastNameFocused = false;
-    }
-    if (this.searchForm.get('region').value === null) {
-      this.isRegionFocused = false;
-    }
-    if (this.searchForm.get('gender').value === null) {
-      this.isGenderFocused = false;
-    }
-    if (this.searchForm.get('dateOfBirth').value === null) {
-      this.isDateOfBirthFocused = false;
-    }
-  }
-  
-  formatAndPatchDateOfBirth(form: FormGroup, columnName: string): void {
-    const selectedDate = new Date(form.get(columnName).value);
-    const formattedDate = selectedDate.toISOString();
-    form.patchValue({columnName:formattedDate});
-    console.log(form);
+    this.isFirstNameFocused = this.isFormControlEmpty('firstName');
+    this.isLastNameFocused = this.isFormControlEmpty('lastName');
+    this.isRegionFocused = this.isFormControlEmpty('region');
+    this.isGenderFocused = this.isFormControlEmpty('gender');
+    this.isDateOfBirthFocused = this.isFormControlEmpty('dateOfBirth');
+    
   }
 
+  private isFormControlEmpty(controlName: string): boolean {
+    const control = this.searchForm.get(controlName);
+    return control.value !== '' ;
+  }
+
+
+  formatAndPatchDateOfBirth(form: FormGroup, columnName: string): void {
+    const selectedDate = new Date(form.get(columnName).value);
+    if (!isNaN(selectedDate.getTime())) {
+      // Add one day to the selected date
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      
+      const formattedDate = selectedDate.toISOString();
+      form.patchValue({ 'dateOfBirth': formattedDate });
+    }
+    
+  }
 }
+

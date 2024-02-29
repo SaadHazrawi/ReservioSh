@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-11 m-auto">
     <nb-card>
       <nb-card-body class="centered-flex-container" [formGroup]="searchForm">
         <div>
@@ -34,13 +34,20 @@
             <nb-datepicker #datepicker></nb-datepicker>
           </div>
         </div>
-  
+
         <div>
           <button class="btn btn-primary" (click)="searchPatients()">
-            <nb-icon icon="search-outline"></nb-icon> Search  
+            <nb-icon icon="search-outline"></nb-icon> Search
           </button>
         </div>
-        
+
+
+        <div>
+          <button class="btn btn-secondary" (click)="clearAllFilters()">
+            <nb-icon icon="refresh-outline"></nb-icon> Reset Filters
+          </button>
+        </div>
+
 
       </nb-card-body>
     </nb-card>
