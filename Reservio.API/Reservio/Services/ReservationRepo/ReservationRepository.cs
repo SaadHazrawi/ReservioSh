@@ -22,7 +22,7 @@ public class ReservationRepository : BaseRepository<Reservation>, IReservationRe
         _logger = logger;
     }
 
-    public async Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationsByDateAsync(ReservationFilter dto)
+    public async Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationsAsync(ReservationFilter dto)
     {
         var query = _context.Reservations.AsQueryable();
 
