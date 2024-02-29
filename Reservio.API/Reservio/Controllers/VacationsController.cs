@@ -18,9 +18,9 @@ namespace Reservio.Controllers
             _mapper = mapper;
         }
         [HttpPost]
-        public async Task<IActionResult>AddVacation(VacationAddDTO  vacationAddDto)
+        public async Task<IActionResult>Add(VacationAddDTO vacationAddDto)
         {
-           var vacation =_unitOfWork.Vacations.AddVacationAsync(vacationAddDto);
+           var vacation =await _unitOfWork.Vacations.AddVacationAsync(vacationAddDto);
 
             return Ok(vacation);
         }

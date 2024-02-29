@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Reservio.DTOS.Doctor;
 using Reservio.DTOS.Patient;
-using Reservio.Migrations;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
 
