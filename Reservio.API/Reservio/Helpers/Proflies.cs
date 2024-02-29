@@ -72,7 +72,7 @@ namespace Reservio.Helpers
             #endregion
 
             #region Vacation
-            CreateMap<Vacation, VacationAddDTO>();
+            CreateMap<VacationAddDTO, Vacation>();
             #endregion
         }
     }

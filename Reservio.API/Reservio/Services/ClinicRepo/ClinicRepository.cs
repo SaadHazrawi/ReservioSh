@@ -112,22 +112,30 @@ namespace Reservio.Services.ClinicRepo
 
         public async Task<List<ClinicDto>> GetClinicsForReservations()
         {
-            var dayOfWeek = ReservationHelper.DetermineBookingDayOfWeek();
-            //An additional requirement to check whether the number of patients admitted to the clinic is greater than the number of current bookings.
-            //Is the condition required to ensure that the clinic has spaces available for new bookings?
-            var clinics = await _context.Schedules
-            .Where(s => s.Day == dayOfWeek && s.Clinic.AcceptedPatientsCount > s.Clinic.Reservations.Count)
-            .Select(s => s.Clinic)
-            .ToListAsync();
+            DateTime today = ReservationHelper.DetermineBookingDateTime();
+            DayOfWeek currentDayOfWeek = today.DayOfWeek;
+            var (startOfWeek, endOfWeek) = ReservationHelper.GetStartAndEndOfWeek(today);
 
-            //if (clinics.Count == 0)
-            //{
-            //    throw new APIException(HttpStatusCode.NotFound, "No available clinics for reservations");
-            //}
+            var schedules = await _context.Schedules
+                .Include(s => s.Clinic)
+                .Where(s => s.Day == currentDayOfWeek &&
+                            s.Clinic.AcceptedPatientsCount > s.Clinic.Reservations.Count)
+                .ToListAsync();
 
-            var clinicDtos = _mapper.Map<List<ClinicDto>>(clinics);
+            var doctorIdsOnVacation = await _context.Vacations
+                .Where(v => v.DateTime >= startOfWeek && v.DateTime <= endOfWeek)
+                .Select(v => v.DoctorId)
+                .ToListAsync();
+
+            var availableClinics = schedules
+                .Where(s => !doctorIdsOnVacation.Contains(s.DoctorId))
+                .Select(s => s.Clinic)
+                .ToList();
+
+            var clinicDtos = _mapper.Map<List<ClinicDto>>(availableClinics);
             return clinicDtos;
         }
+
 
         public async Task<List<ClinicStatisticDto>> GetClinicsStatisticsAsync()
         {

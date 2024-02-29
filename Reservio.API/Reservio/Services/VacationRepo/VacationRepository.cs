@@ -24,31 +24,37 @@ namespace Reservio.Services.VacationRepo
 
         public async Task<Vacation> AddVacationAsync(VacationAddDTO vacationDto)
         {
-            if (vacationDto is null)
+            if (vacationDto == null)
             {
-                _logger.LogError("Try add null or Empty Vaction");
-                throw new APIException(HttpStatusCode.BadRequest, "The Data Is an correict try agien Liter");
+                _logger.LogError("Attempted to add null or empty vacation");
+                throw new APIException(HttpStatusCode.BadRequest, "Invalid data provided. Please try again.");
             }
-            //Check if Doctor in system or not
-            bool isValidDoctorWithId = await _context.Doctors
-                        .AnyAsync(d => d.DoctorId == vacationDto.DoctorId);
-            if (!isValidDoctorWithId)
+
+            // Check if the doctor exists in the system
+            int isValidDoctorWithId =  _context.Doctors.Count(d => d.DoctorId == vacationDto.DoctorId);
+            if (isValidDoctorWithId == 0)
             {
-                _logger.LogError($"Try Add Vaction For Docotr {vacationDto.DoctorId}");
-                throw new APIException(HttpStatusCode.NotFound, "try agien with correict Doctor ");
+                _logger.LogError($"Attempted to add vacation for non-existent doctor with ID: {vacationDto.DoctorId}");
+                throw new APIException(HttpStatusCode.NotFound, "Please try again with a correct doctor ID.");
             }
-            // Check if the doctor is on the schedule and update to "Disabled"
-            Schedule? doctorSchedule = await _context.Schedules
-                            .FirstOrDefaultAsync(s => (int)s.Day == vacationDto.DateTime.Day
-                            && s.DoctorId == vacationDto.DoctorId);
-            if (doctorSchedule is not null)
+
+            //// Check if the doctor is scheduled
+            Schedule? doctorSchedule = await _context.Schedules.FirstOrDefaultAsync(s =>
+                s.Day == vacationDto.DateTime.DayOfWeek && s.DoctorId == vacationDto.DoctorId);
+
+            if (doctorSchedule == null)
             {
-                doctorSchedule.IsDeleted = true;
-                _context.Schedules.Update(doctorSchedule);
+                _logger.LogError($"Doctor {vacationDto.DoctorId} is not scheduled on {vacationDto.DateTime.DayOfWeek}");
+                throw new APIException(HttpStatusCode.NotFound, "Doctor is not scheduled on the specified day.");
             }
+
+            // Map VacationAddDTO to Vacation entity
             Vacation vacation = _mapper.Map<Vacation>(vacationDto);
+       
+            // Add vacation to database
             await _context.Vacations.AddAsync(vacation);
             await _context.SaveChangesAsync();
+
             return vacation;
         }
     }

@@ -39,6 +39,21 @@
                 return DateTimeLocal.GetDateTime().DayOfWeek;
             }
         }
+
+
+        public static DateTime DetermineBookingDateTime()
+        {
+            if (DateTimeLocal.GetDateTime().Hour >= 8)
+            {
+                return DateTimeLocal.GetDateTime().AddDays(1);
+
+            }
+            else
+            {
+                return DateTimeLocal.GetDateTime();
+            }
+        }
+
         public static DateTime GetStartOfWeek()
         {
             DateTime currentDate = DateTime.Now;
@@ -67,6 +82,17 @@
 
             return randomColorArray;
         }
+
+        public static (DateTime startOfWeek, DateTime endOfWeek) GetStartAndEndOfWeek(DateTime date)
+        {
+            DayOfWeek currentDayOfWeek = date.DayOfWeek;
+            int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)currentDayOfWeek + 7) % 7;
+            DateTime startOfWeek = date.AddDays(-daysUntilSunday); // Sunday
+            DateTime endOfWeek = startOfWeek.AddDays(6); // Saturday
+
+            return (startOfWeek, endOfWeek);
+        }
+
 
 
 
