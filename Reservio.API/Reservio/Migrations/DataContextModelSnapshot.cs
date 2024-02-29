@@ -330,9 +330,9 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 1,
-                            BookFor = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 1,
-                            Date = new DateTime(2024, 2, 20, 12, 16, 23, 504, DateTimeKind.Local).AddTicks(5302),
+                            Date = new DateTime(2024, 2, 24, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4425),
                             DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Abdullah",
                             Gender = 1,
@@ -345,9 +345,9 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 2,
-                            BookFor = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 2,
-                            Date = new DateTime(2024, 2, 24, 12, 16, 23, 504, DateTimeKind.Local).AddTicks(5333),
+                            Date = new DateTime(2024, 2, 28, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4465),
                             DateOfBirth = new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Omar",
                             Gender = 2,
@@ -360,9 +360,9 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 3,
-                            BookFor = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 3,
-                            Date = new DateTime(2024, 2, 21, 12, 16, 23, 504, DateTimeKind.Local).AddTicks(5338),
+                            Date = new DateTime(2024, 2, 25, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4473),
                             DateOfBirth = new DateTime(1982, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Saad",
                             Gender = 2,
@@ -375,9 +375,9 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 4,
-                            BookFor = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 4,
-                            Date = new DateTime(2024, 2, 24, 12, 16, 23, 504, DateTimeKind.Local).AddTicks(5343),
+                            Date = new DateTime(2024, 2, 28, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4481),
                             DateOfBirth = new DateTime(1975, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ammar",
                             Gender = 1,
@@ -390,9 +390,9 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 5,
-                            BookFor = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 5,
-                            Date = new DateTime(2024, 2, 22, 12, 16, 23, 504, DateTimeKind.Local).AddTicks(5348),
+                            Date = new DateTime(2024, 2, 26, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4490),
                             DateOfBirth = new DateTime(1988, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Ali",
                             Gender = 2,
@@ -405,9 +405,9 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 6,
-                            BookFor = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 1,
-                            Date = new DateTime(2024, 2, 22, 12, 16, 23, 504, DateTimeKind.Local).AddTicks(5354),
+                            Date = new DateTime(2024, 2, 26, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4501),
                             DateOfBirth = new DateTime(1978, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Michael",
                             Gender = 1,
@@ -420,9 +420,9 @@ namespace Reservio.Migrations
                         new
                         {
                             ReservationId = 7,
-                            BookFor = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            BookFor = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ClinicId = 3,
-                            Date = new DateTime(2024, 2, 23, 12, 16, 23, 504, DateTimeKind.Local).AddTicks(5359),
+                            Date = new DateTime(2024, 2, 27, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4511),
                             DateOfBirth = new DateTime(1995, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Sophia",
                             Gender = 2,
@@ -532,9 +532,6 @@ namespace Reservio.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
-
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
@@ -543,6 +540,68 @@ namespace Reservio.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("Vacations");
+
+                    b.HasData(
+                        new
+                        {
+                            VacationId = 1,
+                            DateTime = new DateTime(2024, 3, 1, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 7
+                        },
+                        new
+                        {
+                            VacationId = 2,
+                            DateTime = new DateTime(2024, 3, 2, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 7
+                        },
+                        new
+                        {
+                            VacationId = 3,
+                            DateTime = new DateTime(2024, 3, 3, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 7
+                        },
+                        new
+                        {
+                            VacationId = 4,
+                            DateTime = new DateTime(2024, 3, 4, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 7
+                        },
+                        new
+                        {
+                            VacationId = 5,
+                            DateTime = new DateTime(2024, 3, 5, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 2
+                        },
+                        new
+                        {
+                            VacationId = 6,
+                            DateTime = new DateTime(2024, 3, 6, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 3
+                        },
+                        new
+                        {
+                            VacationId = 7,
+                            DateTime = new DateTime(2024, 3, 7, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 1
+                        },
+                        new
+                        {
+                            VacationId = 8,
+                            DateTime = new DateTime(2024, 3, 8, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 2
+                        },
+                        new
+                        {
+                            VacationId = 9,
+                            DateTime = new DateTime(2024, 3, 9, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 3
+                        },
+                        new
+                        {
+                            VacationId = 10,
+                            DateTime = new DateTime(2024, 3, 1, 20, 9, 37, 925, DateTimeKind.Local).AddTicks(4691),
+                            DoctorId = 1
+                        });
                 });
 
             modelBuilder.Entity("Reservio.Models.Reservation", b =>
