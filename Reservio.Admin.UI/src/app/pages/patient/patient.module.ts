@@ -10,12 +10,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { PatientsFilterComponent } from './patients-filter/patients-filter.component';
 import { PatientsFormComponent } from './patients-form/patients-form.component';
-<<<<<<< HEAD
 import { NgxPaginationModule } from "ngx-pagination";
 import { XlsxComponent } from './xlsx/xlsx.component';
-=======
 import { SharedModule } from "../shared/shared.module";
->>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
+
 
 @NgModule({
   declarations: [
@@ -37,11 +35,7 @@ import { SharedModule } from "../shared/shared.module";
     NbCalendarRangeModule,
     NbSelectModule,
     NbDatepickerModule,
-<<<<<<< HEAD
     NgxPaginationModule,
-    
-=======
->>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
     RouterModule.forChild([
       {
         path: 'reservations', component: ReservationsComponent,
@@ -49,7 +43,6 @@ import { SharedModule } from "../shared/shared.module";
       {
         path: '', component: PatientsTableComponent,
       },
-
     ])
     
   ]

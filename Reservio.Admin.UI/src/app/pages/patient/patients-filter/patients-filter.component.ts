@@ -28,11 +28,6 @@ export class PatientsFilterComponent {
       region: ['', Validators.maxLength(100)],
       gender: [GenderPatient.Unknown],
       dateOfBirth: [''],
-<<<<<<< HEAD
-      pageNumber: [1], 
-      pageSize: [50] 
-    });
-=======
       pageNumber: [1],
       pageSize: [50]
     });
@@ -43,7 +38,7 @@ export class PatientsFilterComponent {
         value: GenderPatient[key],
         name: key
       }));
->>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
+
   }
 
   searchPatients() {

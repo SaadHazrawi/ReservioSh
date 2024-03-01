@@ -5,10 +5,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReservationFilter } from '../Model/reservationFilter';
 import { GenderPatient } from '../Model/genderPatient';
-<<<<<<< HEAD
 import * as XLSX from 'xlsx';
-=======
->>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
 @Component({
   selector: 'ngx-reservations',
   templateUrl: './reservations.component.html',
@@ -91,19 +88,8 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   source: LocalDataSource = new LocalDataSource();
 
 
-<<<<<<< HEAD
   constructor(private reservationService: ReservationService,
     private formBuilder: FormBuilder) { }
-=======
-  constructor(private reservationService: ReservationService) {
-  }
-
-
- 
-
-
-
->>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
   ngOnInit(): void {
     this.initializeForm();
     this.loadReservations();
