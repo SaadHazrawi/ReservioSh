@@ -1,11 +1,26 @@
 <div class="row">
+<<<<<<< HEAD
   <div class="col-3" [hidden]="toggleBtnForState">
+=======
+  <div class="col-3">
+    <ng-template #searchDialog>
+      <div>
+        <ngx-reservation-filter (searchFilters)="search($event)"></ngx-reservation-filter>
+      </div>
+    </ng-template>
+
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
     <div class="row">
       <div class="col-3">
         <ngx-reservation-filter class="search-container" (searchFilters)="search($event)"></ngx-reservation-filter>
         <div class="btn-show-serach-container">
+<<<<<<< HEAD
           <button type="button" class="btn btn-primary btn-show-serach" data-toggle="modal" data-target="#exampleModal">
             Show Filter
+=======
+          <button class="btn btn-outline-primary btn-show-serach">
+            Show Searched Data
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
           </button>
         </div>
       </div>
@@ -21,12 +36,17 @@
         Download File
       </button> -->
       <nb-card-body>
+<<<<<<< HEAD
         <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onCheckConfirm($event) "
           id="table-data">
+=======
+        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onCheckConfirm($event)">
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
         </ng2-smart-table>
       </nb-card-body>
     </nb-card>
   </div>
+<<<<<<< HEAD
 </div>
 <div class="show-hide-nb-select">
   <button class="btn btn-primary p-2 rounded-5" [ngClass]="{
@@ -34,4 +54,6 @@
   }" (click)="ShowHideSelect()">
     {{ toggleBtnForState ? "Show Filter" : "Hide Filter" }}
   </button>
+=======
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
 </div>

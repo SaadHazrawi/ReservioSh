@@ -1,58 +1,85 @@
-.patient-search-container {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 5px;
-
-  h2 {
-    margin-bottom: 10px;
-    font-size: 1.2em;
-  }
-
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 3px;
-  }
-
-  .form-flex {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .input-group {
-    flex: 1;
-    padding-right: 10px;
-  }
-
-  input[type="text"],
-  input[type="number"] {
-    width: 100%;
-    min-width: 200px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-
-  button {
-    padding: 6px 12px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-top: 10px;
-
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-  }
-
-  .is-invalid {
-    outline: #dc3545 auto 1px;
-  }
-
-  #dateOfBirth {
-    padding: 10px;
-  }
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 3px;
 }
+
+/* Style invalid elements */
+.is-invalid {
+  border-color: red;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+.date-input-container {
+  position: relative;
+}
+
+.date-input-container input {
+  width: 100%;
+  height: 45px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+
+/* Style invalid elements */
+.is-invalid {
+border-color: red;
+box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+.date-input-container {
+  position: relative;
+}
+
+.date-input-container input {
+  height: 45px;
+}
+
+.centered-flex-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: start;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+
+//background-color: var(--input-basic-background-color);
+//    border-color: var(--input-basic-border-color);
+//    border-style: var(--input-border-style);
+// border-style: var(--input-border-style);
+// border-width: var(--input-border-width);
+// font-family: var(--input-text-font-family);
+// -webkit-appearance: none;
+// appearance: none;
+
+// //    border-style: var(--input-border-style);
+// border-width: var(--input-border-width);
+// font-family: var(--input-text-font-family);
+// -webkit-appearance: none;
+// appearance: none;
+
+
+/* Add these styles to your component's CSS file */
+input.focused {
+  border: 2px solid blue; /* Add border when focused */
+  background-color: lightblue; /* Add background color when focused */
+}
+
+input ,
+nb-select {
+  border:none;
+  background-color: transparent !important; 
+}
+
+
+#dateOfBirth {
+  width: 100%;
+  height: 45px;
+}
+

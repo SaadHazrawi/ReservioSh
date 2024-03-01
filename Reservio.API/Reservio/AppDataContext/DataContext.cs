@@ -46,8 +46,32 @@ namespace Reservio.AppDataContext
             modelBuilder.Entity<Schedule>().HasData(GetSchedules());
             modelBuilder.Entity<Reservation>().HasData(GetReservations());
             modelBuilder.Entity<Patient>().HasData(GetPatients());
+            modelBuilder.Entity<Vacation>().HasData(GetVacations());
             #endregion
         }
+        private List<Vacation> GetVacations()
+        {
+            List<Vacation> vacations = new List<Vacation>();
+
+            // Get the current date and time
+            DateTime currentDate = DateTime.Now;
+
+            // Populate vacations with initial data
+            vacations.Add(new Vacation { VacationId = 1, DoctorId = 7, DateTime = currentDate.AddDays(1) });
+            vacations.Add(new Vacation { VacationId = 2, DoctorId = 7, DateTime = currentDate.AddDays(2) });
+            vacations.Add(new Vacation { VacationId = 3, DoctorId = 7, DateTime = currentDate.AddDays(3) });
+            vacations.Add(new Vacation { VacationId = 4, DoctorId = 7, DateTime = currentDate.AddDays(4) });
+            vacations.Add(new Vacation { VacationId = 5, DoctorId = 2, DateTime = currentDate.AddDays(5) });
+            vacations.Add(new Vacation { VacationId = 6, DoctorId = 3, DateTime = currentDate.AddDays(6) });
+            vacations.Add(new Vacation { VacationId = 7, DoctorId = 1, DateTime = currentDate.AddDays(7) });
+            vacations.Add(new Vacation { VacationId = 8, DoctorId = 2, DateTime = currentDate.AddDays(8) });
+            vacations.Add(new Vacation { VacationId = 9, DoctorId = 3, DateTime = currentDate.AddDays(9) });
+            vacations.Add(new Vacation { VacationId = 10, DoctorId = 1, DateTime = currentDate.AddDays(1) });
+
+            return vacations;
+        }
+
+
 
         private List<Clinic> GetClinics()
         {
@@ -228,7 +252,6 @@ namespace Reservio.AppDataContext
                 DateOfBirth = new DateTime(1990, 1, 1),
                 Gender = GenderPatient.Male,
                 Region = "Region 1",
-                IPAddress = "192.168.0.1",
                 IsDeleted = false,
             });
 
@@ -240,7 +263,6 @@ namespace Reservio.AppDataContext
                 DateOfBirth = new DateTime(1985, 5, 15),
                 Gender = GenderPatient.Female,
                 Region = "Region 2",
-                IPAddress = "192.168.0.2",
                 IsDeleted = false,
             });
 
@@ -253,7 +275,6 @@ namespace Reservio.AppDataContext
                 DateOfBirth = new DateTime(1978, 10, 25),
                 Gender = GenderPatient.Male,
                 Region = "Region 3",
-                IPAddress = "192.168.0.3",
                 IsDeleted = false,
             });
 
@@ -265,7 +286,6 @@ namespace Reservio.AppDataContext
                 DateOfBirth = new DateTime(1992, 3, 8),
                 Gender = GenderPatient.Female,
                 Region = "Region 4",
-                IPAddress = "192.168.0.4",
                 IsDeleted = false,
             });
 
@@ -277,7 +297,6 @@ namespace Reservio.AppDataContext
                 DateOfBirth = new DateTime(1980, 7, 12),
                 Gender = GenderPatient.Male,
                 Region = "Region 5",
-                IPAddress = "192.168.0.5",
                 IsDeleted = false,
             });
 

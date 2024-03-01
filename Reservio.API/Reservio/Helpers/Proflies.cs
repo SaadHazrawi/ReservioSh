@@ -35,6 +35,7 @@ namespace Reservio.Helpers
 
             #region Patient
             CreateMap<PatientCreationDTO, Patient>();
+            CreateMap<PatientUpdateDTO, Patient>().ReverseMap();
             CreateMap<Patient, PatientDto>();
             CreateMap<ReservationForAddDto, Patient>();
             #endregion
@@ -71,7 +72,7 @@ namespace Reservio.Helpers
             #endregion
 
             #region Vacation
-            CreateMap<Vacation, VacationAddDTO>();
+            CreateMap<VacationAddDTO, Vacation>();
             #endregion
         }
     }

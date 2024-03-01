@@ -6,12 +6,32 @@
           <label class="label">Position:</label>
           <div class="form-group">
             <nb-select placeholder="Selected Clinic"
+<<<<<<< HEAD
               (selectedChange)="selectedClinic($event)" [fullWidth]="500" shape="semi-round" class="position-select"
               status="primary" [(selected)]="selectedOption">
               <nb-option *ngFor="let clinic of clinics" [value]="clinic">{{ clinic.name }}</nb-option>
             </nb-select>
           </div>
         </div>
+=======
+              [fullWidth]="500"
+              shape="semi-round"
+              class="position-select"
+              status="primary">
+              [(selected)]="selectedOption">
+              <nb-option *ngFor="let clinic of clinics"
+                [value]="clinic">{{ clinic.name }}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="show-hide-nb-select">
+          <button
+            class="btn btn-default p-2 rounded-5"
+            (click)="ShowHideSelect()">
+            {{ toggleBtnForState ? "Show" : "Hide" }}
+          </button>
+        </div>
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
       </div>
       <div class="calendar-container">
         <span class="subtitle">
@@ -19,14 +39,33 @@
         </span>
         <nb-card size="large">
           <nb-card-body>
+<<<<<<< HEAD
             <input nbInput placeholder="Pick Date Range" [nbDatepicker]="formpicker" />
             <nb-rangepicker (rangeChange)="onEventStartEndRange($event)" #eventPicker [(range)]="range" [boundingMonth]="false" #formpicker></nb-rangepicker>
+=======
+            <input
+              nbInput
+              placeholder="Pick Date Range"
+              [nbDatepicker]="formpicker" />
+            <nb-rangepicker
+              [(range)]="range"
+              [boundingMonth]="false"
+              #formpicker></nb-rangepicker>
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
           </nb-card-body>
         </nb-card>
       </div>
       <div>
+<<<<<<< HEAD
         <button class="btn-search btn btn-outline-info p-3 my-2 rounded-5 d-block" (click)="ApplayFliter()" style="width: 100%"
           [disabled]="searchForm.invalid" type="submit">
+=======
+        <button
+          class="btn-search btn btn-outline-info p-3 my-2 rounded-5 d-block"
+          style="width: 100%"
+          [disabled]="searchForm.invalid"
+          type="submit">
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737
           Search
         </button>
         <button class=" btn btn-outline-secondary p-3 my-2 rounded-5 d-block" (click)="clearfilter()"  style="width: 100%"

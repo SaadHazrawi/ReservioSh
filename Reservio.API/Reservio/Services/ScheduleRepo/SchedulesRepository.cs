@@ -47,6 +47,13 @@ namespace Reservio.Services.ScheduleRepo
 
         public async Task<List<ScheduleDto>> GetAll()
         {
+            // Specify the current date
+            DateTime today = DateTime.Today;
+
+            // Get the start and end of the week
+            var (startOfWeek, endOfWeek) = ReservationHelper.GetStartAndEndOfWeek(today);
+
+            // Fetch all schedules with inclusions
             var schedules = await _context.Schedules
                 .Include(s => s.Clinic)
                 .Include(s => s.Doctor)
@@ -54,15 +61,31 @@ namespace Reservio.Services.ScheduleRepo
                 .ThenBy(s => s.Doctor)
                 .ToListAsync();
 
+            // Get a list of doctors on vacation for the current week
+            var doctorIdsOnVacation = await _context.Vacations
+                .Where(v => v.DateTime >= startOfWeek && v.DateTime <= endOfWeek)
+                .Select(v => v.DoctorId)
+                .ToListAsync();
+
+            // Exclude schedules related to doctors on vacation
+            schedules = schedules
+                .Where(s => !doctorIdsOnVacation.Contains(s.DoctorId))
+                .ToList();
+
+            // Convert schedules into DTOs
             var scheduleDtos = _mapper.Map<List<ScheduleDto>>(schedules);
 
+            // Check if there are any schedules
             if (scheduleDtos.Count == 0)
             {
                 throw new APIException(HttpStatusCode.BadRequest, "No schedules found.");
             }
 
+            // Return the converted schedules as DTOs
             return scheduleDtos;
         }
+
+     
 
         public async Task<ScheduleResponse> GetAllForEdit()
         {

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Reservio.DTOS.Doctor;
 using Reservio.DTOS.Patient;
-using Reservio.Migrations;
 using Reservio.Models;
 using Reservio.Services.BaseRepo;
 
@@ -55,7 +54,7 @@ namespace Reservio.Controllers
         }
 
 
-        [HttpPut("{patientId}")]
+        [HttpPut]
         public async Task<IActionResult> Update(PatientUpdateDTO dto)
         {
             await _unitOfWork.Patients.UpdatePatientAsync(dto);

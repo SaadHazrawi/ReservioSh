@@ -16,56 +16,49 @@ export class PatientService {
   constructor(private http: HttpClient) { }
 
   getPatients(patientFilter: PatientFilter): Observable<HttpResponse<PatientDto[]>> {
+
     let url = `${this.apiUrl}Patients`;
   
     // Constructing query parameters
-    let queryParams = `?pageNumber=${patientFilter.pageNumber}&pageSize=${patientFilter.pageSize}`;
+    let queryParams = `?PageNumber=${patientFilter.pageNumber}&PageSize=${patientFilter.pageSize}`;
 
     if (patientFilter.firstName) {
-      queryParams += `&firstName=${patientFilter.firstName}`;
+      queryParams += `&FirstName=${patientFilter.firstName}`;
     }
     if (patientFilter.lastName) {
-      queryParams += `&lastName=${patientFilter.lastName}`;
+      queryParams += `&LastName=${patientFilter.lastName}`;
     }
     if (patientFilter.region) {
-      queryParams += `&region=${patientFilter.region}`;
+      queryParams += `&Region=${patientFilter.region}`;
     }
-    if (patientFilter.gender !== undefined) {
-      queryParams += `&gender=${patientFilter.gender}`;
+    if (patientFilter.gender > 0) {
+      queryParams += `&Gender=${patientFilter.gender}`;
     }
     if (patientFilter.dateOfBirth) {
-      queryParams += `&dateOfBirth=${patientFilter.dateOfBirth}`;
+      queryParams += `&DateOfBirth=${patientFilter.dateOfBirth}`;
     }
 
     url += queryParams; // Append query parameters to URL
 
     return this.http.get<PatientDto[]>(url, { observe: 'response' })
-      .pipe(
-        tap(response => {
-          console.log('paginationData : ' + response.headers.get('x-pagination'));
-        }),
-        catchError(this.handleError)
-      );
+      .pipe( catchError(this.handleError));
   };
 
   getPatientById(patientId: number): Observable<PatientDto> {
     return this.http.get<PatientDto>(`${this.apiUrl}Patients/${patientId}`)
-      .pipe(tap(response => {
-        console.log(response);
-      }),
-      catchError(this.handleError))
+      .pipe(catchError(this.handleError))
   };
 
   addPatient(data: any): Observable<any> {
-    const url = `${this.apiUrl}Clinics`;
+    const url = `${this.apiUrl}Patients`;
     return this.http.post<any>(url, data).pipe(
       catchError(this.handleError)
     );
   }
 
-  updatePatient(formData: PatientUpdate): Observable<PatientDto> {
+  updatePatient(data: PatientUpdate): Observable<PatientDto> {
     const url = `${this.apiUrl}Patients`;
-    return this.http.put<PatientDto>(url, formData).pipe(
+    return this.http.put<PatientDto>(url, data).pipe(
       catchError(this.handleError)
     );
   }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="patient-search-container">
   <form [formGroup]="searchForm" (ngSubmit)="searchPatients()">
     <div class="form-flex">
@@ -92,3 +93,60 @@
     <button [disabled]="searchForm.invalid" type="submit">Search</button>
   </form>
 </div>
+=======
+<div class="row">
+  <div class="col-11 m-auto">
+    <nb-card>
+      <nb-card-body class="centered-flex-container" [formGroup]="searchForm">
+        <div>
+          <input type="text" id="firstName" name="firstName" formControlName="firstName" nbInput
+            [ngxAppFocus]="isFirstNameFocused" (focus)="onFocus('firstName')" (blur)="onBlur()"
+            placeholder="First Name" />
+        </div>
+
+        <div>
+          <input type="text" id="lastName" name="lastName" formControlName="lastName" nbInput
+            [ngxAppFocus]="isLastNameFocused" (focus)="onFocus('lastName')" (blur)="onBlur()" placeholder="Last Name" />
+        </div>
+
+        <div>
+          <input type="text" id="region" name="region" formControlName="region" nbInput placeholder="Region"
+            [ngxAppFocus]="isRegionFocused" (focus)="onFocus('region')" (blur)="onBlur()" />
+        </div>
+
+        <div>
+          <div class="col">
+            <nb-select placeholder="Selected gender" class="position-select" formControlName="gender"
+              [ngxAppFocus]="isGenderFocused" (focus)="onFocus('gender')" (blur)="onBlur()">
+              <nb-option *ngFor="let gender of selectGender" [value]="gender.value">{{ gender.name }}</nb-option>
+            </nb-select>
+          </div>
+        </div>
+
+        <div>
+          <div class="col">
+            <input id="dateOfBirth" formControlName="dateOfBirth" placeholder="Birth Date" [nbDatepicker]="datepicker"
+              [ngxAppFocus]="isDateOfBirthFocused" (focus)="onFocus('dateOfBirth')" (blur)="onBlur()" />
+            <nb-datepicker #datepicker></nb-datepicker>
+          </div>
+        </div>
+
+        <div>
+          <button class="btn btn-primary" (click)="searchPatients()">
+            <nb-icon icon="search-outline"></nb-icon> Search
+          </button>
+        </div>
+
+
+        <div>
+          <button class="btn btn-secondary" (click)="clearAllFilters()">
+            <nb-icon icon="refresh-outline"></nb-icon> Reset Filters
+          </button>
+        </div>
+
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+>>>>>>> 116813ad69166bc84d919c8e6a7055b494f99737

@@ -8,7 +8,7 @@ namespace Reservio.Services.ReservationRepo;
 
 public interface IReservationRepository : IBaseRepository<Reservation>
 {
-    Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationsByDateAsync(ReservationFilter dto);
+    Task<(IEnumerable<ReservationDto>, PaginationMetaData)> GetReservationsAsync(ReservationFilter dto);
     Task<ReservationStatus> CheckReservationStatusByIPAddress(string ipAddress);
     Task<ReservationStatus> AddReservationAsync(ReservationForAddDto dto);
     Task<ReservationStatus> UpdateReservationAsync(int reservationId, ReservationUpdateDTO reservationDto);
