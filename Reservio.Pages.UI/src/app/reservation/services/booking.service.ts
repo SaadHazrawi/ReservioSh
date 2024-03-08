@@ -10,9 +10,11 @@ import { Clinic } from '../Model/Clinic';
 })
 export class BookingService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ) { }
 
   apiUrl = environment.apiUrl;
+
+
   reservationStatus(iPAddress: String): Observable<any> {
     const url = this.apiUrl+'Reservations/CheckReservationStatus?iPAddress='+iPAddress;
     return this.http.get(url)

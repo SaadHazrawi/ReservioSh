@@ -6,12 +6,13 @@ import { FormBookingComponent } from "./form-booking/form-booking.component";
 import { HttpClientModule } from "@angular/common/http";
 import { BookingService } from "./services/booking.service";
 import { ScheduleComponent } from './schedule/schedule.component';
-
+import { GoogleSigninComponent } from "./google-signin/google-signin.component";
 
 @NgModule({
   declarations: [
     FormBookingComponent,
     ScheduleComponent,
+    GoogleSigninComponent
   ],
   imports: [
     CommonModule,

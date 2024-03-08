@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Clinic } from '../Model/Clinic';
 import { BookingService } from '../services/booking.service';
 import { HttpClient } from '@angular/common/http';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-form-booking',
@@ -13,33 +14,56 @@ export class FormBookingComponent implements OnInit {
   bookingForm!: FormGroup;
   userIpAddress!: string;
   clinics: Clinic[] = [];
-  isReservationEnabled: boolean = true;
+  isReservationEnabled = true;
   isBookingFormHidden = false;
+  user: SocialUser | undefined;
+  loggedIn = false;
 
   constructor(
     private bookingService: BookingService,
     private formBuilder: FormBuilder,
-    private httpClient: HttpClient
-  ) { }
+    private httpClient: HttpClient,
+    private authService: SocialAuthService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initializeForm();
     this.getUserIpAddress();
     this.getClinicsForReservations();
+  
+    this.authService.authState.subscribe(
+      (user) => {
+        this.user = user;
+        this.loggedIn = !!user;
+        console.log(this.user);
+      },
+      (error) => {
+        // Handle error here
+        console.error('Error in authState subscription:', error);
+      },
+      () => {
+        // Handle completion here if needed
+        console.log('authState subscription completed.');
+      }
+    );
+  
   }
+  
 
-  initializeForm() {
+ 
+
+  googleSignin(googleWrapper: any) {
+    googleWrapper.click();
+  }
+  
+  initializeForm(): void {
     this.bookingForm = this.formBuilder.group({
       firstName: [null, [Validators.required, Validators.maxLength(100)]],
       lastName: [null, [Validators.required, Validators.maxLength(100)]],
       region: [null, [Validators.required, Validators.maxLength(100)]],
       phoneNumber: [
         null,
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(100),
-        ],
+        [Validators.required, Validators.minLength(2), Validators.maxLength(100)],
       ],
       dateOfBirth: [null, Validators.required],
       gender: [0, Validators.required],
@@ -48,7 +72,7 @@ export class FormBookingComponent implements OnInit {
     });
   }
 
-  getUserIpAddress() {
+  getUserIpAddress(): void {
     this.httpClient
       .get<{ ip: string }>('https://api.ipify.org/?format=json')
       .subscribe((data) => {
@@ -59,7 +83,7 @@ export class FormBookingComponent implements OnInit {
       });
   }
 
-  getClinicsForReservations() {
+  getClinicsForReservations(): void {
     this.bookingService.getClinics().subscribe((data) => {
       this.clinics = data;
       if (this.clinics.length === 0) {
@@ -69,7 +93,7 @@ export class FormBookingComponent implements OnInit {
     });
   }
 
-  hideBookingForm() {
+  hideBookingForm(): void {
     const bookingFormElement = document.getElementById('bookingForm');
     console.log("bookingFormElement.style.display = 'none'");
     if (bookingFormElement) {
@@ -83,7 +107,7 @@ export class FormBookingComponent implements OnInit {
       (response) => {
         if (response.stopping) {
           this.isReservationEnabled = false;
-          this.appendAlert(`${response.status}\n${response.stoppingTo }`, 'warning');
+          this.appendAlert(`${response.status}\n${response.stoppingTo}`, 'warning');
         }
       },
       (error) => {
@@ -92,9 +116,9 @@ export class FormBookingComponent implements OnInit {
     );
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.bookingService.submitBooking(this.bookingForm.value).subscribe(
-      (response) => {
+      () => {
         console.log('Booking successful.', 'success');
         this.bookingForm.reset();
         this.checkReservationStatus();
@@ -105,14 +129,14 @@ export class FormBookingComponent implements OnInit {
     );
   }
 
-  appendAlert(message: string, type: string) {
+  appendAlert(message: string, type: string): void {
     const alertPlaceholder = document.getElementById('div-message')!;
     if (alertPlaceholder) {
       const wrapper = document.createElement('div');
       wrapper.innerHTML = `<div class="alert alert-${type} alert-dismissible" role="alert">    
                            <div> <strong>${message}</strong>     </div> 
                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
-                           </div>  ;`
+                           </div>  ;`;
       alertPlaceholder.append(wrapper);
     }
   }
